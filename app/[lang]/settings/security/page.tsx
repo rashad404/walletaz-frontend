@@ -125,8 +125,8 @@ export default function SecuritySettingsPage() {
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-2">
-            <div className="w-12 h-12 rounded-2xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
-              <Shield className="w-6 h-6 text-green-600 dark:text-green-400" />
+            <div className="w-12 h-12 rounded-2xl bg-teal-100 dark:bg-teal-900/30 flex items-center justify-center">
+              <Shield className="w-6 h-6 text-teal-600 dark:text-teal-400" />
             </div>
             <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
               {t('settings.security.title')}
@@ -160,7 +160,7 @@ export default function SecuritySettingsPage() {
         {/* Change Password Form */}
         <div className="rounded-3xl p-8 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border border-white/30 dark:border-gray-700/30">
           <div className="flex items-center gap-3 mb-6">
-            <Lock className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
+            <Lock className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
               {t('settings.security.changePassword')}
             </h2>
@@ -179,7 +179,7 @@ export default function SecuritySettingsPage() {
                   name="current_password"
                   value={formData.current_password}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 pr-12 rounded-2xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400"
+                  className="w-full px-4 py-3 pr-12 rounded-2xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-400"
                   placeholder={t('settings.security.currentPasswordPlaceholder')}
                 />
                 <button
@@ -208,7 +208,7 @@ export default function SecuritySettingsPage() {
                   name="new_password"
                   value={formData.new_password}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 pr-12 rounded-2xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400"
+                  className="w-full px-4 py-3 pr-12 rounded-2xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-400"
                   placeholder={t('settings.security.newPasswordPlaceholder')}
                 />
                 <button
@@ -240,7 +240,7 @@ export default function SecuritySettingsPage() {
                   name="new_password_confirmation"
                   value={formData.new_password_confirmation}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 pr-12 rounded-2xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400"
+                  className="w-full px-4 py-3 pr-12 rounded-2xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-400"
                   placeholder={t('settings.security.confirmPasswordPlaceholder')}
                 />
                 <button
@@ -268,7 +268,7 @@ export default function SecuritySettingsPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="flex-1 px-6 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+                className="flex-1 px-6 py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
               >
                 {loading ? (
                   <>

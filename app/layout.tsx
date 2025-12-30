@@ -12,8 +12,8 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Alert.az - Unified Notification Platform",
-  description: "Monitor everything that matters. Get instant alerts for crypto, stocks, weather, and more.",
+  title: "Wallet.az - Digital Wallet & Payments",
+  description: "Your digital wallet for secure payments. Deposit, send, and receive money with ease.",
   icons: {
     icon: [
       { url: '/favicon.svg', type: 'image/svg+xml' },

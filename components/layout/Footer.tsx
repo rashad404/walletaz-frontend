@@ -1,7 +1,7 @@
 'use client';
 
 import { Link } from '@/lib/navigation';
-import { Mail, Phone, Shield, HelpCircle, FileText, Megaphone } from 'lucide-react';
+import { Mail, Phone, Shield, HelpCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 export default function Footer() {
@@ -16,7 +16,7 @@ export default function Footer() {
           {/* Left: Copyright */}
           <div className="text-center md:text-left">
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              © {currentYear} Alert.az. {t('footer.allRightsReserved')}
+              © {currentYear} Wallet.az. {t('footer.allRightsReserved')}
             </p>
           </div>
 
@@ -24,35 +24,21 @@ export default function Footer() {
           <div className="flex flex-wrap items-center justify-center gap-6 text-sm">
             <Link
               href="/help"
-              className="text-gray-600 dark:text-gray-400 hover:text-[rgb(81,91,195)] transition-colors flex items-center gap-1"
+              className="text-gray-600 dark:text-gray-400 hover:text-emerald-600 transition-colors flex items-center gap-1"
             >
               <HelpCircle className="w-3.5 h-3.5" />
               <span>{t('footer.help')}</span>
             </Link>
             <Link
-              href="/sms-api"
-              className="text-gray-600 dark:text-gray-400 hover:text-[rgb(81,91,195)] transition-colors flex items-center gap-1"
-            >
-              <FileText className="w-3.5 h-3.5" />
-              <span>{t('footer.apiDocs')}</span>
-            </Link>
-            <Link
-              href="/settings/sms/projects"
-              className="text-gray-600 dark:text-gray-400 hover:text-[rgb(81,91,195)] transition-colors flex items-center gap-1"
-            >
-              <Megaphone className="w-3.5 h-3.5" />
-              <span>{t('footer.smsCampaigns')}</span>
-            </Link>
-            <Link
               href="/privacy"
-              className="text-gray-600 dark:text-gray-400 hover:text-[rgb(81,91,195)] transition-colors flex items-center gap-1"
+              className="text-gray-600 dark:text-gray-400 hover:text-emerald-600 transition-colors flex items-center gap-1"
             >
               <Shield className="w-3.5 h-3.5" />
               <span>{t('footer.privacy')}</span>
             </Link>
             <Link
               href="/terms"
-              className="text-gray-600 dark:text-gray-400 hover:text-[rgb(81,91,195)] transition-colors">
+              className="text-gray-600 dark:text-gray-400 hover:text-emerald-600 transition-colors">
               {t('footer.terms')}
             </Link>
           </div>
@@ -60,15 +46,15 @@ export default function Footer() {
           {/* Right: Contact */}
           <div className="flex items-center gap-4 text-sm">
             <a
-              href="mailto:info@alert.az"
-              className="text-gray-600 dark:text-gray-400 hover:text-[rgb(81,91,195)] transition-colors flex items-center gap-1"
+              href="mailto:info@wallet.az"
+              className="text-gray-600 dark:text-gray-400 hover:text-emerald-600 transition-colors flex items-center gap-1"
             >
               <Mail className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">info@alert.az</span>
+              <span className="hidden sm:inline">info@wallet.az</span>
             </a>
             <a
               href="tel:+994123456789"
-              className="text-gray-600 dark:text-gray-400 hover:text-[rgb(81,91,195)] transition-colors flex items-center gap-1"
+              className="text-gray-600 dark:text-gray-400 hover:text-emerald-600 transition-colors flex items-center gap-1"
             >
               <Phone className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">+994 12 345 6789</span>

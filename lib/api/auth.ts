@@ -94,6 +94,12 @@ class AuthService {
     return response.data;
   }
 
+  // Send email verification for authenticated user (settings page)
+  async sendEmailVerificationForUser(email: string): Promise<any> {
+    const response = await apiClient.post('/auth/email/send', { email });
+    return response.data;
+  }
+
   // Verify email for authenticated user (settings page)
   async verifyEmailForUser(data: { email: string; code: string }): Promise<AuthResponse> {
     const response = await apiClient.post('/user/verify-email', data);
@@ -102,7 +108,7 @@ class AuthService {
 
   // OAuth Authentication
   redirectToOAuth(provider: 'google' | 'facebook', returnUrl?: string) {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://100.89.150.50:8007/api';
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://100.89.150.50:8011/api';
     const params = returnUrl ? `?return_url=${encodeURIComponent(returnUrl)}` : '';
     window.location.href = `${baseUrl}/auth/${provider}${params}`;
   }

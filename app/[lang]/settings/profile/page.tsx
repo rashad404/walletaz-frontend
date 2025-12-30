@@ -172,7 +172,7 @@ export default function ProfileSettingsPage() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900">
-        <Loader2 className="w-8 h-8 animate-spin text-indigo-600" />
+        <Loader2 className="w-8 h-8 animate-spin text-emerald-600" />
       </div>
     );
   }
@@ -226,7 +226,7 @@ export default function ProfileSettingsPage() {
           <div className="mb-8 flex flex-col items-center">
             <div className="relative">
               {/* Avatar Display */}
-              <div className="w-32 h-32 rounded-full overflow-hidden bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center">
+              <div className="w-32 h-32 rounded-full overflow-hidden bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center">
                 {avatarPreview || user.avatar ? (
                   <img
                     src={avatarPreview || user.avatar}
@@ -243,7 +243,7 @@ export default function ProfileSettingsPage() {
               {/* Upload Button Overlay */}
               <label
                 htmlFor="avatar-upload"
-                className="absolute bottom-0 right-0 w-10 h-10 bg-indigo-600 hover:bg-indigo-700 rounded-full flex items-center justify-center cursor-pointer shadow-lg transition-colors"
+                className="absolute bottom-0 right-0 w-10 h-10 bg-emerald-600 hover:bg-emerald-700 rounded-full flex items-center justify-center cursor-pointer shadow-lg transition-colors"
               >
                 <Camera className="w-5 h-5 text-white" />
                 <input
@@ -284,7 +284,7 @@ export default function ProfileSettingsPage() {
                   errors.name
                     ? 'border-red-500 dark:border-red-500'
                     : 'border-gray-300 dark:border-gray-700'
-                } bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all`}
+                } bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all`}
                 placeholder={t('settings.profile.namePlaceholder')}
               />
               {errors.name && (
@@ -309,7 +309,7 @@ export default function ProfileSettingsPage() {
                   errors.email
                     ? 'border-red-500 dark:border-red-500'
                     : 'border-gray-300 dark:border-gray-700'
-                } bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all`}
+                } bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all`}
                 placeholder="email@example.com"
               />
               {errors.email && (
@@ -333,7 +333,7 @@ export default function ProfileSettingsPage() {
                   errors.phone
                     ? 'border-red-500 dark:border-red-500'
                     : 'border-gray-300 dark:border-gray-700'
-                } bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all`}
+                } bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all`}
                 placeholder="+994 XX XXX XX XX"
               />
               {errors.phone && (
@@ -356,7 +356,7 @@ export default function ProfileSettingsPage() {
                   errors.timezone
                     ? 'border-red-500 dark:border-red-500'
                     : 'border-gray-300 dark:border-gray-700'
-                } bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all`}
+                } bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all`}
               >
                 {TIMEZONES.map((tz) => (
                   <option key={tz.value} value={tz.value}>
@@ -385,7 +385,7 @@ export default function ProfileSettingsPage() {
             <button
               type="submit"
               disabled={saving}
-              className="flex-1 px-6 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+              className="flex-1 px-6 py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
             >
               {saving ? (
                 <>

@@ -3,142 +3,39 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Link } from '@/lib/navigation';
-import { Bell, Plus, TrendingUp, Activity, Settings, Bitcoin, Globe, BarChart3, Play, Pause, MessageSquare, CreditCard, Megaphone } from 'lucide-react';
+import { Wallet, Plus, TrendingUp, ArrowRight, Settings, CreditCard, History, Shield } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-
-type AlertService = 'crypto' | 'stocks' | 'website' | 'weather' | 'currency' | 'flight';
-type AlertStatus = 'active' | 'paused';
-
-interface Alert {
-  id: string;
-  name: string;
-  service: AlertService;
-  asset: string;
-  threshold: string;
-  operator: string;
-  interval: string;
-  channels: string[];
-  status: AlertStatus;
-  lastTriggered?: Date;
-  createdAt: Date;
-}
-
-const serviceIcons = {
-  crypto: Bitcoin,
-  stocks: BarChart3,
-  website: Globe,
-  weather: Bell,
-  currency: TrendingUp,
-  flight: Activity,
-};
-
-const serviceGradients = {
-  crypto: 'from-orange-500 to-yellow-500',
-  stocks: 'from-blue-500 to-cyan-500',
-  website: 'from-green-500 to-emerald-500',
-  weather: 'from-purple-500 to-pink-500',
-  currency: 'from-indigo-500 to-purple-500',
-  flight: 'from-sky-500 to-blue-500',
-};
-
-// Helper function to normalize old interval formats to new ones
-const normalizeInterval = (interval: string): string => {
-  const intervalMap: { [key: string]: string } = {
-    '5m': '5min',
-    '15m': '15min',
-    '30m': '30min',
-    '1h': '1hour',
-    '6h': '6hours',
-    '24h': '24hours',
-  };
-  return intervalMap[interval] || interval;
-};
+import walletApi, { WalletBalance, Transaction } from '@/lib/api/wallet';
+import authService from '@/lib/api/auth';
+import { BalanceCard, TransactionList } from '@/components/wallet';
 
 export default function DashboardPage() {
   const t = useTranslations();
   const router = useRouter();
   const [user, setUser] = useState<any>(null);
-  const [alerts, setAlerts] = useState<Alert[]>([]);
+  const [balance, setBalance] = useState<WalletBalance | null>(null);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [balance, setBalance] = useState<number | null>(null);
-  const [totalSpent, setTotalSpent] = useState<number>(0);
-
-  const activeAlertsCount = alerts.filter(a => a.status === 'active').length;
-  const triggeredCount = alerts.filter(a => a.lastTriggered).length;
 
   useEffect(() => {
-    // Check authentication
-    const token = localStorage.getItem('token');
-    if (!token) {
-      router.push('/login');
-      return;
-    }
-
-    // Fetch user data and alerts from API
     const fetchData = async () => {
+      // Check authentication
+      if (!authService.isAuthenticated()) {
+        router.push('/login');
+        return;
+      }
+
       try {
-        // Fetch user data
-        const userResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user`, {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Accept': 'application/json',
-          },
-        });
+        // Fetch all data in parallel
+        const [userData, balanceData, transactionsData] = await Promise.all([
+          authService.getCurrentUser(),
+          walletApi.getBalance().catch(() => null),
+          walletApi.getTransactions({ per_page: 5 }).catch(() => ({ data: [] })),
+        ]);
 
-        if (userResponse.ok) {
-          const userData = await userResponse.json();
-          if (userData.status === 'success') {
-            setUser(userData.data);
-          }
-        }
-
-        // Fetch alerts
-        const alertsResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/alerts`, {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Accept': 'application/json',
-          },
-        });
-
-        if (alertsResponse.ok) {
-          const alertsData = await alertsResponse.json();
-          if (alertsData.status === 'success') {
-            // Laravel paginate returns data.data
-            const alertsArray = Array.isArray(alertsData.data) ? alertsData.data : (alertsData.data?.data || []);
-
-            const loadedAlerts = alertsArray.map((alert: any) => ({
-              id: alert.id.toString(),
-              name: alert.name,
-              service: alert.service_type || 'crypto',
-              asset: alert.asset || '',
-              threshold: alert.conditions?.value?.toString() || 'N/A',
-              operator: alert.conditions?.operator || '',
-              field: alert.conditions?.field || '',
-              interval: alert.check_frequency ? `${alert.check_frequency}s` : '5min',
-              channels: alert.notification_channels || [],
-              status: alert.is_active ? 'active' : 'paused',
-              lastTriggered: alert.last_triggered_at ? new Date(alert.last_triggered_at) : undefined,
-              createdAt: new Date(alert.created_at),
-            }));
-            setAlerts(loadedAlerts);
-          }
-        }
-
-        // Fetch user balance
-        const balanceResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/sms/balance`, {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Accept': 'application/json',
-          },
-        });
-
-        if (balanceResponse.ok) {
-          const balanceData = await balanceResponse.json();
-          if (balanceData.status === 'success') {
-            setBalance(balanceData.data.balance);
-            setTotalSpent(balanceData.data.total_spent);
-          }
-        }
+        setUser(userData);
+        setBalance(balanceData);
+        setTransactions(transactionsData.data || []);
       } catch (error) {
         console.error('Failed to load data:', error);
       } finally {
@@ -153,7 +50,9 @@ export default function DashboardPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-pulse text-indigo-600 dark:text-indigo-400">Loading...</div>
+          <div className="animate-pulse text-emerald-600 dark:text-emerald-400">
+            {t('common.loading')}
+          </div>
         </div>
       </div>
     );
@@ -180,163 +79,139 @@ export default function DashboardPage() {
         {/* Quick Actions */}
         <div className="mb-12">
           <Link
-            href="/alerts/quick-setup"
-            className="inline-flex items-center gap-2 btn-primary group"
+            href="/wallet/deposit"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-semibold shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/30 transition-all duration-300 hover:-translate-y-0.5"
           >
             <Plus className="w-5 h-5" />
-            <span>{t('alerts.createNew')}</span>
+            <span>{t('dashboard.deposit')}</span>
           </Link>
         </div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          {/* Active Alerts */}
-          <div className="card-glass rounded-3xl p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
-                <Bell className="w-6 h-6 text-white" />
-              </div>
-              <TrendingUp className="w-5 h-5 text-green-500" />
-            </div>
-            <div className="text-3xl font-bold text-gray-900 dark:text-white mb-1">{activeAlertsCount}</div>
-            <div className="text-sm text-gray-600 dark:text-gray-400">{t('dashboard.activeAlerts')}</div>
+        {/* Main Content Grid */}
+        <div className="grid lg:grid-cols-3 gap-8 mb-12">
+          {/* Balance Card - Takes 2 columns */}
+          <div className="lg:col-span-2">
+            <BalanceCard balance={balance} isLoading={isLoading} />
           </div>
 
-          {/* Notifications Sent */}
-          <div className="card-glass rounded-3xl p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
-                <Activity className="w-6 h-6 text-white" />
+          {/* Quick Stats */}
+          <div className="space-y-4">
+            {/* Total Balance */}
+            <div className="card-glass rounded-2xl p-6">
+              <div className="flex items-center justify-between mb-4">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center">
+                  <Wallet className="w-5 h-5 text-white" />
+                </div>
+                <TrendingUp className="w-4 h-4 text-green-500" />
+              </div>
+              <div className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
+                {balance?.balance?.toFixed(2) || '0.00'} AZN
+              </div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">
+                {t('dashboard.balance')}
               </div>
             </div>
-            <div className="text-3xl font-bold text-gray-900 dark:text-white mb-1">{triggeredCount}</div>
-            <div className="text-sm text-gray-600 dark:text-gray-400">{t('dashboard.notificationsSent')}</div>
-          </div>
 
-          {/* Balance */}
-          <div className="card-glass rounded-3xl p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center">
-                <CreditCard className="w-6 h-6 text-white" />
+            {/* Transaction Count */}
+            <div className="card-glass rounded-2xl p-6">
+              <div className="flex items-center justify-between mb-4">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center">
+                  <History className="w-5 h-5 text-white" />
+                </div>
               </div>
-              <TrendingUp className="w-5 h-5 text-green-500" />
-            </div>
-            <div className="text-3xl font-bold text-gray-900 dark:text-white mb-1">
-              {balance !== null ? `${Number(balance).toFixed(2)} AZN` : '0.00 AZN'}
-            </div>
-            <div className="text-sm text-gray-600 dark:text-gray-400">
-              {t('dashboard.balance')}
+              <div className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
+                {transactions.length}
+              </div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">
+                {t('dashboard.recentTransactions')}
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Recent Alerts */}
+        {/* Recent Transactions */}
         <div className="card-glass rounded-3xl p-8 mb-12">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-              {t('dashboard.yourAlerts')}
+              {t('dashboard.recentTransactions')}
             </h2>
             <Link
-              href="/alerts"
-              className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 text-sm font-medium"
+              href="/wallet/transactions"
+              className="text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 text-sm font-medium flex items-center gap-1"
             >
-              {t('dashboard.allAlerts')} →
+              {t('dashboard.viewAll')}
+              <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
 
-          <div className="space-y-4">
-            {alerts.length === 0 ? (
-              <div className="text-center py-12">
-                <div className="inline-flex items-center justify-center w-16 h-16 mb-4 relative">
-                  <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-indigo-500 to-purple-500 opacity-20 blur-xl" />
-                  <div className="relative w-16 h-16 rounded-3xl bg-gradient-to-br from-indigo-500 to-purple-500 p-[1px]">
-                    <div className="w-full h-full rounded-3xl bg-white dark:bg-gray-900 flex items-center justify-center">
-                      <Bell className="w-8 h-8 text-gray-900 dark:text-white" />
-                    </div>
-                  </div>
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-                  {t('dashboard.noAlertsYet')}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-6">
-                  {t('dashboard.noAlertsDescription')}
-                </p>
-                <Link
-                  href="/alerts/quick-setup"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl font-medium text-white bg-gradient-to-r from-indigo-500 to-purple-500 hover:shadow-lg hover:scale-105 transition-all duration-300"
-                >
-                  <Plus className="w-5 h-5" />
-                  {t('dashboard.createFirstAlert')}
-                </Link>
-              </div>
-            ) : (
-              alerts.slice(0, 3).map((alert) => {
-                const ServiceIcon = serviceIcons[alert.service] || Bell;
-                const gradient = serviceGradients[alert.service] || 'from-gray-500 to-gray-600';
-
-                return (
-                  <div
-                    key={alert.id}
-                    className="flex items-center gap-4 p-4 rounded-2xl bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 hover:bg-white dark:hover:bg-gray-800 transition-all"
-                  >
-                    {/* Icon */}
-                    <div className="relative flex-shrink-0">
-                      <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${gradient} p-[1px]`}>
-                        <div className="w-full h-full rounded-xl bg-white dark:bg-gray-900 flex items-center justify-center">
-                          <ServiceIcon className="w-6 h-6 text-gray-900 dark:text-white" />
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Content */}
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
-                        {alert.name}
-                      </h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        {alert.service === 'website' ? (
-                          // Website: show URL - UP/DOWN
-                          <>
-                            {alert.asset} - {alert.field === 'is_up' ? t('alerts.statusUp') : t('alerts.statusDown')}
-                          </>
-                        ) : (
-                          // Crypto/Stocks/Currency: show price with operator
-                          <>
-                            {alert.asset && `${alert.asset} `}
-                            {alert.operator === 'greater' && '>'}
-                            {alert.operator === 'less' && '<'}
-                            {alert.operator === 'equals' && '='}
-                            {alert.operator === 'greater_equal' && '≥'}
-                            {alert.operator === 'less_equal' && '≤'}
-                            {' $'}{Number(alert.threshold).toLocaleString()}
-                          </>
-                        )}
-                      </p>
-                    </div>
-
-                    {/* Status */}
-                    <span className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap ${
-                      alert.status === 'active'
-                        ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300'
-                        : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
-                    }`}>
-                      {t(`alerts.${alert.status}`)}
-                    </span>
-                  </div>
-                );
-              })
-            )}
-          </div>
+          <TransactionList transactions={transactions} isLoading={isLoading} />
         </div>
 
         {/* Quick Links */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <Link
-            href="/settings"
-            className="card-glass rounded-3xl p-6 hover:scale-105 transition-transform duration-300"
+            href="/wallet"
+            className="card-glass rounded-2xl p-6 hover:scale-105 transition-transform duration-300"
           >
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center">
+                <Wallet className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
+                  {t('nav.wallet')}
+                </h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  {t('dashboard.subtitle')}
+                </p>
+              </div>
+            </div>
+          </Link>
+
+          <Link
+            href="/wallet/deposit"
+            className="card-glass rounded-2xl p-6 hover:scale-105 transition-transform duration-300"
+          >
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center">
+                <CreditCard className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
+                  {t('nav.deposit')}
+                </h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  {t('deposit.subtitle')}
+                </p>
+              </div>
+            </div>
+          </Link>
+
+          <Link
+            href="/wallet/transactions"
+            className="card-glass rounded-2xl p-6 hover:scale-105 transition-transform duration-300"
+          >
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+                <History className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
+                  {t('nav.transactions')}
+                </h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  {t('transactions.title')}
+                </p>
+              </div>
+            </div>
+          </Link>
+
+          <Link
+            href="/settings"
+            className="card-glass rounded-2xl p-6 hover:scale-105 transition-transform duration-300"
+          >
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center">
                 <Settings className="w-6 h-6 text-white" />
               </div>
               <div>
@@ -345,63 +220,6 @@ export default function DashboardPage() {
                 </h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
                   {t('settings.manageAccount')}
-                </p>
-              </div>
-            </div>
-          </Link>
-
-          <Link
-            href="/alerts"
-            className="card-glass rounded-3xl p-6 hover:scale-105 transition-transform duration-300"
-          >
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center">
-                <Bell className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
-                  {t('dashboard.allAlerts')}
-                </h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  {t('dashboard.viewManageAlerts')}
-                </p>
-              </div>
-            </div>
-          </Link>
-
-          <Link
-            href="/dashboard/sms"
-            className="card-glass rounded-3xl p-6 hover:scale-105 transition-transform duration-300"
-          >
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center">
-                <MessageSquare className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
-                  {t('dashboard.smsApi')}
-                </h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  {t('dashboard.smsApiDescription')}
-                </p>
-              </div>
-            </div>
-          </Link>
-
-          <Link
-            href="/settings/sms/projects"
-            className="card-glass rounded-3xl p-6 hover:scale-105 transition-transform duration-300"
-          >
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center">
-                <Megaphone className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
-                  {t('dashboard.smsCampaigns')}
-                </h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  {t('dashboard.smsCampaignsDescription')}
                 </p>
               </div>
             </div>

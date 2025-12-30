@@ -5,13 +5,14 @@ import { useRouter, useParams } from 'next/navigation';
 import { Link } from '@/lib/navigation';
 import {
   User,
-  Bell,
   Shield,
   ChevronRight,
-  Mail,
   Phone,
   Edit2,
   Loader2,
+  BadgeCheck,
+  Check,
+  AlertCircle,
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
@@ -55,7 +56,7 @@ export default function SettingsPage() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900">
-        <Loader2 className="w-8 h-8 animate-spin text-indigo-600" />
+        <Loader2 className="w-8 h-8 animate-spin text-emerald-600" />
       </div>
     );
   }
@@ -64,6 +65,12 @@ export default function SettingsPage() {
     return null;
   }
 
+  // Calculate verification status
+  const isPhoneVerified = !!user.phone_verified_at;
+  const isEmailVerified = !!user.email_verified_at;
+  const verifiedCount = (isPhoneVerified ? 1 : 0) + (isEmailVerified ? 1 : 0);
+  const isFullyVerified = verifiedCount === 2;
+
   const settingsMenu = [
     {
       id: 'profile',
@@ -71,17 +78,24 @@ export default function SettingsPage() {
       description: t('settings.profile.description'),
       icon: User,
       href: `/settings/profile`,
-      color: 'text-indigo-600 dark:text-indigo-400',
-      bgColor: 'bg-indigo-100 dark:bg-indigo-900/30'
+      color: 'text-emerald-600 dark:text-emerald-400',
+      bgColor: 'bg-emerald-100 dark:bg-emerald-900/30',
+      badge: null
     },
     {
-      id: 'notifications',
-      title: t('settings.notifications'),
-      description: t('settings.notificationsDescription'),
-      icon: Bell,
-      href: `/settings/notifications`,
-      color: 'text-yellow-600 dark:text-yellow-400',
-      bgColor: 'bg-yellow-100 dark:bg-yellow-900/30'
+      id: 'verification',
+      title: t('verification.title'),
+      description: t('verification.description'),
+      icon: BadgeCheck,
+      href: `/settings/verification`,
+      color: isFullyVerified ? 'text-green-600 dark:text-green-400' : 'text-amber-600 dark:text-amber-400',
+      bgColor: isFullyVerified ? 'bg-green-100 dark:bg-green-900/30' : 'bg-amber-100 dark:bg-amber-900/30',
+      badge: {
+        text: t('verification.verifiedCount', { count: verifiedCount, total: 2 }),
+        color: isFullyVerified
+          ? 'bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300'
+          : 'bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300'
+      }
     },
     {
       id: 'security',
@@ -89,8 +103,9 @@ export default function SettingsPage() {
       description: t('settings.security.description'),
       icon: Shield,
       href: `/settings/security`,
-      color: 'text-green-600 dark:text-green-400',
-      bgColor: 'bg-green-100 dark:bg-green-900/30'
+      color: 'text-teal-600 dark:text-teal-400',
+      bgColor: 'bg-teal-100 dark:bg-teal-900/30',
+      badge: null
     }
   ];
 
@@ -113,7 +128,7 @@ export default function SettingsPage() {
             <div className="rounded-3xl p-6 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border border-white/30 dark:border-gray-700/30 sticky top-8">
               {/* Avatar */}
               <div className="flex justify-center mb-4">
-                <div className="w-24 h-24 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 p-1">
+                <div className="w-24 h-24 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 p-1">
                   <div className="w-full h-full rounded-full bg-white dark:bg-gray-900 flex items-center justify-center overflow-hidden">
                     {user.avatar ? (
                       <img
@@ -122,7 +137,7 @@ export default function SettingsPage() {
                         className="w-full h-full object-cover"
                       />
                     ) : (
-                      <span className="text-3xl font-bold text-indigo-600 dark:text-indigo-400">
+                      <span className="text-3xl font-bold text-emerald-600 dark:text-emerald-400">
                         {user.name?.charAt(0)?.toUpperCase() || 'U'}
                       </span>
                     )}
@@ -135,9 +150,24 @@ export default function SettingsPage() {
                 <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-1">
                   {user.name}
                 </h2>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
+                <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
                   {user.email}
                 </p>
+                {/* Verification Status */}
+                {isFullyVerified ? (
+                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300">
+                    <Check className="w-3 h-3" />
+                    {t('verification.verified')}
+                  </span>
+                ) : (
+                  <Link
+                    href={`/settings/verification`}
+                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300 hover:bg-amber-200 dark:hover:bg-amber-900/70 transition-colors"
+                  >
+                    <AlertCircle className="w-3 h-3" />
+                    {t('verification.verifyNow')}
+                  </Link>
+                )}
               </div>
 
               {/* Quick Info */}
@@ -153,7 +183,7 @@ export default function SettingsPage() {
               {/* Edit Profile Button */}
               <Link
                 href={`/settings/profile`}
-                className="w-full px-4 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-2xl hover:shadow-lg hover:scale-105 transition-all duration-300 text-center font-medium text-sm flex items-center justify-center gap-2"
+                className="w-full px-4 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-2xl hover:shadow-lg hover:scale-105 transition-all duration-300 text-center font-medium text-sm flex items-center justify-center gap-2"
               >
                 <Edit2 className="w-4 h-4" />
                 {t('settings.profile.editProfile')}
@@ -169,7 +199,7 @@ export default function SettingsPage() {
                 <Link
                   key={item.id}
                   href={item.href}
-                  className="block rounded-3xl p-6 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border border-white/30 dark:border-gray-700/30 hover:border-indigo-200 dark:hover:border-indigo-800 transition-all group"
+                  className="block rounded-3xl p-6 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border border-white/30 dark:border-gray-700/30 hover:border-emerald-200 dark:hover:border-emerald-800 transition-all group"
                 >
                   <div className="flex items-start gap-4">
                     <div className={`w-12 h-12 rounded-2xl ${item.bgColor} flex items-center justify-center flex-shrink-0`}>
@@ -177,15 +207,22 @@ export default function SettingsPage() {
                     </div>
 
                     <div className="flex-1">
-                      <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                        {item.title}
-                      </h3>
+                      <div className="flex items-center gap-2 mb-1">
+                        <h3 className="text-lg font-bold text-gray-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+                          {item.title}
+                        </h3>
+                        {item.badge && (
+                          <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${item.badge.color}`}>
+                            {item.badge.text}
+                          </span>
+                        )}
+                      </div>
                       <p className="text-sm text-gray-600 dark:text-gray-400">
                         {item.description}
                       </p>
                     </div>
 
-                    <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors flex-shrink-0" />
+                    <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors flex-shrink-0" />
                   </div>
                 </Link>
               );

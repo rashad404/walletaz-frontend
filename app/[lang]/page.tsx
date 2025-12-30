@@ -1,136 +1,180 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import SearchMonitor from '@/components/home/SearchMonitor';
-import ServiceGrid from '@/components/home/ServiceGrid';
-import SMSShowcase from '@/components/home/SMSShowcase';
-import { Bell, Sparkles, Zap, Shield } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Wallet, Users, CheckCircle, CreditCard, Code, ArrowRight, Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
 
-interface HomePageProps {
-  params: Promise<{ lang: string }>;
-}
-
-export default function HomePage({ params }: HomePageProps) {
+export default function HomePage() {
   const t = useTranslations();
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const router = useRouter();
+  const [isChecking, setIsChecking] = useState(true);
 
+  // Check auth status before rendering
   useEffect(() => {
-    // Mouse tracking for gradient effect
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+    const token = localStorage.getItem('token');
+    if (token) {
+      router.replace('/dashboard');
+    } else {
+      setIsChecking(false);
+    }
+  }, [router]);
+
+  // Show loading while checking auth
+  if (isChecking) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900">
+        <Loader2 className="w-8 h-8 animate-spin text-emerald-600" />
+      </div>
+    );
+  }
+
+  const partners = [
+    { name: 'alert.az', url: 'https://alert.az' },
+    { name: 'sayt.az', url: 'https://sayt.az' },
+    { name: 'kredit.az', url: 'https://kredit.az' },
+  ];
 
   return (
-    <div className="relative min-h-screen overflow-hidden">
-      {/* Premium Background */}
-      <div className="fixed inset-0 z-[-10]">
-        <div className="absolute inset-0 mesh-gradient opacity-30" />
-        <div
-          className="absolute w-96 h-96 rounded-full"
-          style={{
-            background: 'radial-gradient(circle, rgba(102,126,234,0.3) 0%, transparent 70%)',
-            left: `${mousePosition.x - 200}px`,
-            top: `${mousePosition.y - 200}px`,
-            transition: 'all 0.3s ease-out',
-            pointerEvents: 'none'
-          }}
-        />
-      </div>
-
-      {/* Hero Section with Premium Design */}
-      <section className="relative pt-12 pb-20 px-6">
-        <div className="max-w-7xl mx-auto">
-          {/* Animated Logo */}
+    <div className="min-h-screen">
+      {/* Hero Section */}
+      <section className="relative py-20 px-6">
+        <div className="max-w-4xl mx-auto text-center">
+          {/* Logo */}
           <div className="flex justify-center mb-8">
-            <div className="relative">
-              <div className="absolute inset-0 blur-2xl bg-gradient-to-r from-purple-400 to-pink-400 opacity-50 animate-pulse" />
-              <div className="relative w-20 h-20 rounded-3xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 p-[1px] animate-float">
-                <div className="w-full h-full rounded-3xl bg-white dark:bg-gray-900 flex items-center justify-center">
-                  <div className="relative">
-                    <Bell className="w-10 h-10 text-indigo-600 dark:text-indigo-400" strokeWidth={2} fill="none" />
-                    <div className="absolute inset-0 w-10 h-10">
-                      <Bell className="w-10 h-10 text-purple-500 opacity-50" strokeWidth={2} fill="none" />
-                    </div>
-                  </div>
-                </div>
+            <div className="relative w-20 h-20 rounded-3xl bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 p-[2px]">
+              <div className="w-full h-full rounded-3xl bg-white dark:bg-gray-900 flex items-center justify-center">
+                <Wallet className="w-10 h-10 text-emerald-600 dark:text-emerald-400" strokeWidth={1.5} />
               </div>
             </div>
           </div>
 
-          {/* Heading with Gradient Text */}
-          <div className="text-center mb-4">
-            <h1 className="text-6xl md:text-7xl font-bold">
-              <span className="gradient-text">Alert.az</span>
-            </h1>
-            <p className="mt-4 text-xl text-gray-600 dark:text-gray-400 font-light">
-              {t('home.subtitle')}
-            </p>
-          </div>
+          {/* Title */}
+          <h1 className="text-4xl md:text-6xl font-bold mb-4">
+            <span className="bg-gradient-to-r from-emerald-600 via-teal-500 to-cyan-500 bg-clip-text text-transparent">
+              Wallet.az
+            </span>
+          </h1>
 
-          {/* Premium Labels */}
-          <div className="flex justify-center gap-3 mb-12">
-            <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 border border-emerald-500/20">
-              <Sparkles className="w-3 h-3 text-emerald-500" />
-              <span className="text-xs font-medium text-emerald-600 dark:text-emerald-400">{t('home.aiPowered')}</span>
-            </span>
-            <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20">
-              <Zap className="w-3 h-3 text-purple-500" />
-              <span className="text-xs font-medium text-purple-600 dark:text-purple-400">{t('home.realtime')}</span>
-            </span>
-            <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gradient-to-r from-blue-500/10 to-indigo-500/10 border border-blue-500/20">
-              <Shield className="w-3 h-3 text-blue-500" />
-              <span className="text-xs font-medium text-blue-600 dark:text-blue-400">{t('home.secure')}</span>
-            </span>
-          </div>
+          {/* Headline */}
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900 dark:text-white mb-4">
+            {t('home.headline')}
+          </h2>
 
-          {/* Search Section */}
-          <SearchMonitor />
+          {/* Subtitle */}
+          <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
+            {t('home.subtitle')}
+          </p>
+
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <Link
+              href="/register"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-semibold shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/30 transition-all duration-300 hover:-translate-y-0.5"
+            >
+              {t('home.createAccount')}
+              <ArrowRight className="w-5 h-5" />
+            </Link>
+            <Link
+              href="/login"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white font-semibold border border-gray-200 dark:border-gray-700 hover:border-emerald-500 dark:hover:border-emerald-500 transition-all duration-300"
+            >
+              {t('home.signIn')}
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* SMS Showcase Section */}
-      <SMSShowcase />
+      {/* User Benefits Section */}
+      <section className="py-16 px-6 bg-gray-50 dark:bg-gray-800/50">
+        <div className="max-w-5xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Benefit 1: One Registration */}
+            <div className="text-center p-6">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center mx-auto mb-4">
+                <Users className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                {t('home.benefit1Title')}
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400">
+                {t('home.benefit1Desc')}
+              </p>
+            </div>
 
-      {/* Bento Grid Services */}
-      <section className="relative px-6 py-20">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <span className="text-sm font-medium text-purple-600 dark:text-purple-400 uppercase tracking-wider">{t('home.services')}</span>
-            <h2 className="mt-2 text-4xl font-bold text-gray-900 dark:text-white">
-              {t('home.servicesTitle')}
+            {/* Benefit 2: One Verification */}
+            <div className="text-center p-6">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center mx-auto mb-4">
+                <CheckCircle className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                {t('home.benefit2Title')}
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400">
+                {t('home.benefit2Desc')}
+              </p>
+            </div>
+
+            {/* Benefit 3: One Balance */}
+            <div className="text-center p-6">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mx-auto mb-4">
+                <CreditCard className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                {t('home.benefit3Title')}
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400">
+                {t('home.benefit3Desc')}
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Partner Sites Section */}
+      <section className="py-16 px-6">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-8">
+            {t('home.partnersTitle')}
+          </h2>
+          <div className="flex flex-wrap justify-center gap-6">
+            {partners.map((partner) => (
+              <a
+                key={partner.name}
+                href={partner.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-8 py-4 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-emerald-500 dark:hover:border-emerald-500 transition-all duration-300 hover:shadow-lg"
+              >
+                <span className="text-lg font-medium text-gray-900 dark:text-white">
+                  {partner.name}
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* For Developers Section */}
+      <section className="py-12 px-6 bg-gray-50 dark:bg-gray-800/50">
+        <div className="max-w-3xl mx-auto text-center">
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <Code className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+              {t('home.developersTitle')}
             </h2>
           </div>
-          <ServiceGrid />
-        </div>
-      </section>
-
-      {/* Premium Stats */}
-      <section className="relative px-6 py-20">
-        <div className="max-w-6xl mx-auto">
-          <div className="relative rounded-3xl p-12 bg-white/50 dark:bg-gray-900/50 backdrop-blur-xl border border-white/20 dark:border-gray-700/20 shadow-lg">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-              <div className="text-center">
-                <div className="text-4xl font-bold bg-gradient-to-br from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-2">99.9%</div>
-                <div className="text-sm font-medium text-gray-700 dark:text-gray-300">{t('home.uptime')}</div>
-              </div>
-              <div className="text-center">
-                <div className="text-4xl font-bold bg-gradient-to-br from-blue-600 to-cyan-600 bg-clip-text text-transparent mb-2">10ms</div>
-                <div className="text-sm font-medium text-gray-700 dark:text-gray-300">{t('home.responseTime')}</div>
-              </div>
-              <div className="text-center">
-                <div className="text-4xl font-bold bg-gradient-to-br from-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">50K+</div>
-                <div className="text-sm font-medium text-gray-700 dark:text-gray-300">{t('home.activeAlerts')}</div>
-              </div>
-              <div className="text-center">
-                <div className="text-4xl font-bold bg-gradient-to-br from-emerald-600 to-teal-600 bg-clip-text text-transparent mb-2">24/7</div>
-                <div className="text-sm font-medium text-gray-700 dark:text-gray-300">{t('home.monitoring')}</div>
-              </div>
-            </div>
-          </div>
+          <p className="text-gray-600 dark:text-gray-400 mb-6">
+            {t('home.developersDesc')}
+          </p>
+          <Link
+            href="/docs"
+            className="inline-flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-medium hover:underline"
+          >
+            {t('home.apiDocs')}
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
       </section>
     </div>
