@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "========================================="
-echo "Production Build Script for alert.az"
+echo "Production Build Script for wallet.az"
 echo "========================================="
 echo ""
 
@@ -47,12 +47,12 @@ echo ""
 
 # Check if PM2 process exists and handle accordingly
 echo "🔍 Checking PM2 processes..."
-if pm2 list | grep -q "next.alert.az"; then
+if pm2 list | grep -q "next.wallet.az"; then
     echo "🔄 Restarting existing PM2 process..."
-    pm2 restart next.alert.az
+    pm2 restart next.wallet.az
 else
-    echo "🚀 Starting new PM2 process on port 3030..."
-    pm2 start npm --name next.alert.az -- start -- -p 3032
+    echo "🚀 Starting new PM2 process on port 3033..."
+    pm2 start npm --name next.wallet.az -- start -- -p 3033
 fi
 
 # Save PM2 configuration
@@ -62,10 +62,10 @@ echo ""
 echo "========================================="
 echo "✅ Production deployment complete!"
 echo "✅ Debug mode is OFF"
-echo "✅ Using API: https://api.alert.az"
+echo "✅ Using API: https://api.wallet.az"
 echo "========================================="
 echo ""
-echo "📊 Check status with: pm2 status next.alert.az"
-echo "📜 View logs with: pm2 logs next.alert.az"
+echo "📊 Check status with: pm2 status next.wallet.az"
+echo "📜 View logs with: pm2 logs next.wallet.az"
 echo ""
 echo "⚠️  Note: Clear nginx cache in WHM if users see old version"
