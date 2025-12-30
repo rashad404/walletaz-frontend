@@ -157,6 +157,7 @@
     "codeSentTo": "Kod göndərildi: {destination}",
     "enterCodeSent": "Göndərilən kodu daxil edin",
     "invalidCode": "Yanlış kod",
+    "invalidPhoneNumber": "7 rəqəmli telefon nömrəsi daxil edin",
     "verificationSuccess": "Uğurla təsdiqləndi",
     "verificationFailed": "Təsdiqləmə uğursuz oldu",
     "changePhone": "Telefonu dəyiş",

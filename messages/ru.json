@@ -157,6 +157,7 @@
     "codeSentTo": "Код отправлен на: {destination}",
     "enterCodeSent": "Введите отправленный код",
     "invalidCode": "Неверный код",
+    "invalidPhoneNumber": "Введите 7-значный номер телефона",
     "verificationSuccess": "Успешно подтверждено",
     "verificationFailed": "Ошибка подтверждения",
     "changePhone": "Изменить телефон",

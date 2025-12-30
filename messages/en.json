@@ -157,6 +157,7 @@
     "codeSentTo": "Code sent to: {destination}",
     "enterCodeSent": "Enter the code we sent you",
     "invalidCode": "Invalid code",
+    "invalidPhoneNumber": "Enter 7 digit phone number",
     "verificationSuccess": "Verified successfully",
     "verificationFailed": "Verification failed",
     "changePhone": "Change Phone",

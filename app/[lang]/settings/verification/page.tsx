@@ -29,11 +29,21 @@ export default function VerificationPage() {
 
   // Phone verification state
   const [phoneStep, setPhoneStep] = useState<VerificationStep>('idle');
-  const [phoneInput, setPhoneInput] = useState('');
+  const [phonePrefix, setPhonePrefix] = useState('050');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [phoneCode, setPhoneCode] = useState('');
   const [phoneError, setPhoneError] = useState('');
   const [phoneCountdown, setPhoneCountdown] = useState(0);
   const [isEditingPhone, setIsEditingPhone] = useState(false);
+
+  // Azerbaijan mobile operator prefixes
+  const phonePrefixes = ['050', '051', '055', '070', '077', '099', '010', '060'];
+
+  // Format full phone number for API (994XXYYYYYY)
+  const getFullPhoneNumber = () => `994${phonePrefix.slice(1)}${phoneNumber}`;
+
+  // Format display phone number
+  const getDisplayPhone = () => `+994 ${phonePrefix.slice(1)} ${phoneNumber}`;
 
   // Email verification state
   const [emailStep, setEmailStep] = useState<VerificationStep>('idle');
@@ -53,7 +63,18 @@ export default function VerificationPage() {
       const userData = await authService.getCurrentUser();
       if (userData) {
         setUser(userData);
-        setPhoneInput(userData.phone || '');
+        // Parse existing phone number (format: 994XXYYYYYY)
+        if (userData.phone) {
+          const phone = userData.phone.replace(/\D/g, '');
+          if (phone.startsWith('994') && phone.length === 12) {
+            const prefix = '0' + phone.slice(3, 5);
+            const number = phone.slice(5);
+            if (phonePrefixes.includes(prefix)) {
+              setPhonePrefix(prefix);
+              setPhoneNumber(number);
+            }
+          }
+        }
       } else {
         router.push(`/login`);
       }
@@ -87,8 +108,8 @@ export default function VerificationPage() {
 
   // Send phone verification code
   const sendPhoneCode = async () => {
-    if (!phoneInput.trim()) {
-      setPhoneError(t('verification.notSet'));
+    if (phoneNumber.length !== 7) {
+      setPhoneError(t('verification.invalidPhoneNumber'));
       return;
     }
 
@@ -96,16 +117,17 @@ export default function VerificationPage() {
     setPhoneError('');
 
     try {
-      const response = await authService.sendPhoneVerificationForUser(phoneInput);
+      const fullPhone = getFullPhoneNumber();
+      const response = await authService.sendPhoneVerificationForUser(fullPhone);
       if (response.status === 'success') {
         setPhoneStep('code_sent');
         setPhoneCountdown(60);
       } else {
-        setPhoneError(response.message || t('verification.verificationFailed'));
+        setPhoneError(t('verification.verificationFailed'));
         setPhoneStep('idle');
       }
     } catch (error: any) {
-      setPhoneError(error?.response?.data?.message || t('verification.verificationFailed'));
+      setPhoneError(t('verification.verificationFailed'));
       setPhoneStep('idle');
     }
   };
@@ -122,7 +144,7 @@ export default function VerificationPage() {
 
     try {
       const response = await authService.verifyPhoneForUser({
-        phone: phoneInput,
+        phone: getFullPhoneNumber(),
         code: phoneCode,
       });
 
@@ -132,11 +154,11 @@ export default function VerificationPage() {
         setPhoneCode('');
         setIsEditingPhone(false);
       } else {
-        setPhoneError(response.message || t('verification.invalidCode'));
+        setPhoneError(t('verification.invalidCode'));
         setPhoneStep('code_sent');
       }
     } catch (error: any) {
-      setPhoneError(error?.response?.data?.message || t('verification.invalidCode'));
+      setPhoneError(t('verification.invalidCode'));
       setPhoneStep('code_sent');
     }
   };
@@ -157,11 +179,11 @@ export default function VerificationPage() {
         setEmailStep('code_sent');
         setEmailCountdown(60);
       } else {
-        setEmailError(response.message || t('verification.verificationFailed'));
+        setEmailError(t('verification.verificationFailed'));
         setEmailStep('idle');
       }
     } catch (error: any) {
-      setEmailError(error?.response?.data?.message || t('verification.verificationFailed'));
+      setEmailError(t('verification.verificationFailed'));
       setEmailStep('idle');
     }
   };
@@ -187,11 +209,11 @@ export default function VerificationPage() {
         setEmailStep('idle');
         setEmailCode('');
       } else {
-        setEmailError(response.message || t('verification.invalidCode'));
+        setEmailError(t('verification.invalidCode'));
         setEmailStep('code_sent');
       }
     } catch (error: any) {
-      setEmailError(error?.response?.data?.message || t('verification.invalidCode'));
+      setEmailError(t('verification.invalidCode'));
       setEmailStep('code_sent');
     }
   };
@@ -321,17 +343,32 @@ export default function VerificationPage() {
 
                 {phoneStep === 'idle' && (isEditingPhone || !user.phone) && (
                   <div className="space-y-3">
-                    <input
-                      type="tel"
-                      value={phoneInput}
-                      onChange={(e) => setPhoneInput(e.target.value)}
-                      placeholder={t('verification.phonePlaceholder')}
-                      className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
-                    />
+                    <div className="flex gap-2">
+                      <select
+                        value={phonePrefix}
+                        onChange={(e) => setPhonePrefix(e.target.value)}
+                        className="px-3 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 font-medium"
+                      >
+                        {phonePrefixes.map((prefix) => (
+                          <option key={prefix} value={prefix}>
+                            {prefix}
+                          </option>
+                        ))}
+                      </select>
+                      <input
+                        type="tel"
+                        value={phoneNumber}
+                        onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/g, '').slice(0, 7))}
+                        placeholder="XXX XX XX"
+                        maxLength={7}
+                        className="flex-1 px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 tracking-wider"
+                      />
+                    </div>
                     <div className="flex gap-3">
                       <button
                         onClick={() => sendPhoneCode()}
-                        className="flex-1 px-4 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-xl hover:shadow-lg hover:scale-[1.02] transition-all duration-300 font-medium"
+                        disabled={phoneNumber.length !== 7}
+                        className="flex-1 px-4 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-xl hover:shadow-lg hover:scale-[1.02] transition-all duration-300 font-medium disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                       >
                         {t('verification.sendCode')}
                       </button>
@@ -339,7 +376,14 @@ export default function VerificationPage() {
                         <button
                           onClick={() => {
                             setIsEditingPhone(false);
-                            setPhoneInput(user.phone);
+                            // Reset to user's current phone
+                            if (user.phone) {
+                              const phone = user.phone.replace(/\D/g, '');
+                              if (phone.startsWith('994') && phone.length === 12) {
+                                setPhonePrefix('0' + phone.slice(3, 5));
+                                setPhoneNumber(phone.slice(5));
+                              }
+                            }
                           }}
                           className="px-4 py-3 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
                         >
@@ -360,7 +404,7 @@ export default function VerificationPage() {
                 {phoneStep === 'code_sent' && (
                   <div className="space-y-4">
                     <p className="text-sm text-gray-600 dark:text-gray-400 text-center">
-                      {t('verification.codeSentTo', { destination: phoneInput })}
+                      {t('verification.codeSentTo', { destination: getDisplayPhone() })}
                     </p>
                     <input
                       type="text"
