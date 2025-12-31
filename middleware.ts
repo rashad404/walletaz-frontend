@@ -50,11 +50,13 @@ export function middleware(request: NextRequest) {
     const newUrl = `/az${pathname === '/' ? '' : pathname}`;
     const url = new URL(newUrl, request.url);
     url.search = request.nextUrl.search;
-    return NextResponse.rewrite(url);
+    const response = NextResponse.rewrite(url);
+    response.headers.set('x-pathname', pathname);
+    return response;
   }
 
-  // Don't add cache headers in development
   const response = NextResponse.next();
+  response.headers.set('x-pathname', pathname);
 
   if (process.env.NODE_ENV === 'production') {
     response.headers.set('Cache-Control', 's-maxage=1, stale-while-revalidate');

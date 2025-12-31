@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { headers } from "next/headers";
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations } from 'next-intl/server';
 import { i18n, type Locale } from "@/i18n-config";
@@ -34,6 +35,19 @@ export default async function LangLayout({
 
   // Load messages for the current locale
   const messages = await getMessages({ locale: lang });
+
+  // Check if this is an OAuth popup (no header/footer needed)
+  const headersList = await headers();
+  const pathname = headersList.get("x-pathname") || "";
+  const isOAuthPopup = pathname.includes("/oauth/");
+
+  if (isOAuthPopup) {
+    return (
+      <NextIntlClientProvider locale={lang} messages={messages}>
+        {children}
+      </NextIntlClientProvider>
+    );
+  }
 
   return (
     <NextIntlClientProvider locale={lang} messages={messages}>

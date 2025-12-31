@@ -127,17 +127,9 @@ export default function OAuthAuthorizePage() {
         throw new Error(data.message || 'Authorization failed');
       }
 
-      // Post message to parent window (popup flow)
-      if (window.opener) {
-        window.opener.postMessage({
-          type: decision === 'allow' ? 'oauth_success' : 'oauth_denied',
-          redirect_uri: data.redirect_uri,
-        }, '*');
-        window.close();
-      } else {
-        // Fallback to redirect
-        window.location.href = data.redirect_uri;
-      }
+      // Always redirect to callback URL - the callback will handle popup messaging
+      // This ensures the authorization code is exchanged for a token
+      window.location.href = data.redirect_uri;
     } catch (err: any) {
       setError(err.message);
       setIsSubmitting(false);
@@ -152,10 +144,10 @@ export default function OAuthAuthorizePage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+      <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900">
         <div className="text-center">
-          <Loader2 className="w-8 h-8 animate-spin text-emerald-500 mx-auto mb-4" />
-          <p className="text-gray-600 dark:text-gray-400">{t('common.loading')}</p>
+          <Loader2 className="w-6 h-6 animate-spin text-emerald-500 mx-auto mb-2" />
+          <p className="text-sm text-gray-600 dark:text-gray-400">{t('common.loading')}</p>
         </div>
       </div>
     );
@@ -163,161 +155,147 @@ export default function OAuthAuthorizePage() {
 
   if (error && !oauthData) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4">
-        <div className="max-w-md w-full">
-          <div className="card-glass rounded-3xl p-8 text-center">
-            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
-              <X className="w-8 h-8 text-red-500" />
-            </div>
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-              {t('oauth.errors.title')}
-            </h2>
-            <p className="text-gray-600 dark:text-gray-400 mb-6">{error}</p>
-            <button
-              onClick={() => window.close()}
-              className="px-6 py-3 rounded-2xl bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-            >
-              {t('common.close')}
-            </button>
+      <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900 p-4">
+        <div className="text-center">
+          <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
+            <X className="w-6 h-6 text-red-500" />
           </div>
+          <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
+            {t('oauth.errors.title')}
+          </h2>
+          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">{error}</p>
+          <button
+            onClick={() => window.close()}
+            className="px-4 py-2 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-sm font-medium"
+          >
+            {t('common.close')}
+          </button>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4 py-4">
-      <div className="max-w-sm w-full">
-        {/* Main Card */}
-        <div className="card-glass rounded-2xl overflow-hidden">
-          {/* Header with Wallet.az branding + App */}
-          <div className="p-4 border-b border-gray-200 dark:border-gray-700">
-            <div className="flex items-center justify-center gap-3 mb-3">
-              <div className="flex items-center gap-1.5">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center">
-                  <Wallet className="w-4 h-4 text-white" />
-                </div>
-                <span className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">Wallet.az</span>
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              {oauthData?.client.logo_url ? (
-                <img
-                  src={oauthData.client.logo_url}
-                  alt={oauthData.client.name}
-                  className="w-10 h-10 rounded-xl object-cover"
-                />
-              ) : (
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-gray-400 to-gray-500 flex items-center justify-center">
-                  <ExternalLink className="w-5 h-5 text-white" />
-                </div>
-              )}
-              <div className="flex-1 min-w-0">
-                <h1 className="text-base font-bold text-gray-900 dark:text-white truncate">
-                  {oauthData?.client.name}
-                </h1>
-                {oauthData?.client.website_url && (
-                  <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
-                    {new URL(oauthData.client.website_url).hostname}
-                  </p>
-                )}
-              </div>
-            </div>
+    <div className="min-h-screen bg-white dark:bg-gray-900 flex flex-col">
+      {/* Header with Wallet.az branding + App */}
+      <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+        <div className="flex items-center justify-center gap-2 mb-3">
+          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center">
+            <Wallet className="w-4 h-4 text-white" />
           </div>
-
-          {/* Content */}
-          <div className="p-4">
-            <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">
-              {t('oauth.consent.willAllow', { app: oauthData?.client.name })}
-            </p>
-
-            {/* Compact Scopes Grid */}
-            <div className="grid grid-cols-2 gap-2 mb-4">
-              {oauthData?.scopes.map((scope) => (
-                <div
-                  key={scope.name}
-                  className="flex items-center gap-2 px-2.5 py-2 rounded-xl bg-gray-50 dark:bg-gray-800/50"
-                >
-                  <div className="w-6 h-6 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400 flex-shrink-0">
-                    {scopeIcons[scope.name] || <Shield className="w-3.5 h-3.5" />}
-                  </div>
-                  <span className="text-xs font-medium text-gray-700 dark:text-gray-300 truncate">
-                    {scope.display_name[lang] || scope.display_name['en'] || scope.name}
-                  </span>
-                </div>
-              ))}
+          <span className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">Wallet.az</span>
+        </div>
+        <div className="flex items-center gap-3">
+          {oauthData?.client.logo_url ? (
+            <img
+              src={oauthData.client.logo_url}
+              alt={oauthData.client.name}
+              className="w-10 h-10 rounded-xl object-cover"
+            />
+          ) : (
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-gray-400 to-gray-500 flex items-center justify-center">
+              <ExternalLink className="w-5 h-5 text-white" />
             </div>
+          )}
+          <div className="flex-1 min-w-0">
+            <h1 className="text-base font-bold text-gray-900 dark:text-white truncate">
+              {oauthData?.client.name}
+            </h1>
+            {oauthData?.client.website_url && (
+              <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                {new URL(oauthData.client.website_url).hostname}
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
 
-            {/* User Info - Compact */}
-            <div className="flex items-center justify-between p-3 rounded-xl bg-gray-100 dark:bg-gray-800 mb-4">
-              <div className="flex items-center gap-2 min-w-0">
-                {oauthData?.user.avatar ? (
-                  <img
-                    src={oauthData.user.avatar}
-                    alt={oauthData.user.name}
-                    className="w-8 h-8 rounded-full object-cover flex-shrink-0"
-                  />
-                ) : (
-                  <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center flex-shrink-0">
-                    <User className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                  </div>
-                )}
-                <div className="min-w-0">
-                  <p className="font-medium text-gray-900 dark:text-white text-xs truncate">
-                    {oauthData?.user.name}
-                  </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
-                    {oauthData?.user.email}
-                  </p>
-                </div>
+      {/* Content */}
+      <div className="flex-1 p-4">
+        <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">
+          {t('oauth.consent.willAllow', { app: oauthData?.client.name })}
+        </p>
+
+        {/* Compact Scopes Grid */}
+        <div className="grid grid-cols-2 gap-2 mb-4">
+          {oauthData?.scopes.map((scope) => (
+            <div
+              key={scope.name}
+              className="flex items-center gap-2 px-2.5 py-2 rounded-xl bg-gray-50 dark:bg-gray-800/50"
+            >
+              <div className="w-6 h-6 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400 flex-shrink-0">
+                {scopeIcons[scope.name] || <Shield className="w-3.5 h-3.5" />}
               </div>
-              <button
-                onClick={handleSwitchAccount}
-                className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline flex-shrink-0 ml-2"
-              >
-                {t('oauth.consent.switchAccount')}
-              </button>
+              <span className="text-xs font-medium text-gray-700 dark:text-gray-300 truncate">
+                {scope.display_name[lang] || scope.display_name['en'] || scope.name}
+              </span>
             </div>
+          ))}
+        </div>
 
-            {/* Error Message */}
-            {error && (
-              <div className="p-3 rounded-xl bg-red-100 dark:bg-red-900/30 border border-red-200 dark:border-red-800 mb-3">
-                <p className="text-xs text-red-600 dark:text-red-400">{error}</p>
+        {/* User Info */}
+        <div className="flex items-center justify-between p-3 rounded-xl bg-gray-100 dark:bg-gray-800">
+          <div className="flex items-center gap-2 min-w-0">
+            {oauthData?.user.avatar ? (
+              <img
+                src={oauthData.user.avatar}
+                alt={oauthData.user.name}
+                className="w-8 h-8 rounded-full object-cover flex-shrink-0"
+              />
+            ) : (
+              <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center flex-shrink-0">
+                <User className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
               </div>
             )}
-
-            {/* Action Buttons */}
-            <div className="flex gap-2">
-              <button
-                onClick={() => handleDecision('deny')}
-                disabled={isSubmitting}
-                className="flex-1 px-4 py-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors disabled:opacity-50"
-              >
-                {t('oauth.consent.deny')}
-              </button>
-              <button
-                onClick={() => handleDecision('allow')}
-                disabled={isSubmitting}
-                className="flex-1 px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium transition-colors disabled:opacity-50 flex items-center justify-center gap-1.5"
-              >
-                {isSubmitting ? (
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                ) : (
-                  <>
-                    <Check className="w-4 h-4" />
-                    {t('oauth.consent.allow')}
-                  </>
-                )}
-              </button>
+            <div className="min-w-0">
+              <p className="font-medium text-gray-900 dark:text-white text-xs truncate">
+                {oauthData?.user.name}
+              </p>
+              <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                {oauthData?.user.email}
+              </p>
             </div>
           </div>
+          <button
+            onClick={handleSwitchAccount}
+            className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline flex-shrink-0 ml-2"
+          >
+            {t('oauth.consent.switchAccount')}
+          </button>
+        </div>
 
-          {/* Footer - Compact */}
-          <div className="px-4 py-3 border-t border-gray-200 dark:border-gray-700 text-center">
-            <p className="text-xs text-gray-500 dark:text-gray-400">
-              {t('oauth.consent.footer')}
-            </p>
+        {/* Error Message */}
+        {error && (
+          <div className="p-3 rounded-xl bg-red-100 dark:bg-red-900/30 mt-3">
+            <p className="text-xs text-red-600 dark:text-red-400">{error}</p>
           </div>
+        )}
+      </div>
+
+      {/* Action Buttons */}
+      <div className="p-4 border-t border-gray-200 dark:border-gray-700">
+        <div className="flex gap-2">
+          <button
+            onClick={() => handleDecision('deny')}
+            disabled={isSubmitting}
+            className="flex-1 px-4 py-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors disabled:opacity-50"
+          >
+            {t('oauth.consent.deny')}
+          </button>
+          <button
+            onClick={() => handleDecision('allow')}
+            disabled={isSubmitting}
+            className="flex-1 px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium transition-colors disabled:opacity-50 flex items-center justify-center gap-1.5"
+          >
+            {isSubmitting ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <>
+                <Check className="w-4 h-4" />
+                {t('oauth.consent.allow')}
+              </>
+            )}
+          </button>
         </div>
       </div>
     </div>
