@@ -43,7 +43,9 @@
     "or": "və ya",
     "agreeToTerms": "Mən istifadə şərtlərini qəbul edirəm",
     "privacyPolicy": "Məxfilik Siyasəti",
-    "termsOfService": "İstifadə Şərtləri"
+    "termsOfService": "İstifadə Şərtləri",
+    "signInToContinue": "Davam etmək üçün daxil olun",
+    "createToContinue": "Davam etmək üçün hesab yaradın"
   },
   "dashboard": {
     "welcome": "Xoş gəldiniz, {name}!",

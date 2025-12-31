@@ -43,7 +43,9 @@
     "or": "or",
     "agreeToTerms": "I agree to the terms and conditions",
     "privacyPolicy": "Privacy Policy",
-    "termsOfService": "Terms of Service"
+    "termsOfService": "Terms of Service",
+    "signInToContinue": "Sign in to continue",
+    "createToContinue": "Create account to continue"
   },
   "dashboard": {
     "welcome": "Welcome back, {name}!",

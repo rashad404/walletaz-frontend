@@ -43,7 +43,9 @@
     "or": "или",
     "agreeToTerms": "Я согласен с условиями использования",
     "privacyPolicy": "Политика конфиденциальности",
-    "termsOfService": "Условия использования"
+    "termsOfService": "Условия использования",
+    "signInToContinue": "Войдите для продолжения",
+    "createToContinue": "Создайте аккаунт для продолжения"
   },
   "dashboard": {
     "welcome": "Добро пожаловать, {name}!",

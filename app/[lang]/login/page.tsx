@@ -16,8 +16,8 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // Check if this is OAuth popup flow (has return_url with oauth/authorize)
-  const isOAuthFlow = returnUrl?.includes('oauth/authorize');
+  // Check if this is OAuth popup flow (has return_url with oauth/authorize or oauth/approve)
+  const isOAuthFlow = returnUrl?.includes('oauth/authorize') || returnUrl?.includes('oauth/approve');
 
   // Redirect if already logged in
   useEffect(() => {
@@ -93,7 +93,7 @@ export default function LoginPage() {
               {t('login.signIn')}
             </h1>
             <p className="text-xs text-gray-600 dark:text-gray-400">
-              {t('login.signInToContinue')}
+              {t('auth.signInToContinue')}
             </p>
           </div>
 

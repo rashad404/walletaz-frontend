@@ -1,14 +1,16 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Link } from '@/lib/navigation';
-import { Wallet, Mail, Lock, User, ArrowRight } from 'lucide-react';
+import { Wallet, Mail, Lock, User, ArrowRight, Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 export default function RegisterPage() {
   const t = useTranslations();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const returnUrl = searchParams.get('return_url');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -18,13 +20,20 @@ export default function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
+  // Check if this is OAuth popup flow (has return_url with oauth/authorize or oauth/approve)
+  const isOAuthFlow = returnUrl?.includes('oauth/authorize') || returnUrl?.includes('oauth/approve');
+
   // Redirect to dashboard if already logged in
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      router.push('/dashboard');
+      if (returnUrl) {
+        window.location.href = returnUrl;
+      } else {
+        router.push('/dashboard');
+      }
     }
-  }, [router]);
+  }, [router, returnUrl]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData(prev => ({
@@ -73,11 +82,13 @@ export default function RegisterPage() {
         throw new Error(data.message || 'Registration failed');
       }
 
-      // Store the real authentication token
       if (data.data?.token) {
         localStorage.setItem('token', data.data.token);
-        console.log('[Register] Successfully registered with token:', data.data.token.substring(0, 20) + '...');
-        router.push('/wallet');
+        if (returnUrl) {
+          window.location.href = returnUrl;
+        } else {
+          router.push('/wallet');
+        }
       } else {
         throw new Error('No token received from server');
       }
@@ -89,6 +100,171 @@ export default function RegisterPage() {
     }
   };
 
+  // Compact OAuth popup design - matches authorize page style
+  if (isOAuthFlow) {
+    return (
+      <div className="min-h-screen bg-white dark:bg-gray-900 flex flex-col">
+        {/* Header with Wallet.az branding */}
+        <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+          <div className="flex items-center justify-center gap-2">
+            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center">
+              <Wallet className="w-4 h-4 text-white" />
+            </div>
+            <span className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">Wallet.az</span>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="flex-1 p-4 overflow-y-auto">
+          <div className="text-center mb-3">
+            <h1 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
+              {t('register.createAccount')}
+            </h1>
+            <p className="text-xs text-gray-600 dark:text-gray-400">
+              {t('auth.createToContinue')}
+            </p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-2.5">
+            {error && (
+              <div className="p-2.5 rounded-xl bg-red-100 dark:bg-red-900/30">
+                <p className="text-xs text-red-600 dark:text-red-400">{error}</p>
+              </div>
+            )}
+
+            {/* Name Input */}
+            <div>
+              <label htmlFor="name" className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+                {t('register.fullName')}
+              </label>
+              <div className="relative">
+                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <input
+                  id="name"
+                  name="name"
+                  type="text"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                  className="w-full pl-9 pr-3 py-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                  placeholder={t('register.namePlaceholder')}
+                />
+              </div>
+            </div>
+
+            {/* Email Input */}
+            <div>
+              <label htmlFor="email" className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+                {t('register.emailAddress')}
+              </label>
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  className="w-full pl-9 pr-3 py-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                  placeholder={t('register.emailPlaceholder')}
+                />
+              </div>
+            </div>
+
+            {/* Password Input */}
+            <div>
+              <label htmlFor="password" className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+                {t('register.password')}
+              </label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                  minLength={8}
+                  className="w-full pl-9 pr-3 py-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                  placeholder={t('register.passwordPlaceholder')}
+                />
+              </div>
+              <p className="mt-0.5 text-[10px] text-gray-500 dark:text-gray-400">
+                {t('register.mustBe8Chars')}
+              </p>
+            </div>
+
+            {/* Confirm Password Input */}
+            <div>
+              <label htmlFor="confirmPassword" className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+                {t('register.confirmPassword')}
+              </label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <input
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  type="password"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  required
+                  className="w-full pl-9 pr-3 py-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                  placeholder={t('register.passwordPlaceholder')}
+                />
+              </div>
+            </div>
+
+            {/* Terms Checkbox */}
+            <div className="flex items-start pt-1">
+              <input
+                id="terms"
+                type="checkbox"
+                required
+                className="mt-0.5 w-3.5 h-3.5 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+              />
+              <label htmlFor="terms" className="ml-2 text-[11px] text-gray-600 dark:text-gray-400">
+                {t('register.agreeToTerms')}{' '}
+                <Link href="/terms" className="text-emerald-600 dark:text-emerald-400 hover:underline">
+                  {t('register.termsOfService')}
+                </Link>
+              </label>
+            </div>
+
+            {/* Submit Button */}
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full py-2.5 px-4 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+            >
+              {isLoading ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <>
+                  <span>{t('register.createAccount')}</span>
+                  <ArrowRight className="w-4 h-4" />
+                </>
+              )}
+            </button>
+          </form>
+
+          {/* Sign In Link */}
+          <p className="mt-3 text-center text-xs text-gray-600 dark:text-gray-400">
+            {t('register.alreadyHaveAccount')}{' '}
+            <Link
+              href={`/login${returnUrl ? `?return_url=${encodeURIComponent(returnUrl)}` : ''}`}
+              className="font-medium text-emerald-600 dark:text-emerald-400 hover:underline"
+            >
+              {t('register.signIn')}
+            </Link>
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // Standard full-page register design
   return (
     <div className="relative min-h-screen overflow-hidden flex items-center justify-center">
       {/* Background Effects */}
