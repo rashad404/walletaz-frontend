@@ -45,7 +45,19 @@
     "privacyPolicy": "Политика конфиденциальности",
     "termsOfService": "Условия использования",
     "signInToContinue": "Войдите для продолжения",
-    "createToContinue": "Создайте аккаунт для продолжения"
+    "createToContinue": "Создайте аккаунт для продолжения",
+    "errors": {
+      "emailTaken": "Этот email уже зарегистрирован",
+      "emailRequired": "Email обязателен",
+      "emailInvalid": "Введите корректный email адрес",
+      "passwordRequired": "Пароль обязателен",
+      "passwordMin": "Пароль должен быть не менее 8 символов",
+      "passwordConfirm": "Пароли не совпадают",
+      "nameRequired": "Имя обязательно",
+      "invalidCredentials": "Неверный email или пароль",
+      "registrationFailed": "Ошибка регистрации",
+      "loginFailed": "Ошибка входа"
+    }
   },
   "dashboard": {
     "welcome": "Добро пожаловать, {name}!",

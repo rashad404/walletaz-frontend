@@ -79,14 +79,32 @@ export default function RegisterPage() {
       const data = await response.json();
 
       if (!response.ok || data.status === 'error') {
-        // Extract specific validation error messages
+        // Map backend errors to frontend translations
         if (data.errors) {
-          const firstError = Object.values(data.errors)[0];
-          if (Array.isArray(firstError) && firstError.length > 0) {
-            throw new Error(firstError[0]);
+          const errorKey = Object.keys(data.errors)[0];
+          const errorMsg = data.errors[errorKey]?.[0]?.toLowerCase() || '';
+
+          if (errorKey === 'email') {
+            if (errorMsg.includes('taken') || errorMsg.includes('already')) {
+              throw new Error(t('auth.errors.emailTaken'));
+            } else if (errorMsg.includes('required')) {
+              throw new Error(t('auth.errors.emailRequired'));
+            } else if (errorMsg.includes('valid') || errorMsg.includes('invalid')) {
+              throw new Error(t('auth.errors.emailInvalid'));
+            }
+          } else if (errorKey === 'password') {
+            if (errorMsg.includes('required')) {
+              throw new Error(t('auth.errors.passwordRequired'));
+            } else if (errorMsg.includes('8') || errorMsg.includes('characters') || errorMsg.includes('min')) {
+              throw new Error(t('auth.errors.passwordMin'));
+            } else if (errorMsg.includes('confirm') || errorMsg.includes('match')) {
+              throw new Error(t('auth.errors.passwordConfirm'));
+            }
+          } else if (errorKey === 'name') {
+            throw new Error(t('auth.errors.nameRequired'));
           }
         }
-        throw new Error(data.message || 'Registration failed');
+        throw new Error(t('auth.errors.registrationFailed'));
       }
 
       if (data.data?.token) {
@@ -100,7 +118,7 @@ export default function RegisterPage() {
         throw new Error('No token received from server');
       }
     } catch (err: any) {
-      setError(err.message || t('register.registrationFailed'));
+      setError(err.message || t('auth.errors.registrationFailed'));
     } finally {
       setIsLoading(false);
     }

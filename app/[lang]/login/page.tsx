@@ -51,14 +51,28 @@ export default function LoginPage() {
       const data = await response.json();
 
       if (!response.ok || data.status === 'error') {
-        // Extract specific validation error messages
+        // Map backend errors to frontend translations
         if (data.errors) {
-          const firstError = Object.values(data.errors)[0];
-          if (Array.isArray(firstError) && firstError.length > 0) {
-            throw new Error(firstError[0]);
+          const errorKey = Object.keys(data.errors)[0];
+          const errorMsg = data.errors[errorKey]?.[0]?.toLowerCase() || '';
+
+          if (errorKey === 'email') {
+            if (errorMsg.includes('required')) {
+              throw new Error(t('auth.errors.emailRequired'));
+            } else if (errorMsg.includes('valid') || errorMsg.includes('invalid')) {
+              throw new Error(t('auth.errors.emailInvalid'));
+            }
+          } else if (errorKey === 'password') {
+            if (errorMsg.includes('required')) {
+              throw new Error(t('auth.errors.passwordRequired'));
+            }
           }
         }
-        throw new Error(data.message || 'Login failed');
+        // For invalid credentials or other login errors
+        if (data.message?.toLowerCase().includes('credentials') || data.message?.toLowerCase().includes('invalid')) {
+          throw new Error(t('auth.errors.invalidCredentials'));
+        }
+        throw new Error(t('auth.errors.loginFailed'));
       }
 
       if (data.data?.token) {
@@ -72,7 +86,7 @@ export default function LoginPage() {
         throw new Error('No token received from server');
       }
     } catch (err: any) {
-      setError(err.message || t('login.invalidCredentials'));
+      setError(err.message || t('auth.errors.invalidCredentials'));
     } finally {
       setIsLoading(false);
     }

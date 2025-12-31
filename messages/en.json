@@ -45,7 +45,19 @@
     "privacyPolicy": "Privacy Policy",
     "termsOfService": "Terms of Service",
     "signInToContinue": "Sign in to continue",
-    "createToContinue": "Create account to continue"
+    "createToContinue": "Create account to continue",
+    "errors": {
+      "emailTaken": "This email is already registered",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Please enter a valid email address",
+      "passwordRequired": "Password is required",
+      "passwordMin": "Password must be at least 8 characters",
+      "passwordConfirm": "Passwords do not match",
+      "nameRequired": "Name is required",
+      "invalidCredentials": "Invalid email or password",
+      "registrationFailed": "Registration failed",
+      "loginFailed": "Login failed"
+    }
   },
   "dashboard": {
     "welcome": "Welcome back, {name}!",
