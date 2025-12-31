@@ -717,7 +717,16 @@
       "noTransactions": "No transactions yet",
       "transactionsTitle": "Transactions",
       "chargeFrom": "from",
-      "earnings": "Earnings"
+      "earnings": "Earnings",
+      "webhook": "Webhook",
+      "noWebhookUrl": "Webhook URL not configured",
+      "noWebhookSecret": "Secret not generated",
+      "generateWebhookSecret": "Generate webhook secret",
+      "regenerateWebhookSecret": "Regenerate webhook secret",
+      "generateWebhookConfirm": "Generate a webhook secret?",
+      "regenerateWebhookWarning": "This will invalidate the current webhook secret. Are you sure?",
+      "webhookSecretCreated": "Webhook Secret Created",
+      "webhookSecretWarning": "Copy this secret now. You won't be able to see it again! This secret will be used to verify webhook requests."
     },
     "form": {
       "createApp": "Create Application",
@@ -734,7 +743,10 @@
       "redirectUriPlaceholder": "https://example.com/auth/callback",
       "addRedirectUri": "Add another URI",
       "selectScopes": "Select Permissions",
-      "scopesNote": "Choose which data your app can access"
+      "scopesNote": "Choose which data your app can access",
+      "webhookUrl": "Webhook URL",
+      "webhookUrlPlaceholder": "https://example.com/webhooks/wallet",
+      "webhookUrlHint": "Endpoint URL where payment notifications will be sent"
     }
   }
 }

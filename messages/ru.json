@@ -717,7 +717,16 @@
       "noTransactions": "Пока нет транзакций",
       "transactionsTitle": "Транзакции",
       "chargeFrom": "от",
-      "earnings": "Заработок"
+      "earnings": "Заработок",
+      "webhook": "Webhook",
+      "noWebhookUrl": "Webhook URL не настроен",
+      "noWebhookSecret": "Secret не создан",
+      "generateWebhookSecret": "Создать webhook secret",
+      "regenerateWebhookSecret": "Обновить webhook secret",
+      "generateWebhookConfirm": "Создать webhook secret?",
+      "regenerateWebhookWarning": "Это сделает текущий webhook secret недействительным. Вы уверены?",
+      "webhookSecretCreated": "Webhook Secret создан",
+      "webhookSecretWarning": "Скопируйте этот secret сейчас. Вы больше не сможете его увидеть! Этот secret будет использоваться для проверки webhook запросов."
     },
     "form": {
       "createApp": "Создать приложение",
@@ -734,7 +743,10 @@
       "redirectUriPlaceholder": "https://example.com/auth/callback",
       "addRedirectUri": "Добавить еще URI",
       "selectScopes": "Выберите разрешения",
-      "scopesNote": "Выберите, к каким данным ваше приложение может получить доступ"
+      "scopesNote": "Выберите, к каким данным ваше приложение может получить доступ",
+      "webhookUrl": "Webhook URL",
+      "webhookUrlPlaceholder": "https://example.com/webhooks/wallet",
+      "webhookUrlHint": "URL эндпоинта для уведомлений о платежах"
     }
   }
 }

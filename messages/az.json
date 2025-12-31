@@ -717,7 +717,16 @@
       "noTransactions": "Hələ əməliyyat yoxdur",
       "transactionsTitle": "Əməliyyatlar",
       "chargeFrom": "tərəfindən",
-      "earnings": "Qazanc"
+      "earnings": "Qazanc",
+      "webhook": "Webhook",
+      "noWebhookUrl": "Webhook URL təyin edilməyib",
+      "noWebhookSecret": "Secret yaradılmayıb",
+      "generateWebhookSecret": "Webhook secret yarat",
+      "regenerateWebhookSecret": "Webhook secret-i yenilə",
+      "generateWebhookConfirm": "Webhook secret yaratmaq istəyirsiniz?",
+      "regenerateWebhookWarning": "Bu cari webhook secret-i etibarsız edəcək. Əminsiniz?",
+      "webhookSecretCreated": "Webhook Secret yaradıldı",
+      "webhookSecretWarning": "Bu secret-i indi kopyalayın. Bir daha görə bilməyəcəksiniz! Bu secret webhook sorğularını təsdiqləmək üçün istifadə olunacaq."
     },
     "form": {
       "createApp": "Tətbiq yarat",
@@ -734,7 +743,10 @@
       "redirectUriPlaceholder": "https://example.com/auth/callback",
       "addRedirectUri": "Başqa URI əlavə et",
       "selectScopes": "İcazələri seçin",
-      "scopesNote": "Tətbiqinizin hansı məlumatlara giriş edə biləcəyini seçin"
+      "scopesNote": "Tətbiqinizin hansı məlumatlara giriş edə biləcəyini seçin",
+      "webhookUrl": "Webhook URL",
+      "webhookUrlPlaceholder": "https://example.com/webhooks/wallet",
+      "webhookUrlHint": "Ödəniş bildirişləri göndəriləcək endpoint URL-i"
     }
   }
 }

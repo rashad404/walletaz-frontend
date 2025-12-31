@@ -24,6 +24,7 @@ import {
   ArrowRight,
   DollarSign,
   Receipt,
+  Webhook,
 } from 'lucide-react';
 
 interface OAuthApp {
@@ -38,6 +39,8 @@ interface OAuthApp {
   allowed_scopes: string[];
   is_active: boolean;
   is_confidential: boolean;
+  webhook_url: string | null;
+  has_webhook_secret: boolean;
   connected_users_count: number;
   created_at: string;
   updated_at: string;
@@ -74,6 +77,7 @@ export default function DeveloperAppsPage() {
   const [visibleSecrets, setVisibleSecrets] = useState<Set<number>>(new Set());
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [newAppSecret, setNewAppSecret] = useState<{ id: number; secret: string } | null>(null);
+  const [newWebhookSecret, setNewWebhookSecret] = useState<{ id: number; secret: string } | null>(null);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -82,6 +86,7 @@ export default function DeveloperAppsPage() {
     description: '',
     redirect_uris: [''],
     allowed_scopes: [] as string[],
+    webhook_url: '',
   });
 
   useEffect(() => {
@@ -240,6 +245,32 @@ export default function DeveloperAppsPage() {
     }
   };
 
+  const handleRegenerateWebhookSecret = async (app: OAuthApp) => {
+    const message = app.has_webhook_secret
+      ? t('developer.apps.regenerateWebhookWarning')
+      : t('developer.apps.generateWebhookConfirm');
+    if (!confirm(message)) return;
+
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/oauth/apps/${app.id}/regenerate-webhook-secret`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const data = await response.json();
+
+      if (data.status === 'success') {
+        setNewWebhookSecret({
+          id: app.id,
+          secret: data.data.webhook_secret,
+        });
+        await loadApps();
+      }
+    } catch (err: any) {
+      setError(err.message);
+    }
+  };
+
   const copyToClipboard = async (text: string, field: string) => {
     try {
       if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -291,6 +322,7 @@ export default function DeveloperAppsPage() {
       description: app.description || '',
       redirect_uris: app.redirect_uris.length > 0 ? app.redirect_uris : [''],
       allowed_scopes: app.allowed_scopes,
+      webhook_url: app.webhook_url || '',
     });
     setShowModal(true);
   };
@@ -303,6 +335,7 @@ export default function DeveloperAppsPage() {
       description: '',
       redirect_uris: [''],
       allowed_scopes: [],
+      webhook_url: '',
     });
   };
 
@@ -443,6 +476,44 @@ export default function DeveloperAppsPage() {
               <button
                 onClick={() => setNewAppSecret(null)}
                 className="text-amber-600 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-200"
+              >
+                <Trash2 className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* New Webhook Secret Alert */}
+        {newWebhookSecret && (
+          <div className="mb-6 rounded-2xl p-6 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
+            <div className="flex items-start gap-3">
+              <Webhook className="w-6 h-6 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
+              <div className="flex-1">
+                <h3 className="font-bold text-blue-800 dark:text-blue-200 mb-2">
+                  {t('developer.apps.webhookSecretCreated')}
+                </h3>
+                <p className="text-blue-700 dark:text-blue-300 text-sm mb-3">
+                  {t('developer.apps.webhookSecretWarning')}
+                </p>
+                <div className="flex items-center gap-2">
+                  <code className="flex-1 px-3 py-2 bg-blue-100 dark:bg-blue-900/40 rounded-lg font-mono text-sm text-blue-900 dark:text-blue-100 break-all">
+                    {newWebhookSecret.secret}
+                  </code>
+                  <button
+                    onClick={() => copyToClipboard(newWebhookSecret.secret, `new-webhook-secret-${newWebhookSecret.id}`)}
+                    className="p-2 rounded-lg bg-blue-200 dark:bg-blue-800 hover:bg-blue-300 dark:hover:bg-blue-700 transition-colors"
+                  >
+                    {copiedField === `new-webhook-secret-${newWebhookSecret.id}` ? (
+                      <Check className="w-4 h-4 text-blue-700 dark:text-blue-300" />
+                    ) : (
+                      <Copy className="w-4 h-4 text-blue-700 dark:text-blue-300" />
+                    )}
+                  </button>
+                </div>
+              </div>
+              <button
+                onClick={() => setNewWebhookSecret(null)}
+                className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200"
               >
                 <Trash2 className="w-5 h-5" />
               </button>
@@ -630,6 +701,58 @@ export default function DeveloperAppsPage() {
                       </div>
                     </div>
                   )}
+
+                  {/* Webhook Configuration */}
+                  <div className="pt-3 border-t border-gray-200 dark:border-gray-700">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Webhook className="w-4 h-4 text-blue-500" />
+                      <label className="text-xs font-medium text-gray-500 dark:text-gray-400">
+                        {t('developer.apps.webhook')}
+                      </label>
+                    </div>
+
+                    {/* Webhook URL */}
+                    {app.webhook_url ? (
+                      <div className="mb-2">
+                        <div className="flex gap-2">
+                          <input
+                            type="text"
+                            value={app.webhook_url}
+                            readOnly
+                            className="flex-1 text-sm bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2 text-gray-900 dark:text-white font-mono text-xs"
+                          />
+                          <button
+                            onClick={() => copyToClipboard(app.webhook_url!, `webhook-url-${app.id}`)}
+                            className={`p-2 rounded-xl transition-colors ${
+                              copiedField === `webhook-url-${app.id}`
+                                ? 'bg-green-100 dark:bg-green-900/30 text-green-600'
+                                : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300'
+                            }`}
+                          >
+                            {copiedField === `webhook-url-${app.id}` ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <p className="text-xs text-gray-400 dark:text-gray-500 mb-2">
+                        {t('developer.apps.noWebhookUrl')}
+                      </p>
+                    )}
+
+                    {/* Webhook Secret */}
+                    <div className="flex gap-2">
+                      <div className="flex-1 text-sm bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2 text-gray-500 dark:text-gray-400 font-mono">
+                        {app.has_webhook_secret ? '•'.repeat(32) : t('developer.apps.noWebhookSecret')}
+                      </div>
+                      <button
+                        onClick={() => handleRegenerateWebhookSecret(app)}
+                        className="p-2 rounded-xl bg-blue-100 dark:bg-blue-900/30 hover:bg-blue-200 dark:hover:bg-blue-900/50 text-blue-600 dark:text-blue-400 transition-colors"
+                        title={app.has_webhook_secret ? t('developer.apps.regenerateWebhookSecret') : t('developer.apps.generateWebhookSecret')}
+                      >
+                        <RefreshCw className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Actions */}
@@ -717,6 +840,26 @@ export default function DeveloperAppsPage() {
                     rows={3}
                     className="w-full px-4 py-3 border border-gray-200 dark:border-gray-700 rounded-2xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all resize-none"
                   />
+                </div>
+
+                {/* Webhook URL */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <div className="flex items-center gap-2">
+                      <Webhook className="w-4 h-4 text-blue-500" />
+                      {t('developer.form.webhookUrl')}
+                    </div>
+                  </label>
+                  <input
+                    type="url"
+                    value={formData.webhook_url}
+                    onChange={(e) => setFormData({ ...formData, webhook_url: e.target.value })}
+                    placeholder={t('developer.form.webhookUrlPlaceholder')}
+                    className="w-full px-4 py-3 border border-gray-200 dark:border-gray-700 rounded-2xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                  />
+                  <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                    {t('developer.form.webhookUrlHint')}
+                  </p>
                 </div>
 
                 {/* Redirect URIs */}
