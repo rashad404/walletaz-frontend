@@ -405,6 +405,18 @@
       "autoApproveDesc": "{app} üçün təyin etdiyiniz limitdən aşağı məbləğləri avtomatik təsdiq edin",
       "maxAmount": "Limit",
       "footer": "Ödəniş Wallet.az hesabınızdan tutulacaq"
+    },
+    "topup": {
+      "title": "Balans artır",
+      "description": "Tətbiq balansınızı artırın",
+      "amount": "Məbləğ",
+      "confirm": "Təsdiq et",
+      "success": "Balans uğurla artırıldı!",
+      "error": "Balans artırılarkən xəta baş verdi",
+      "missingClientId": "Tətbiq tapılmadı",
+      "loadError": "Məlumat yüklənərkən xəta baş verdi",
+      "minAmount": "Minimum məbləğ 1 AZN",
+      "insufficientBalance": "Balans kifayət deyil"
     }
   },
   "connectedApps": {

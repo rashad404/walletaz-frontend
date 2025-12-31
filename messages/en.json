@@ -405,6 +405,18 @@
       "autoApproveDesc": "Automatically approve amounts below your set limit for {app}",
       "maxAmount": "Limit",
       "footer": "Payment will be charged from your Wallet.az account"
+    },
+    "topup": {
+      "title": "Top up balance",
+      "description": "Add funds to your app balance",
+      "amount": "Amount",
+      "confirm": "Confirm",
+      "success": "Balance topped up successfully!",
+      "error": "Error topping up balance",
+      "missingClientId": "App not found",
+      "loadError": "Error loading data",
+      "minAmount": "Minimum amount is 1 AZN",
+      "insufficientBalance": "Insufficient balance"
     }
   },
   "connectedApps": {
