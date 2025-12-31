@@ -127,9 +127,18 @@ export default function OAuthAuthorizePage() {
         throw new Error(data.message || 'Authorization failed');
       }
 
-      // Always redirect to callback URL - the callback will handle popup messaging
-      // This ensures the authorization code is exchanged for a token
-      window.location.href = data.redirect_uri;
+      if (decision === 'allow') {
+        // Redirect to callback URL to exchange code for token
+        window.location.href = data.redirect_uri;
+      } else {
+        // For deny: close popup or redirect with error
+        if (window.opener) {
+          window.opener.postMessage({ type: 'oauth_denied' }, '*');
+          window.close();
+        } else {
+          window.location.href = data.redirect_uri;
+        }
+      }
     } catch (err: any) {
       setError(err.message);
       setIsSubmitting(false);

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Link } from '@/lib/navigation';
 import { Wallet, Mail, Lock, ArrowRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -9,18 +9,25 @@ import { useTranslations } from 'next-intl';
 export default function LoginPage() {
   const t = useTranslations();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const returnUrl = searchParams.get('return_url');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // Redirect to dashboard if already logged in
+  // Redirect if already logged in
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      router.push('/dashboard');
+      // If there's a return_url, go there, otherwise go to dashboard
+      if (returnUrl) {
+        window.location.href = returnUrl;
+      } else {
+        router.push('/dashboard');
+      }
     }
-  }, [router]);
+  }, [router, returnUrl]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,7 +55,12 @@ export default function LoginPage() {
       // Store the real authentication token
       if (data.data?.token) {
         localStorage.setItem('token', data.data.token);
-        router.push('/dashboard');
+        // If there's a return_url, go there, otherwise go to dashboard
+        if (returnUrl) {
+          window.location.href = returnUrl;
+        } else {
+          router.push('/dashboard');
+        }
       } else {
         throw new Error('No token received from server');
       }
