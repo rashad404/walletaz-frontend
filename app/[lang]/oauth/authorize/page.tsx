@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams, useRouter, useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { Wallet, Shield, User, CreditCard, History, Check, X, ExternalLink, Loader2 } from 'lucide-react';
+import { Wallet, Shield, User, CreditCard, History, Check, X, ExternalLink, Loader2, Mail, Phone } from 'lucide-react';
 import { Link } from '@/lib/navigation';
 
 interface OAuthData {
@@ -28,11 +28,13 @@ interface OAuthData {
 }
 
 const scopeIcons: Record<string, React.ReactNode> = {
-  'profile:read': <User className="w-5 h-5" />,
+  'profile:name': <User className="w-5 h-5" />,
+  'profile:email': <Mail className="w-5 h-5" />,
+  'profile:phone': <Phone className="w-5 h-5" />,
   'verification:read': <Shield className="w-5 h-5" />,
   'wallet:read': <CreditCard className="w-5 h-5" />,
   'transactions:read': <History className="w-5 h-5" />,
-  'wallet:write': <Wallet className="w-5 h-5" />,
+  'wallet:charge': <Wallet className="w-5 h-5" />,
 };
 
 export default function OAuthAuthorizePage() {
