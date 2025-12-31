@@ -57,7 +57,9 @@
     "noTransactions": "Hələ əməliyyat yoxdur",
     "deposit": "Depozit",
     "withdraw": "Çıxarış",
-    "transfer": "Köçürmə"
+    "transfer": "Köçürmə",
+    "developerDesc": "OAuth 2.0 ilə Wallet.az-ı tətbiqinizə inteqrasiya edin. İstifadəçiləriniz Wallet hesabı ilə daxil ola bilsin.",
+    "apiDocs": "API Sənədləri"
   },
   "wallet": {
     "title": "Pul kisəm",
@@ -225,6 +227,10 @@
         "telegram": "Telegram",
         "push": "Push Bildirişləri"
       }
+    },
+    "apiDocs": {
+      "title": "API Sənədləri",
+      "description": "Developerlər üçün OAuth inteqrasiya bələdçisi"
     }
   },
   "oauth": {
@@ -282,7 +288,9 @@
     "filters": "Filtrlər",
     "confirmDelete": "Silmək istədiyinizə əminsiniz?",
     "days": "gün",
-    "azn": "AZN"
+    "azn": "AZN",
+    "yes": "Bəli",
+    "no": "Xeyr"
   },
   "footer": {
     "allRightsReserved": "Bütün hüquqlar qorunur.",
@@ -344,5 +352,198 @@
     "unauthorized": "İcazəsiz giriş",
     "notFound": "Tapılmadı",
     "serverError": "Server xətası"
+  },
+  "oauth": {
+    "consent": {
+      "title": "Avtorizasiya",
+      "wantsAccess": "{app} hesabınıza giriş istəyir",
+      "willAllow": "Bu {app} tətbiqinə aşağıdakıları icazə verəcək:",
+      "allow": "İcazə ver",
+      "deny": "İmtina et",
+      "signingInAs": "{email} kimi daxil olursunuz",
+      "switchAccount": "Siz deyilsiniz?",
+      "footer": "Hesab parametrlərinizdə istənilən vaxt girişi ləğv edə bilərsiniz"
+    },
+    "scopes": {
+      "profile:read": "Profil məlumatlarınızı görün",
+      "verification:read": "Təsdiq statusunuzu görün",
+      "wallet:read": "Balansınızı görün",
+      "transactions:read": "Əməliyyat tarixçənizi görün",
+      "wallet:write": "Hesabınızdan ödəniş edin"
+    },
+    "errors": {
+      "title": "Avtorizasiya xətası",
+      "invalidClient": "Yanlış tətbiq",
+      "invalidRedirect": "Yanlış yönləndirmə URL",
+      "invalidScope": "Yanlış icazə tələbi",
+      "accessDenied": "Giriş rədd edildi"
+    }
+  },
+  "connectedApps": {
+    "title": "Bağlı tətbiqlər",
+    "description": "Hesabınıza girişi olan tətbiqlər",
+    "revokeAccess": "Girişi ləğv et",
+    "noApps": "Bağlı tətbiq yoxdur",
+    "noAppsDesc": "Tətbiqlərə hesabınıza giriş icazəsi verdiyiniz zaman, onlar burada görünəcək.",
+    "lastUsed": "Bağlandı: {date}",
+    "permissions": "İcazələr",
+    "confirmRevoke": "{app} üçün girişi ləğv etmək istədiyinizə əminsiniz?"
+  },
+  "oauthDocs": {
+    "title": "OAuth API Sənədləri",
+    "subtitle": "Tətbiqinizə \"Wallet ilə daxil ol\" inteqrasiya edin",
+    "overview": {
+      "title": "İcmal",
+      "description": "Wallet.az OAuth 2.0 tərəfdaş tətbiqlərə istifadəçiləri Wallet.az hesabları vasitəsilə autentifikasiya etməyə imkan verir. İstifadəçilər şəxsiyyətlərini bir dəfə Wallet.az-da təsdiq edir və sonra bu təsdiqdən bütün tərəfdaş saytlarda istifadə edə bilirlər. Bu, hər tərəfdaş saytda ayrıca qeydiyyat ehtiyacını aradan qaldırır.",
+      "benefit1Title": "Vahid giriş",
+      "benefit1Desc": "İstifadəçilər bir dəfə daxil olur, hər yerdə istifadə edir",
+      "benefit2Title": "Təsdiqlənmiş şəxsiyyət",
+      "benefit2Desc": "Telefon və email artıq təsdiqlənib",
+      "benefit3Title": "Pul kisəsinə giriş",
+      "benefit3Desc": "İstifadəçi balansına isteğe bağlı giriş"
+    },
+    "gettingStarted": {
+      "title": "Başlayın",
+      "description": "Wallet.az OAuth-u tətbiqinizə inteqrasiya etmək üçün bu addımları izləyin:",
+      "step1": "Tətbiqinizi qeydiyyatdan keçirmək və client_id almaq üçün bizimlə əlaqə saxlayın",
+      "step1New": "Developer Panelindən OAuth tətbiqinizi yaradın",
+      "step2": "Yönləndirmə URL-lərinizi konfiqurasiya edin (prodakşnda HTTPS olmalıdır)",
+      "step3": "Tətbiqiniz üçün lazım olan scope-ları seçin",
+      "step4": "OAuth axınını tətbiqinizdə həyata keçirin",
+      "contactNote": "Tətbiqinizi qeydiyyatdan keçirmək üçün developer@wallet.az ünvanına yazın",
+      "createAppNote": "Başlamağa hazırsınız? İlk OAuth tətbiqinizi indi yaradın!"
+    },
+    "flow": {
+      "title": "Avtorizasiya axını",
+      "description": "Wallet.az təhlükəsiz autentifikasiya üçün PKCE ilə OAuth 2.0 Authorization Code axınını istifadə edir.",
+      "steps": "Axın addımları",
+      "yourApp": "Sizin tətbiq",
+      "redirect": "Yönləndir",
+      "code": "Auth kodu",
+      "exchange": "Mübadilə",
+      "tokens": "Tokenlər",
+      "step1Title": "PKCE kodlarını yaradın",
+      "step1Desc": "SHA-256 istifadə edərək code_verifier və code_challenge yaradın",
+      "step2Title": "Avtorizasiya popup-ını açın",
+      "step2Desc": "İstifadəçini client_id, scope-lar və PKCE challenge ilə Wallet.az razılıq ekranına yönləndirin",
+      "step3Title": "İstifadəçi icazə verir",
+      "step3Desc": "İstifadəçi tələb olunan icazələri nəzərdən keçirir və İcazə ver düyməsini basır. Wallet.az avtorizasiya kodu ilə geri yönləndirir",
+      "step4Title": "Kodu tokenlərə mübadilə edin",
+      "step4Desc": "Backend-iniz avtorizasiya kodu + code_verifier-i access və refresh tokenlərinə mübadilə edir"
+    },
+    "pkce": {
+      "title": "PKCE (Kod mübadiləsi üçün sübut açarı)",
+      "description": "PKCE avtorizasiya kodu tutma hücumlarının qarşısını alaraq OAuth axınına əlavə təhlükəsizlik təbəqəsi əlavə edir. Bütün Wallet.az OAuth inteqrasiyaları üçün tələb olunur.",
+      "required": "PKCE bütün OAuth sorğuları üçün tələb olunur. Etibarlı code_challenge olmadan sorğular rədd ediləcək.",
+      "howItWorks": "Necə işləyir:",
+      "step1": "Təsadüfi code_verifier yaradın (43-128 simvol, URL-safe)",
+      "step2": "code_challenge = base64url(sha256(code_verifier)) yaradın",
+      "step3": "Avtorizasiya sorğusu ilə code_challenge göndərin",
+      "step4": "Token mübadilə sorğusu ilə orijinal code_verifier göndərin"
+    },
+    "endpoints": {
+      "title": "API Endpoint-ləri",
+      "authorize": "Avtorizasiya endpoint-i",
+      "authorizeDesc": "İstifadəçilərin tətbiqinizə giriş icazəsi verə və ya rədd edə biləcəyi razılıq ekranını açır.",
+      "token": "Token endpoint-i",
+      "tokenDesc": "Avtorizasiya kodunu access və refresh tokenlərinə mübadilə edir.",
+      "user": "İstifadəçi məlumatları endpoint-i",
+      "userDesc": "Verilmiş scope-lara əsasən istifadəçi məlumatlarını alır.",
+      "parameters": "Sorğu parametrləri",
+      "param": "Parametr",
+      "required": "Tələb olunur",
+      "description": "Təsvir",
+      "clientIdDesc": "Tətbiqinizin client ID-si",
+      "redirectUriDesc": "Avtorizasiyadan sonra yönləndirmə URL-i (qeydiyyatdan keçmiş URI ilə uyğun olmalıdır)",
+      "scopeDesc": "Boşluqla ayrılmış tələb olunan icazələr siyahısı",
+      "stateDesc": "CSRF hücumlarının qarşısını almaq üçün təsadüfi string",
+      "codeChallengeDesc": "PKCE code challenge (base64url-kodlanmış SHA-256 hash)",
+      "codeChallengeMethodDesc": "'S256' olmalıdır",
+      "responseTypeDesc": "'code' olmalıdır",
+      "requestBody": "Sorğu body-si",
+      "response": "Cavab",
+      "headers": "Başlıqlar",
+      "userNote": "Qaytarılan sahələr verilmiş scope-lardan asılıdır. Yalnız tələb olunan və təsdiqlənmiş scope-lar data qaytaracaq."
+    },
+    "scopes": {
+      "title": "Mövcud Scope-lar",
+      "scope": "Scope",
+      "description": "Təsvir",
+      "data": "Qaytarılan məlumat"
+    },
+    "codeExamples": {
+      "title": "Kod nümunələri",
+      "javascript": "JavaScript",
+      "react": "React/Next.js",
+      "php": "PHP/Laravel",
+      "python": "Python/Flask"
+    },
+    "errorCodes": {
+      "title": "Xəta kodları",
+      "error": "Xəta",
+      "code": "HTTP Kodu",
+      "description": "Təsvir",
+      "invalidClient": "client_id yanlışdır və ya qeydiyyatdan keçməyib",
+      "invalidRedirectUri": "redirect_uri heç bir qeydiyyatlı URI ilə uyğun gəlmir",
+      "invalidScope": "Tələb olunan scope-lardan biri və ya bir neçəsi yanlışdır",
+      "invalidCode": "Avtorizasiya kodu yanlışdır və ya artıq istifadə edilib",
+      "invalidCodeVerifier": "code_verifier code_challenge ilə uyğun gəlmir",
+      "codeExpired": "Avtorizasiya kodunun vaxtı bitib (5 dəqiqə limiti)",
+      "accessDenied": "İstifadəçi avtorizasiya sorğusunu rədd etdi",
+      "tokenExpired": "Access token-in vaxtı bitib",
+      "insufficientScope": "Token bu sorğu üçün tələb olunan scope-a sahib deyil"
+    },
+    "support": {
+      "title": "Köməyə ehtiyacınız var?",
+      "description": "Wallet.az OAuth inteqrasiyası haqqında suallarınız varsa, developer dəstək komandamız kömək etməyə hazırdır.",
+      "contact": "Developer dəstəyi ilə əlaqə"
+    }
+  },
+  "developer": {
+    "title": "Developer",
+    "description": "OAuth tətbiqlərini idarə edin",
+    "docs": {
+      "title": "İnteqrasiya bələdçisi",
+      "description": "Kod nümunələri ilə \"Wallet ilə daxil ol\" funksiyasını tətbiqinizə necə inteqrasiya edəcəyinizi öyrənin.",
+      "viewDocs": "Sənədlərə bax"
+    },
+    "apps": {
+      "title": "Tətbiqlərim",
+      "createApp": "Tətbiq yarat",
+      "noApps": "Hələ tətbiq yoxdur",
+      "noAppsDesc": "Wallet.az ilə inteqrasiya üçün ilk OAuth tətbiqinizi yaradın",
+      "clientId": "Client ID",
+      "clientSecret": "Client Secret",
+      "redirectUris": "Yönləndirmə URI-ləri",
+      "scopes": "İcazələr",
+      "status": "Status",
+      "active": "Aktiv",
+      "inactive": "Aktiv deyil",
+      "connectedUsers": "İstifadəçilər",
+      "edit": "Redaktə et",
+      "delete": "Sil",
+      "regenerateSecret": "Secret-i yenilə",
+      "regenerateWarning": "Bu cari secret-i etibarsız edəcək. Köhnə secret istifadə edən bütün tətbiqlər işləməyəcək. Əminsiniz?",
+      "confirmDelete": "{app} tətbiqini silmək istədiyinizə əminsiniz? Bu, bütün bağlı istifadəçilərin girişini ləğv edəcək.",
+      "secretCreated": "Client Secret yaradıldı",
+      "secretWarning": "Bu secret-i indi kopyalayın. Bir daha görə bilməyəcəksiniz!"
+    },
+    "form": {
+      "createApp": "Tətbiq yarat",
+      "editApp": "Tətbiqi redaktə et",
+      "name": "Tətbiq adı",
+      "namePlaceholder": "Mənim tətbiqim",
+      "logo": "Logo URL",
+      "logoPlaceholder": "https://example.com/logo.png",
+      "website": "Veb sayt URL",
+      "websitePlaceholder": "https://example.com",
+      "description": "Təsvir",
+      "descriptionPlaceholder": "Tətbiqinizin qısa təsviri",
+      "redirectUri": "Yönləndirmə URI",
+      "redirectUriPlaceholder": "https://example.com/auth/callback",
+      "addRedirectUri": "Başqa URI əlavə et",
+      "selectScopes": "İcazələri seçin",
+      "scopesNote": "Tətbiqinizin hansı məlumatlara giriş edə biləcəyini seçin"
+    }
   }
 }

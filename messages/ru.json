@@ -57,7 +57,9 @@
     "noTransactions": "Транзакций пока нет",
     "deposit": "Депозит",
     "withdraw": "Вывод",
-    "transfer": "Перевод"
+    "transfer": "Перевод",
+    "developerDesc": "Интегрируйте Wallet.az в ваше приложение с OAuth 2.0. Позвольте пользователям входить через Wallet аккаунт.",
+    "apiDocs": "API Документация"
   },
   "wallet": {
     "title": "Мой кошелек",
@@ -225,6 +227,10 @@
         "telegram": "Telegram",
         "push": "Push уведомления"
       }
+    },
+    "apiDocs": {
+      "title": "API Документация",
+      "description": "Руководство по интеграции OAuth для разработчиков"
     }
   },
   "oauth": {
@@ -282,7 +288,9 @@
     "filters": "Фильтры",
     "confirmDelete": "Вы уверены, что хотите удалить?",
     "days": "дней",
-    "azn": "AZN"
+    "azn": "AZN",
+    "yes": "Да",
+    "no": "Нет"
   },
   "footer": {
     "allRightsReserved": "Все права защищены.",
@@ -344,5 +352,198 @@
     "unauthorized": "Несанкционированный доступ",
     "notFound": "Не найдено",
     "serverError": "Ошибка сервера"
+  },
+  "oauth": {
+    "consent": {
+      "title": "Авторизация",
+      "wantsAccess": "{app} запрашивает доступ к вашему аккаунту",
+      "willAllow": "Это позволит {app}:",
+      "allow": "Разрешить",
+      "deny": "Отклонить",
+      "signingInAs": "Вход как {email}",
+      "switchAccount": "Не вы?",
+      "footer": "Вы можете отозвать доступ в любое время в настройках аккаунта"
+    },
+    "scopes": {
+      "profile:read": "Просмотр информации профиля",
+      "verification:read": "Просмотр статуса верификации",
+      "wallet:read": "Просмотр баланса кошелька",
+      "transactions:read": "Просмотр истории транзакций",
+      "wallet:write": "Совершение платежей с вашего кошелька"
+    },
+    "errors": {
+      "title": "Ошибка авторизации",
+      "invalidClient": "Недействительное приложение",
+      "invalidRedirect": "Недействительный URL перенаправления",
+      "invalidScope": "Недействительные запрошенные разрешения",
+      "accessDenied": "Доступ отклонен"
+    }
+  },
+  "connectedApps": {
+    "title": "Подключенные приложения",
+    "description": "Приложения с доступом к вашему аккаунту",
+    "revokeAccess": "Отозвать доступ",
+    "noApps": "Нет подключенных приложений",
+    "noAppsDesc": "Когда вы авторизуете приложения для доступа к вашему аккаунту, они появятся здесь.",
+    "lastUsed": "Подключено: {date}",
+    "permissions": "Разрешения",
+    "confirmRevoke": "Вы уверены, что хотите отозвать доступ для {app}?"
+  },
+  "oauthDocs": {
+    "title": "Документация OAuth API",
+    "subtitle": "Интегрируйте \"Вход через Wallet\" в ваше приложение",
+    "overview": {
+      "title": "Обзор",
+      "description": "Wallet.az OAuth 2.0 позволяет партнерским приложениям аутентифицировать пользователей через их аккаунт Wallet.az. Пользователи подтверждают свою личность один раз на Wallet.az и затем могут использовать эту верификацию на всех партнерских сайтах. Это устраняет необходимость отдельной регистрации на каждом партнерском сайте.",
+      "benefit1Title": "Единый вход",
+      "benefit1Desc": "Пользователи входят один раз, доступ везде",
+      "benefit2Title": "Подтвержденная личность",
+      "benefit2Desc": "Телефон и email уже подтверждены",
+      "benefit3Title": "Доступ к кошельку",
+      "benefit3Desc": "Опциональный доступ к балансу пользователя"
+    },
+    "gettingStarted": {
+      "title": "Начало работы",
+      "description": "Чтобы интегрировать Wallet.az OAuth в ваше приложение, выполните следующие шаги:",
+      "step1": "Свяжитесь с нами для регистрации приложения и получения client_id",
+      "step1New": "Создайте OAuth приложение в Панели разработчика",
+      "step2": "Настройте URL-адреса перенаправления (в продакшене должны быть HTTPS)",
+      "step3": "Выберите необходимые scope для вашего приложения",
+      "step4": "Реализуйте OAuth поток в вашем приложении",
+      "contactNote": "Для регистрации приложения свяжитесь с нами: developer@wallet.az",
+      "createAppNote": "Готовы начать? Создайте первое OAuth приложение прямо сейчас!"
+    },
+    "flow": {
+      "title": "Поток авторизации",
+      "description": "Wallet.az использует OAuth 2.0 Authorization Code поток с PKCE для безопасной аутентификации.",
+      "steps": "Шаги потока",
+      "yourApp": "Ваше приложение",
+      "redirect": "Перенаправление",
+      "code": "Код авторизации",
+      "exchange": "Обмен",
+      "tokens": "Токены",
+      "step1Title": "Генерация PKCE кодов",
+      "step1Desc": "Создайте code_verifier и code_challenge с использованием SHA-256",
+      "step2Title": "Открытие popup авторизации",
+      "step2Desc": "Перенаправьте пользователя на экран согласия Wallet.az с client_id, scope и PKCE challenge",
+      "step3Title": "Пользователь дает разрешение",
+      "step3Desc": "Пользователь просматривает запрашиваемые разрешения и нажимает Разрешить. Wallet.az перенаправляет обратно с кодом авторизации",
+      "step4Title": "Обмен кода на токены",
+      "step4Desc": "Ваш backend обменивает код авторизации + code_verifier на access и refresh токены"
+    },
+    "pkce": {
+      "title": "PKCE (Ключ подтверждения для обмена кодом)",
+      "description": "PKCE добавляет дополнительный уровень безопасности к OAuth потоку, предотвращая атаки перехвата кода авторизации. Требуется для всех интеграций Wallet.az OAuth.",
+      "required": "PKCE обязателен для всех OAuth запросов. Запросы без валидного code_challenge будут отклонены.",
+      "howItWorks": "Как это работает:",
+      "step1": "Сгенерируйте случайный code_verifier (43-128 символов, URL-safe)",
+      "step2": "Создайте code_challenge = base64url(sha256(code_verifier))",
+      "step3": "Отправьте code_challenge с запросом авторизации",
+      "step4": "Отправьте оригинальный code_verifier с запросом обмена токена"
+    },
+    "endpoints": {
+      "title": "API Endpoints",
+      "authorize": "Endpoint авторизации",
+      "authorizeDesc": "Открывает экран согласия, где пользователи могут разрешить или отклонить доступ к вашему приложению.",
+      "token": "Endpoint токена",
+      "tokenDesc": "Обменивает код авторизации на access и refresh токены.",
+      "user": "Endpoint информации о пользователе",
+      "userDesc": "Получает информацию о пользователе на основе предоставленных scope.",
+      "parameters": "Параметры запроса",
+      "param": "Параметр",
+      "required": "Обязательный",
+      "description": "Описание",
+      "clientIdDesc": "Client ID вашего приложения",
+      "redirectUriDesc": "URL для перенаправления после авторизации (должен совпадать с зарегистрированным URI)",
+      "scopeDesc": "Список запрашиваемых разрешений через пробел",
+      "stateDesc": "Случайная строка для защиты от CSRF атак",
+      "codeChallengeDesc": "PKCE code challenge (base64url-закодированный SHA-256 хеш)",
+      "codeChallengeMethodDesc": "Должен быть 'S256'",
+      "responseTypeDesc": "Должен быть 'code'",
+      "requestBody": "Тело запроса",
+      "response": "Ответ",
+      "headers": "Заголовки",
+      "userNote": "Возвращаемые поля зависят от предоставленных scope. Только запрошенные и одобренные scope вернут данные."
+    },
+    "scopes": {
+      "title": "Доступные Scope",
+      "scope": "Scope",
+      "description": "Описание",
+      "data": "Возвращаемые данные"
+    },
+    "codeExamples": {
+      "title": "Примеры кода",
+      "javascript": "JavaScript",
+      "react": "React/Next.js",
+      "php": "PHP/Laravel",
+      "python": "Python/Flask"
+    },
+    "errorCodes": {
+      "title": "Коды ошибок",
+      "error": "Ошибка",
+      "code": "HTTP Код",
+      "description": "Описание",
+      "invalidClient": "client_id недействителен или не зарегистрирован",
+      "invalidRedirectUri": "redirect_uri не совпадает ни с одним зарегистрированным URI",
+      "invalidScope": "Один или несколько запрошенных scope недействительны",
+      "invalidCode": "Код авторизации недействителен или уже использован",
+      "invalidCodeVerifier": "code_verifier не соответствует code_challenge",
+      "codeExpired": "Срок действия кода авторизации истек (лимит 5 минут)",
+      "accessDenied": "Пользователь отклонил запрос авторизации",
+      "tokenExpired": "Срок действия access токена истек",
+      "insufficientScope": "Токен не имеет необходимого scope для этого запроса"
+    },
+    "support": {
+      "title": "Нужна помощь?",
+      "description": "Если у вас есть вопросы по интеграции Wallet.az OAuth, наша команда поддержки разработчиков готова помочь.",
+      "contact": "Связаться с поддержкой разработчиков"
+    }
+  },
+  "developer": {
+    "title": "Разработчик",
+    "description": "Управление OAuth приложениями",
+    "docs": {
+      "title": "Руководство по интеграции",
+      "description": "Узнайте, как интегрировать \"Вход через Wallet\" в ваше приложение с примерами кода.",
+      "viewDocs": "Смотреть документацию"
+    },
+    "apps": {
+      "title": "Мои приложения",
+      "createApp": "Создать приложение",
+      "noApps": "Приложений пока нет",
+      "noAppsDesc": "Создайте первое OAuth приложение для интеграции с Wallet.az",
+      "clientId": "Client ID",
+      "clientSecret": "Client Secret",
+      "redirectUris": "URI перенаправления",
+      "scopes": "Разрешения",
+      "status": "Статус",
+      "active": "Активен",
+      "inactive": "Неактивен",
+      "connectedUsers": "Пользователи",
+      "edit": "Редактировать",
+      "delete": "Удалить",
+      "regenerateSecret": "Обновить Secret",
+      "regenerateWarning": "Это сделает текущий secret недействительным. Все приложения, использующие старый secret, перестанут работать. Вы уверены?",
+      "confirmDelete": "Вы уверены, что хотите удалить {app}? Это отзовет доступ для всех подключенных пользователей.",
+      "secretCreated": "Client Secret создан",
+      "secretWarning": "Скопируйте этот secret сейчас. Вы не сможете увидеть его снова!"
+    },
+    "form": {
+      "createApp": "Создать приложение",
+      "editApp": "Редактировать приложение",
+      "name": "Название приложения",
+      "namePlaceholder": "Мое приложение",
+      "logo": "URL логотипа",
+      "logoPlaceholder": "https://example.com/logo.png",
+      "website": "URL сайта",
+      "websitePlaceholder": "https://example.com",
+      "description": "Описание",
+      "descriptionPlaceholder": "Краткое описание вашего приложения",
+      "redirectUri": "URI перенаправления",
+      "redirectUriPlaceholder": "https://example.com/auth/callback",
+      "addRedirectUri": "Добавить еще URI",
+      "selectScopes": "Выберите разрешения",
+      "scopesNote": "Выберите, к каким данным ваше приложение может получить доступ"
+    }
   }
 }

@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Link } from '@/lib/navigation';
-import { Wallet, Plus, TrendingUp, ArrowRight, Settings, CreditCard, History, Shield } from 'lucide-react';
+import { Wallet, Plus, TrendingUp, ArrowRight, Settings, CreditCard, History, Shield, Code, ExternalLink } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import walletApi, { WalletBalance, Transaction } from '@/lib/api/wallet';
 import authService from '@/lib/api/auth';
@@ -145,6 +145,41 @@ export default function DashboardPage() {
           </div>
 
           <TransactionList transactions={transactions} isLoading={isLoading} />
+        </div>
+
+        {/* Developer Section */}
+        <div className="card-glass rounded-3xl p-8 mb-12 bg-gradient-to-br from-purple-500/10 to-indigo-500/10 border border-purple-200/50 dark:border-purple-800/50">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            <div className="flex items-start gap-4">
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500 to-indigo-500 flex items-center justify-center flex-shrink-0">
+                <Code className="w-7 h-7 text-white" />
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                  {t('developer.title')}
+                </h2>
+                <p className="text-gray-600 dark:text-gray-400 max-w-xl">
+                  {t('dashboard.developerDesc')}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3 flex-shrink-0">
+              <Link
+                href="/docs/oauth"
+                className="px-5 py-2.5 rounded-xl border border-purple-300 dark:border-purple-700 text-purple-700 dark:text-purple-300 font-medium hover:bg-purple-50 dark:hover:bg-purple-900/30 transition-colors flex items-center gap-2"
+              >
+                <ExternalLink className="w-4 h-4" />
+                {t('dashboard.apiDocs')}
+              </Link>
+              <Link
+                href="/settings/developer"
+                className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-purple-500 to-indigo-500 text-white font-medium hover:shadow-lg hover:shadow-purple-500/25 transition-all flex items-center gap-2"
+              >
+                <Plus className="w-4 h-4" />
+                {t('developer.apps.createApp')}
+              </Link>
+            </div>
+          </div>
         </div>
 
         {/* Quick Links */}

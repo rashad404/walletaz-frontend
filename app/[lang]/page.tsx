@@ -169,7 +169,7 @@ export default function HomePage() {
             {t('home.developersDesc')}
           </p>
           <Link
-            href="/docs"
+            href="/docs/oauth"
             className="inline-flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-medium hover:underline"
           >
             {t('home.apiDocs')}

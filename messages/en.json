@@ -57,7 +57,9 @@
     "noTransactions": "No transactions yet",
     "deposit": "Deposit",
     "withdraw": "Withdraw",
-    "transfer": "Transfer"
+    "transfer": "Transfer",
+    "developerDesc": "Integrate Wallet.az into your application with OAuth 2.0. Let your users login with their Wallet account.",
+    "apiDocs": "API Docs"
   },
   "wallet": {
     "title": "My Wallet",
@@ -225,6 +227,10 @@
         "telegram": "Telegram",
         "push": "Push Notifications"
       }
+    },
+    "apiDocs": {
+      "title": "API Documentation",
+      "description": "OAuth integration guide for developers"
     }
   },
   "oauth": {
@@ -282,7 +288,9 @@
     "filters": "Filters",
     "confirmDelete": "Are you sure you want to delete?",
     "days": "days",
-    "azn": "AZN"
+    "azn": "AZN",
+    "yes": "Yes",
+    "no": "No"
   },
   "footer": {
     "allRightsReserved": "All rights reserved.",
@@ -344,5 +352,198 @@
     "unauthorized": "Unauthorized access",
     "notFound": "Not found",
     "serverError": "Server error"
+  },
+  "oauth": {
+    "consent": {
+      "title": "Authorization",
+      "wantsAccess": "{app} wants to access your account",
+      "willAllow": "This will allow {app} to:",
+      "allow": "Allow",
+      "deny": "Deny",
+      "signingInAs": "Signing in as {email}",
+      "switchAccount": "Not you?",
+      "footer": "You can revoke access at any time in your account settings"
+    },
+    "scopes": {
+      "profile:read": "View your profile information",
+      "verification:read": "View your verification status",
+      "wallet:read": "View your wallet balance",
+      "transactions:read": "View your transaction history",
+      "wallet:write": "Make payments from your wallet"
+    },
+    "errors": {
+      "title": "Authorization Error",
+      "invalidClient": "Invalid application",
+      "invalidRedirect": "Invalid redirect URL",
+      "invalidScope": "Invalid permissions requested",
+      "accessDenied": "Access denied"
+    }
+  },
+  "connectedApps": {
+    "title": "Connected Apps",
+    "description": "Apps with access to your account",
+    "revokeAccess": "Revoke Access",
+    "noApps": "No connected apps",
+    "noAppsDesc": "When you authorize apps to access your account, they will appear here.",
+    "lastUsed": "Connected: {date}",
+    "permissions": "Permissions",
+    "confirmRevoke": "Are you sure you want to revoke access for {app}?"
+  },
+  "oauthDocs": {
+    "title": "OAuth API Documentation",
+    "subtitle": "Integrate \"Login with Wallet\" into your application",
+    "overview": {
+      "title": "Overview",
+      "description": "Wallet.az OAuth 2.0 allows partner applications to authenticate users through their Wallet.az account. Users verify their identity once on Wallet.az and can then use this verification across all partner sites. This eliminates the need for separate registration on each partner site.",
+      "benefit1Title": "Single Sign-On",
+      "benefit1Desc": "Users log in once, access everywhere",
+      "benefit2Title": "Verified Identity",
+      "benefit2Desc": "Phone & email already verified",
+      "benefit3Title": "Wallet Access",
+      "benefit3Desc": "Optional access to user balance"
+    },
+    "gettingStarted": {
+      "title": "Getting Started",
+      "description": "To integrate Wallet.az OAuth into your application, follow these steps:",
+      "step1": "Contact us to register your application and receive a client_id",
+      "step1New": "Create your OAuth application in the Developer Dashboard",
+      "step2": "Configure your redirect URIs (must be HTTPS in production)",
+      "step3": "Choose the scopes your application needs",
+      "step4": "Implement the OAuth flow in your application",
+      "contactNote": "To register your application, contact us at developer@wallet.az",
+      "createAppNote": "Ready to start? Create your first OAuth application now!"
+    },
+    "flow": {
+      "title": "Authorization Flow",
+      "description": "Wallet.az uses the OAuth 2.0 Authorization Code flow with PKCE for secure authentication.",
+      "steps": "Flow Steps",
+      "yourApp": "Your App",
+      "redirect": "Redirect",
+      "code": "Auth Code",
+      "exchange": "Exchange",
+      "tokens": "Tokens",
+      "step1Title": "Generate PKCE codes",
+      "step1Desc": "Create a code_verifier and code_challenge using SHA-256",
+      "step2Title": "Open authorization popup",
+      "step2Desc": "Redirect user to Wallet.az consent screen with your client_id, scopes, and PKCE challenge",
+      "step3Title": "User grants permission",
+      "step3Desc": "User reviews requested permissions and clicks Allow. Wallet.az redirects back with an authorization code",
+      "step4Title": "Exchange code for tokens",
+      "step4Desc": "Your backend exchanges the authorization code + code_verifier for access and refresh tokens"
+    },
+    "pkce": {
+      "title": "PKCE (Proof Key for Code Exchange)",
+      "description": "PKCE adds an extra layer of security to the OAuth flow by preventing authorization code interception attacks. It's required for all Wallet.az OAuth integrations.",
+      "required": "PKCE is required for all OAuth requests. Requests without valid code_challenge will be rejected.",
+      "howItWorks": "How it works:",
+      "step1": "Generate a random code_verifier (43-128 characters, URL-safe)",
+      "step2": "Create code_challenge = base64url(sha256(code_verifier))",
+      "step3": "Send code_challenge with authorization request",
+      "step4": "Send original code_verifier with token exchange request"
+    },
+    "endpoints": {
+      "title": "API Endpoints",
+      "authorize": "Authorization Endpoint",
+      "authorizeDesc": "Opens the consent screen where users can grant or deny access to your application.",
+      "token": "Token Endpoint",
+      "tokenDesc": "Exchange an authorization code for access and refresh tokens.",
+      "user": "User Info Endpoint",
+      "userDesc": "Retrieve user information based on the granted scopes.",
+      "parameters": "Request Parameters",
+      "param": "Parameter",
+      "required": "Required",
+      "description": "Description",
+      "clientIdDesc": "Your application's client ID",
+      "redirectUriDesc": "URL to redirect after authorization (must match registered URI)",
+      "scopeDesc": "Space-separated list of requested permissions",
+      "stateDesc": "Random string to prevent CSRF attacks",
+      "codeChallengeDesc": "PKCE code challenge (base64url-encoded SHA-256 hash)",
+      "codeChallengeMethodDesc": "Must be 'S256'",
+      "responseTypeDesc": "Must be 'code'",
+      "requestBody": "Request Body",
+      "response": "Response",
+      "headers": "Headers",
+      "userNote": "Fields returned depend on granted scopes. Only requested and approved scopes will return data."
+    },
+    "scopes": {
+      "title": "Available Scopes",
+      "scope": "Scope",
+      "description": "Description",
+      "data": "Data Returned"
+    },
+    "codeExamples": {
+      "title": "Code Examples",
+      "javascript": "JavaScript",
+      "react": "React/Next.js",
+      "php": "PHP/Laravel",
+      "python": "Python/Flask"
+    },
+    "errorCodes": {
+      "title": "Error Codes",
+      "error": "Error",
+      "code": "HTTP Code",
+      "description": "Description",
+      "invalidClient": "The client_id is invalid or not registered",
+      "invalidRedirectUri": "The redirect_uri doesn't match any registered URI",
+      "invalidScope": "One or more requested scopes are invalid",
+      "invalidCode": "The authorization code is invalid or already used",
+      "invalidCodeVerifier": "The code_verifier doesn't match the code_challenge",
+      "codeExpired": "The authorization code has expired (5 minute limit)",
+      "accessDenied": "The user denied the authorization request",
+      "tokenExpired": "The access token has expired",
+      "insufficientScope": "The token doesn't have the required scope for this request"
+    },
+    "support": {
+      "title": "Need Help?",
+      "description": "If you have questions about integrating Wallet.az OAuth, our developer support team is here to help.",
+      "contact": "Contact Developer Support"
+    }
+  },
+  "developer": {
+    "title": "Developer",
+    "description": "Manage your OAuth applications",
+    "docs": {
+      "title": "Integration Guide",
+      "description": "Learn how to integrate \"Login with Wallet\" into your application with code examples.",
+      "viewDocs": "View Documentation"
+    },
+    "apps": {
+      "title": "My Applications",
+      "createApp": "Create Application",
+      "noApps": "No applications yet",
+      "noAppsDesc": "Create your first OAuth application to integrate with Wallet.az",
+      "clientId": "Client ID",
+      "clientSecret": "Client Secret",
+      "redirectUris": "Redirect URIs",
+      "scopes": "Permissions",
+      "status": "Status",
+      "active": "Active",
+      "inactive": "Inactive",
+      "connectedUsers": "Users",
+      "edit": "Edit",
+      "delete": "Delete",
+      "regenerateSecret": "Regenerate Secret",
+      "regenerateWarning": "This will invalidate the current secret. All apps using the old secret will stop working. Are you sure?",
+      "confirmDelete": "Are you sure you want to delete {app}? This will revoke access for all connected users.",
+      "secretCreated": "Client Secret Generated",
+      "secretWarning": "Copy this secret now. You won't be able to see it again!"
+    },
+    "form": {
+      "createApp": "Create Application",
+      "editApp": "Edit Application",
+      "name": "Application Name",
+      "namePlaceholder": "My App",
+      "logo": "Logo URL",
+      "logoPlaceholder": "https://example.com/logo.png",
+      "website": "Website URL",
+      "websitePlaceholder": "https://example.com",
+      "description": "Description",
+      "descriptionPlaceholder": "Brief description of your application",
+      "redirectUri": "Redirect URI",
+      "redirectUriPlaceholder": "https://example.com/auth/callback",
+      "addRedirectUri": "Add another URI",
+      "selectScopes": "Select Permissions",
+      "scopesNote": "Choose which data your app can access"
+    }
   }
 }

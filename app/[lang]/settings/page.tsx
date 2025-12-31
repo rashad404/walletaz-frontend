@@ -13,6 +13,8 @@ import {
   BadgeCheck,
   Check,
   AlertCircle,
+  ExternalLink,
+  Code,
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
@@ -105,6 +107,26 @@ export default function SettingsPage() {
       href: `/settings/security`,
       color: 'text-teal-600 dark:text-teal-400',
       bgColor: 'bg-teal-100 dark:bg-teal-900/30',
+      badge: null
+    },
+    {
+      id: 'connected-apps',
+      title: t('connectedApps.title'),
+      description: t('connectedApps.description'),
+      icon: ExternalLink,
+      href: `/settings/connected-apps`,
+      color: 'text-blue-600 dark:text-blue-400',
+      bgColor: 'bg-blue-100 dark:bg-blue-900/30',
+      badge: null
+    },
+    {
+      id: 'developer',
+      title: t('developer.title'),
+      description: t('developer.description'),
+      icon: Code,
+      href: `/settings/developer`,
+      color: 'text-purple-600 dark:text-purple-400',
+      bgColor: 'bg-purple-100 dark:bg-purple-900/30',
       badge: null
     }
   ];
