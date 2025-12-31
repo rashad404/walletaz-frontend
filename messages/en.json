@@ -365,6 +365,34 @@
     "emailPlaceholder": "you@example.com",
     "passwordPlaceholder": "••••••••"
   },
+  "forgotPassword": {
+    "title": "Reset password",
+    "description": "Enter your email address and we'll send you a reset code",
+    "verifyTitle": "Enter code",
+    "codeSentTo": "Code sent to: {email}",
+    "newPasswordTitle": "New password",
+    "newPasswordDescription": "Enter your new password",
+    "sendCode": "Send code",
+    "code": "Verification code",
+    "verify": "Verify",
+    "resendIn": "Resend in {seconds} seconds",
+    "resendCode": "Resend code",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm password",
+    "passwordHint": "Must be at least 8 characters",
+    "resetPassword": "Reset password",
+    "backToLogin": "Back to login",
+    "success": {
+      "title": "Password changed!",
+      "message": "Your password has been successfully changed. You can now sign in with your new password.",
+      "loginButton": "Sign in"
+    },
+    "errors": {
+      "sendFailed": "Failed to send code. Please try again.",
+      "invalidCode": "Invalid or expired code",
+      "resetFailed": "Failed to reset password. Please try again."
+    }
+  },
   "errors": {
     "insufficientBalance": "Insufficient balance",
     "invalidAmount": "Invalid amount",

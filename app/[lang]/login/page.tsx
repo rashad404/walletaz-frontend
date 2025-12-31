@@ -165,7 +165,7 @@ export default function LoginPage() {
             {/* Forgot Password */}
             <div className="flex justify-end">
               <Link
-                href="/forgot-password"
+                href={`/forgot-password${returnUrl ? `?return_url=${encodeURIComponent(returnUrl)}` : ''}`}
                 className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline"
               >
                 {t('login.forgotPassword')}
@@ -273,7 +273,7 @@ export default function LoginPage() {
             {/* Forgot Password */}
             <div className="flex justify-end">
               <Link
-                href="/forgot-password"
+                href={returnUrl ? `/forgot-password?return_url=${encodeURIComponent(returnUrl)}` : '/forgot-password'}
                 className="text-sm text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors"
               >
                 {t('login.forgotPassword')}

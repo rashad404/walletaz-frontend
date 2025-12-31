@@ -365,6 +365,34 @@
     "emailPlaceholder": "you@example.com",
     "passwordPlaceholder": "••••••••"
   },
+  "forgotPassword": {
+    "title": "Восстановление пароля",
+    "description": "Введите ваш email и мы отправим код для сброса пароля",
+    "verifyTitle": "Введите код",
+    "codeSentTo": "Код отправлен на: {email}",
+    "newPasswordTitle": "Новый пароль",
+    "newPasswordDescription": "Введите новый пароль",
+    "sendCode": "Отправить код",
+    "code": "Код подтверждения",
+    "verify": "Подтвердить",
+    "resendIn": "Отправить повторно через {seconds} сек",
+    "resendCode": "Отправить код повторно",
+    "newPassword": "Новый пароль",
+    "confirmPassword": "Подтвердите пароль",
+    "passwordHint": "Минимум 8 символов",
+    "resetPassword": "Сбросить пароль",
+    "backToLogin": "Вернуться к входу",
+    "success": {
+      "title": "Пароль изменен!",
+      "message": "Ваш пароль успешно изменен. Теперь вы можете войти с новым паролем.",
+      "loginButton": "Войти"
+    },
+    "errors": {
+      "sendFailed": "Не удалось отправить код. Попробуйте еще раз.",
+      "invalidCode": "Неверный или просроченный код",
+      "resetFailed": "Не удалось сбросить пароль. Попробуйте еще раз."
+    }
+  },
   "errors": {
     "insufficientBalance": "Недостаточно средств",
     "invalidAmount": "Неверная сумма",

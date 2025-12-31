@@ -365,6 +365,34 @@
     "emailPlaceholder": "siz@sayt.az",
     "passwordPlaceholder": "••••••••"
   },
+  "forgotPassword": {
+    "title": "Şifrəni bərpa et",
+    "description": "E-poçt ünvanınızı daxil edin və biz sizə bərpa kodu göndərəcəyik",
+    "verifyTitle": "Kodu daxil edin",
+    "codeSentTo": "Kod göndərildi: {email}",
+    "newPasswordTitle": "Yeni şifrə",
+    "newPasswordDescription": "Yeni şifrənizi daxil edin",
+    "sendCode": "Kod göndər",
+    "code": "Təsdiq kodu",
+    "verify": "Təsdiqlə",
+    "resendIn": "{seconds} saniyədə yenidən göndər",
+    "resendCode": "Kodu yenidən göndər",
+    "newPassword": "Yeni şifrə",
+    "confirmPassword": "Şifrəni təkrar daxil edin",
+    "passwordHint": "Ən azı 8 simvol olmalıdır",
+    "resetPassword": "Şifrəni dəyiş",
+    "backToLogin": "Girişə qayıt",
+    "success": {
+      "title": "Şifrə dəyişdirildi!",
+      "message": "Şifrəniz uğurla dəyişdirildi. İndi yeni şifrənizlə daxil ola bilərsiniz.",
+      "loginButton": "Daxil ol"
+    },
+    "errors": {
+      "sendFailed": "Kod göndərilmədi. Yenidən cəhd edin.",
+      "invalidCode": "Yanlış və ya vaxtı keçmiş kod",
+      "resetFailed": "Şifrə dəyişdirilmədi. Yenidən cəhd edin."
+    }
+  },
   "errors": {
     "insufficientBalance": "Balans kifayət deyil",
     "invalidAmount": "Yanlış məbləğ",
