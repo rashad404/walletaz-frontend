@@ -51,6 +51,13 @@ export default function LoginPage() {
       const data = await response.json();
 
       if (!response.ok || data.status === 'error') {
+        // Extract specific validation error messages
+        if (data.errors) {
+          const firstError = Object.values(data.errors)[0];
+          if (Array.isArray(firstError) && firstError.length > 0) {
+            throw new Error(firstError[0]);
+          }
+        }
         throw new Error(data.message || 'Login failed');
       }
 
@@ -65,7 +72,6 @@ export default function LoginPage() {
         throw new Error('No token received from server');
       }
     } catch (err: any) {
-      console.error('[Login] Error:', err);
       setError(err.message || t('login.invalidCredentials'));
     } finally {
       setIsLoading(false);

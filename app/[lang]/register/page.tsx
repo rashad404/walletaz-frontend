@@ -79,6 +79,13 @@ export default function RegisterPage() {
       const data = await response.json();
 
       if (!response.ok || data.status === 'error') {
+        // Extract specific validation error messages
+        if (data.errors) {
+          const firstError = Object.values(data.errors)[0];
+          if (Array.isArray(firstError) && firstError.length > 0) {
+            throw new Error(firstError[0]);
+          }
+        }
         throw new Error(data.message || 'Registration failed');
       }
 
@@ -93,7 +100,6 @@ export default function RegisterPage() {
         throw new Error('No token received from server');
       }
     } catch (err: any) {
-      console.error('[Register] Error:', err);
       setError(err.message || t('register.registrationFailed'));
     } finally {
       setIsLoading(false);
