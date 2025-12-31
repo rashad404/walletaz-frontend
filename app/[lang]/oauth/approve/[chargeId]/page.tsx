@@ -174,18 +174,18 @@ export default function ChargeApprovePage() {
   if (error && !chargeData) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4">
-        <div className="max-w-md w-full">
-          <div className="card-glass rounded-3xl p-8 text-center">
-            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
-              <X className="w-8 h-8 text-red-500" />
+        <div className="max-w-sm w-full">
+          <div className="card-glass rounded-2xl p-6 text-center">
+            <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
+              <X className="w-6 h-6 text-red-500" />
             </div>
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
               {t('oauth.errors.title')}
             </h2>
-            <p className="text-gray-600 dark:text-gray-400 mb-6">{error}</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">{error}</p>
             <button
               onClick={() => window.close()}
-              className="px-6 py-3 rounded-2xl bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+              className="px-4 py-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
             >
               {t('common.close')}
             </button>
@@ -198,15 +198,15 @@ export default function ChargeApprovePage() {
   if (success) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4">
-        <div className="max-w-md w-full">
-          <div className="card-glass rounded-3xl p-8 text-center">
-            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
-              <Check className="w-8 h-8 text-emerald-500" />
+        <div className="max-w-sm w-full">
+          <div className="card-glass rounded-2xl p-6 text-center">
+            <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
+              <Check className="w-6 h-6 text-emerald-500" />
             </div>
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
               {success}
             </h2>
-            <p className="text-gray-600 dark:text-gray-400">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
               {t('oauth.charge.redirecting')}
             </p>
           </div>
@@ -220,40 +220,38 @@ export default function ChargeApprovePage() {
   const wallet = chargeData?.wallet;
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4 py-8">
-      <div className="max-w-md w-full">
-        {/* Header */}
-        <div className="text-center mb-6">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center">
-              <Wallet className="w-5 h-5 text-white" />
-            </div>
-            <span className="text-xl font-bold text-emerald-600 dark:text-emerald-400">Wallet.az</span>
-          </div>
-        </div>
-
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4 py-4">
+      <div className="max-w-sm w-full">
         {/* Main Card */}
-        <div className="card-glass rounded-3xl overflow-hidden">
-          {/* App Header */}
-          <div className="p-6 border-b border-gray-200 dark:border-gray-700">
-            <div className="flex items-center gap-4">
+        <div className="card-glass rounded-2xl overflow-hidden">
+          {/* Header with Wallet.az branding + App */}
+          <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+            <div className="flex items-center justify-center gap-3 mb-3">
+              <div className="flex items-center gap-1.5">
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center">
+                  <Wallet className="w-4 h-4 text-white" />
+                </div>
+                <span className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">Wallet.az</span>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
               {client?.logo_url ? (
                 <img
                   src={client.logo_url}
                   alt={client.name}
-                  className="w-14 h-14 rounded-2xl object-cover"
+                  className="w-10 h-10 rounded-xl object-cover"
                 />
               ) : (
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-gray-400 to-gray-500 flex items-center justify-center">
-                  <ExternalLink className="w-6 h-6 text-white" />
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-gray-400 to-gray-500 flex items-center justify-center">
+                  <ExternalLink className="w-5 h-5 text-white" />
                 </div>
               )}
-              <div className="flex-1">
-                <h1 className="text-lg font-bold text-gray-900 dark:text-white">
+              <div className="flex-1 min-w-0">
+                <h1 className="text-base font-bold text-gray-900 dark:text-white truncate">
                   {client?.name}
                 </h1>
                 {client?.website_url && (
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                  <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
                     {new URL(client.website_url).hostname}
                   </p>
                 )}
@@ -262,88 +260,84 @@ export default function ChargeApprovePage() {
           </div>
 
           {/* Content */}
-          <div className="p-6">
-            {/* Charge Amount */}
-            <div className="text-center mb-6">
-              <p className="text-gray-600 dark:text-gray-400 mb-2">
+          <div className="p-4">
+            {/* Charge Amount - Compact */}
+            <div className="text-center mb-4">
+              <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">
                 {t('oauth.charge.requestAmount')}
               </p>
-              <p className="text-4xl font-bold text-gray-900 dark:text-white">
+              <p className="text-3xl font-bold text-gray-900 dark:text-white">
                 {charge && formatAmount(charge.amount, charge.currency)}
               </p>
               {charge?.description && (
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                   {charge.description}
                 </p>
               )}
             </div>
 
-            {/* Wallet Balance */}
-            <div className="p-4 rounded-2xl bg-gray-100 dark:bg-gray-800 mb-6">
+            {/* Wallet Balance - Compact */}
+            <div className="p-3 rounded-xl bg-gray-100 dark:bg-gray-800 mb-4">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
-                    <CreditCard className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
+                    <CreditCard className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
                       {t('oauth.charge.yourBalance')}
                     </p>
-                    <p className="font-bold text-gray-900 dark:text-white">
+                    <p className="text-sm font-bold text-gray-900 dark:text-white">
                       {wallet && formatAmount(wallet.balance, wallet.currency)}
                     </p>
                   </div>
                 </div>
                 {!wallet?.sufficient && (
                   <div className="flex items-center gap-1 text-red-500">
-                    <AlertCircle className="w-4 h-4" />
-                    <span className="text-sm">{t('oauth.charge.insufficientBalance')}</span>
+                    <AlertCircle className="w-3.5 h-3.5" />
+                    <span className="text-xs">{t('oauth.charge.insufficientBalance')}</span>
                   </div>
                 )}
               </div>
             </div>
 
-            {/* Expiry Warning */}
+            {/* Expiry Warning - Compact */}
             {charge?.is_expired && (
-              <div className="p-4 rounded-2xl bg-red-100 dark:bg-red-900/30 border border-red-200 dark:border-red-800 mb-6">
+              <div className="p-3 rounded-xl bg-red-100 dark:bg-red-900/30 border border-red-200 dark:border-red-800 mb-4">
                 <div className="flex items-center gap-2">
-                  <Clock className="w-5 h-5 text-red-500" />
-                  <p className="text-sm text-red-600 dark:text-red-400">
+                  <Clock className="w-4 h-4 text-red-500" />
+                  <p className="text-xs text-red-600 dark:text-red-400">
                     {t('oauth.charge.expired')}
                   </p>
                 </div>
               </div>
             )}
 
-            {/* Auto-approve Option */}
+            {/* Auto-approve Option - Compact */}
             {charge?.can_approve && (
-              <div className="p-4 rounded-2xl bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 mb-6">
-                <label className="flex items-start gap-3 cursor-pointer">
+              <div className="p-3 rounded-xl bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 mb-4">
+                <label className="flex items-start gap-2 cursor-pointer">
                   <input
                     type="checkbox"
                     checked={enableAutoApprove}
                     onChange={(e) => {
                       setEnableAutoApprove(e.target.checked);
-                      // Set a sensible default when enabling
                       if (e.target.checked && autoApproveAmount === 0) {
                         setAutoApproveAmount(charge?.amount || 10);
                       }
                     }}
-                    className="w-5 h-5 rounded border-gray-300 text-emerald-500 focus:ring-emerald-500 mt-0.5"
+                    className="w-4 h-4 rounded border-gray-300 text-emerald-500 focus:ring-emerald-500 mt-0.5"
                   />
                   <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <Shield className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-                      <p className="font-medium text-gray-900 dark:text-white">
+                    <div className="flex items-center gap-1.5">
+                      <Shield className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+                      <p className="text-xs font-medium text-gray-900 dark:text-white">
                         {t('oauth.charge.autoApproveTitle')}
                       </p>
                     </div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      {t('oauth.charge.autoApproveDesc', { app: client?.name })}
-                    </p>
                     {enableAutoApprove && (
-                      <div className="mt-3 flex items-center gap-2">
-                        <span className="text-sm text-gray-600 dark:text-gray-400">
+                      <div className="mt-2 flex items-center gap-2">
+                        <span className="text-xs text-gray-600 dark:text-gray-400">
                           {t('oauth.charge.maxAmount')}:
                         </span>
                         <input
@@ -353,9 +347,9 @@ export default function ChargeApprovePage() {
                           min="0"
                           max="1000"
                           step="1"
-                          className="w-24 px-3 py-1.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                          className="w-20 px-2 py-1 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500"
                         />
-                        <span className="text-sm text-gray-600 dark:text-gray-400">AZN</span>
+                        <span className="text-xs text-gray-600 dark:text-gray-400">AZN</span>
                       </div>
                     )}
                   </div>
@@ -365,30 +359,30 @@ export default function ChargeApprovePage() {
 
             {/* Error Message */}
             {error && (
-              <div className="p-4 rounded-2xl bg-red-100 dark:bg-red-900/30 border border-red-200 dark:border-red-800 mb-4">
-                <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+              <div className="p-3 rounded-xl bg-red-100 dark:bg-red-900/30 border border-red-200 dark:border-red-800 mb-3">
+                <p className="text-xs text-red-600 dark:text-red-400">{error}</p>
               </div>
             )}
 
             {/* Action Buttons */}
-            <div className="flex gap-3">
+            <div className="flex gap-2">
               <button
                 onClick={() => handleDecision('reject')}
                 disabled={isSubmitting}
-                className="flex-1 px-6 py-3 rounded-2xl bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors disabled:opacity-50"
+                className="flex-1 px-4 py-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors disabled:opacity-50"
               >
                 {t('oauth.charge.reject')}
               </button>
               <button
                 onClick={() => handleDecision('approve')}
                 disabled={isSubmitting || !charge?.can_approve || !wallet?.sufficient}
-                className="flex-1 px-6 py-3 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="flex-1 px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-1.5"
               >
                 {isSubmitting ? (
-                  <Loader2 className="w-5 h-5 animate-spin" />
+                  <Loader2 className="w-4 h-4 animate-spin" />
                 ) : (
                   <>
-                    <Check className="w-5 h-5" />
+                    <Check className="w-4 h-4" />
                     {t('oauth.charge.approve')}
                   </>
                 )}
@@ -396,8 +390,8 @@ export default function ChargeApprovePage() {
             </div>
           </div>
 
-          {/* Footer */}
-          <div className="px-6 py-4 border-t border-gray-200 dark:border-gray-700 text-center">
+          {/* Footer - Compact */}
+          <div className="px-4 py-3 border-t border-gray-200 dark:border-gray-700 text-center">
             <p className="text-xs text-gray-500 dark:text-gray-400">
               {t('oauth.charge.footer')}
             </p>
