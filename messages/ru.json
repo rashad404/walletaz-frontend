@@ -456,7 +456,9 @@
       "missingClientId": "Приложение не найдено",
       "loadError": "Ошибка загрузки данных",
       "minAmount": "Минимальная сумма 1 AZN",
-      "insufficientBalance": "Недостаточно средств"
+      "insufficientBalance": "Недостаточно средств",
+      "listeningForDeposit": "Ожидание депозита...",
+      "refreshBalance": "Обновить баланс"
     }
   },
   "connectedApps": {

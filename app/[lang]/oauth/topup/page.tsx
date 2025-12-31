@@ -11,7 +11,8 @@ import {
   ExternalLink,
   Loader2,
   AlertCircle,
-  ArrowRight
+  ArrowRight,
+  RefreshCw
 } from 'lucide-react';
 
 interface ClientInfo {
@@ -38,6 +39,8 @@ export default function TopupPage() {
   const [walletInfo, setWalletInfo] = useState<WalletInfo | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isWaitingForDeposit, setIsWaitingForDeposit] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
@@ -49,6 +52,60 @@ export default function TopupPage() {
     }
     fetchData();
   }, [clientId]);
+
+  // Listen for window focus to refresh balance when user returns from deposit page
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible' && isWaitingForDeposit) {
+        refreshBalance();
+      }
+    };
+
+    const handleFocus = () => {
+      if (isWaitingForDeposit) {
+        refreshBalance();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('focus', handleFocus);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('focus', handleFocus);
+    };
+  }, [isWaitingForDeposit]);
+
+  const refreshBalance = async () => {
+    if (isRefreshing) return;
+
+    setIsRefreshing(true);
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://100.89.150.50:8011/api';
+      const response = await fetch(`${API_URL}/oauth/topup-info?client_id=${clientId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/json',
+        },
+      });
+
+      const data = await response.json();
+      if (response.ok && data.data?.wallet) {
+        setWalletInfo(data.data.wallet);
+        // If balance is now sufficient, stop waiting
+        if (data.data.wallet.balance >= amount) {
+          setIsWaitingForDeposit(false);
+        }
+      }
+    } catch (err) {
+      // Silent fail on refresh
+    } finally {
+      setIsRefreshing(false);
+    }
+  };
 
   const fetchData = async () => {
     try {
@@ -154,6 +211,7 @@ export default function TopupPage() {
     // Get language from params or URL path
     const pathLang = window.location.pathname.split('/')[1];
     const lang = ['az', 'en', 'ru'].includes(pathLang) ? pathLang : 'az';
+    setIsWaitingForDeposit(true);
     window.open(`/${lang}/wallet/deposit`, '_blank');
   };
 
@@ -329,7 +387,32 @@ export default function TopupPage() {
                 {walletInfo && formatAmount(walletInfo.balance, walletInfo.currency)}
               </p>
             </div>
+            {/* Refresh indicator */}
+            {isWaitingForDeposit && (
+              <button
+                type="button"
+                onClick={refreshBalance}
+                disabled={isRefreshing}
+                className="p-1.5 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-200 dark:hover:bg-emerald-900/50 transition-colors"
+                title={t('oauth.topup.refreshBalance')}
+              >
+                <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
+              </button>
+            )}
           </div>
+
+          {/* Listening for deposit indicator */}
+          {isWaitingForDeposit && (
+            <div className="mt-2 flex items-center gap-2 text-emerald-600 dark:text-emerald-400">
+              <div className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </div>
+              <span className="text-xs font-medium">
+                {t('oauth.topup.listeningForDeposit')}
+              </span>
+            </div>
+          )}
 
           {/* Insufficient Balance Warning */}
           {insufficientBalance && (

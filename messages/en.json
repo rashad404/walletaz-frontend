@@ -456,7 +456,9 @@
       "missingClientId": "App not found",
       "loadError": "Error loading data",
       "minAmount": "Minimum amount is 1 AZN",
-      "insufficientBalance": "Insufficient balance"
+      "insufficientBalance": "Insufficient balance",
+      "listeningForDeposit": "Waiting for deposit...",
+      "refreshBalance": "Refresh balance"
     }
   },
   "connectedApps": {

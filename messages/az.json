@@ -456,7 +456,9 @@
       "missingClientId": "Tətbiq tapılmadı",
       "loadError": "Məlumat yüklənərkən xəta baş verdi",
       "minAmount": "Minimum məbləğ 1 AZN",
-      "insufficientBalance": "Balans kifayət deyil"
+      "insufficientBalance": "Balans kifayət deyil",
+      "listeningForDeposit": "Depozit gözlənilir...",
+      "refreshBalance": "Balansı yenilə"
     }
   },
   "connectedApps": {
