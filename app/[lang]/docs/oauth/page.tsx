@@ -840,11 +840,16 @@ const codeChallenge = base64url(sha256(codeVerifier));
     "email": "john@example.com",
     "phone": "+994501234567",
     "avatar": "https://wallet.az/avatars/123.jpg",
-    "email_verified": true,
-    "phone_verified": true,
-    "verification_level": "verified",
-    "balance": "150.00",
-    "currency": "AZN"
+    "verification": {
+      "email_verified": true,
+      "phone_verified": true,
+      "verification_level": "verified"
+    },
+    "wallet": {
+      "balance": 150.00,
+      "currency": "AZN",
+      "status": "active"
+    }
   }
 }`}
                 id="user-response"
