@@ -151,7 +151,9 @@ export default function TopupPage() {
   };
 
   const handleAddBalance = () => {
-    const lang = window.location.pathname.split('/')[1] || 'az';
+    // Get language from params or URL path
+    const pathLang = window.location.pathname.split('/')[1];
+    const lang = ['az', 'en', 'ru'].includes(pathLang) ? pathLang : 'az';
     window.open(`/${lang}/wallet/deposit`, '_blank');
   };
 
