@@ -56,10 +56,41 @@ export default function ChargeApprovePage() {
   const [success, setSuccess] = useState('');
   const [autoApproveAmount, setAutoApproveAmount] = useState<number>(0);
   const [enableAutoApprove, setEnableAutoApprove] = useState(false);
+  const [isPolling, setIsPolling] = useState(false);
 
   useEffect(() => {
     fetchChargeData();
   }, [chargeId]);
+
+  // Polling for balance updates (only when isPolling is true)
+  useEffect(() => {
+    if (!isPolling) return;
+
+    const pollInterval = setInterval(async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://100.89.150.50:8011/api';
+        const response = await fetch(`${API_URL}/oauth/approve/${chargeId}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/json',
+          },
+        });
+        const data = await response.json();
+        if (response.ok && data.data) {
+          setChargeData(data.data);
+          // Stop polling if balance is now sufficient
+          if (data.data.wallet?.sufficient) {
+            setIsPolling(false);
+          }
+        }
+      } catch (err) {
+        console.error('Polling error:', err);
+      }
+    }, 5000);
+
+    return () => clearInterval(pollInterval);
+  }, [isPolling, chargeId]);
 
   const fetchChargeData = async () => {
     try {
@@ -150,6 +181,13 @@ export default function ChargeApprovePage() {
       setError(err.message);
       setIsSubmitting(false);
     }
+  };
+
+  const handleAddBalance = () => {
+    // Open deposit page in new tab
+    window.open(`/${lang}/wallet/deposit`, '_blank');
+    // Start polling for balance updates
+    setIsPolling(true);
   };
 
   const formatAmount = (amount: number, currency: string) => {
@@ -268,28 +306,47 @@ export default function ChargeApprovePage() {
         </div>
 
         {/* Wallet Balance */}
-        <div className="p-3 rounded-xl bg-gray-100 dark:bg-gray-800 mb-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
-                <CreditCard className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-              </div>
-              <div>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
-                  {t('oauth.charge.yourBalance')}
-                </p>
-                <p className="text-sm font-bold text-gray-900 dark:text-white">
-                  {wallet && formatAmount(wallet.balance, wallet.currency)}
-                </p>
-              </div>
+        <div className={`p-3 rounded-xl mb-4 ${!wallet?.sufficient ? 'bg-red-50 dark:bg-red-900/20' : 'bg-gray-100 dark:bg-gray-800'}`}>
+          <div className="flex items-center gap-2 mb-2">
+            <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${!wallet?.sufficient ? 'bg-red-100 dark:bg-red-900/30' : 'bg-emerald-100 dark:bg-emerald-900/30'}`}>
+              <CreditCard className={`w-4 h-4 ${!wallet?.sufficient ? 'text-red-600 dark:text-red-400' : 'text-emerald-600 dark:text-emerald-400'}`} />
             </div>
-            {!wallet?.sufficient && (
-              <div className="flex items-center gap-1 text-red-500">
-                <AlertCircle className="w-3.5 h-3.5" />
-                <span className="text-xs">{t('oauth.charge.insufficientBalance')}</span>
-              </div>
-            )}
+            <div>
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                {t('oauth.charge.yourBalance')}
+              </p>
+              <p className="text-sm font-bold text-gray-900 dark:text-white">
+                {wallet && formatAmount(wallet.balance, wallet.currency)}
+              </p>
+            </div>
           </div>
+
+          {/* Insufficient Balance Warning */}
+          {!wallet?.sufficient && charge && (
+            <div className="mt-3 pt-3 border-t border-red-200 dark:border-red-800">
+              <div className="flex items-center gap-1 text-red-600 dark:text-red-400 mb-2">
+                <AlertCircle className="w-4 h-4" />
+                <span className="text-sm font-medium">
+                  {t('oauth.charge.shortfall', { amount: ((charge.amount - (wallet?.balance || 0)).toFixed(2)) })}
+                </span>
+              </div>
+
+              {isPolling ? (
+                <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <span className="text-xs">{t('oauth.charge.checkingBalance')}</span>
+                </div>
+              ) : (
+                <button
+                  onClick={handleAddBalance}
+                  className="w-full mt-2 px-3 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium transition-colors flex items-center justify-center gap-2"
+                >
+                  <CreditCard className="w-4 h-4" />
+                  {t('oauth.charge.addBalance')}
+                </button>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Expiry Warning */}
