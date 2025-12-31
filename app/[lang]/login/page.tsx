@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Link } from '@/lib/navigation';
-import { Wallet, Mail, Lock, ArrowRight } from 'lucide-react';
+import { Wallet, Mail, Lock, ArrowRight, Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 export default function LoginPage() {
@@ -16,11 +16,13 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
+  // Check if this is OAuth popup flow (has return_url with oauth/authorize)
+  const isOAuthFlow = returnUrl?.includes('oauth/authorize');
+
   // Redirect if already logged in
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      // If there's a return_url, go there, otherwise go to dashboard
       if (returnUrl) {
         window.location.href = returnUrl;
       } else {
@@ -52,10 +54,8 @@ export default function LoginPage() {
         throw new Error(data.message || 'Login failed');
       }
 
-      // Store the real authentication token
       if (data.data?.token) {
         localStorage.setItem('token', data.data.token);
-        // If there's a return_url, go there, otherwise go to dashboard
         if (returnUrl) {
           window.location.href = returnUrl;
         } else {
@@ -72,6 +72,119 @@ export default function LoginPage() {
     }
   };
 
+  // Compact OAuth popup design - matches authorize page style
+  if (isOAuthFlow) {
+    return (
+      <div className="min-h-screen bg-white dark:bg-gray-900 flex flex-col">
+        {/* Header with Wallet.az branding */}
+        <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+          <div className="flex items-center justify-center gap-2">
+            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center">
+              <Wallet className="w-4 h-4 text-white" />
+            </div>
+            <span className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">Wallet.az</span>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="flex-1 p-4">
+          <div className="text-center mb-4">
+            <h1 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
+              {t('login.signIn')}
+            </h1>
+            <p className="text-xs text-gray-600 dark:text-gray-400">
+              {t('login.signInToContinue')}
+            </p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-3">
+            {error && (
+              <div className="p-2.5 rounded-xl bg-red-100 dark:bg-red-900/30">
+                <p className="text-xs text-red-600 dark:text-red-400">{error}</p>
+              </div>
+            )}
+
+            {/* Email Input */}
+            <div>
+              <label htmlFor="email" className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5">
+                {t('login.emailAddress')}
+              </label>
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                  placeholder={t('login.emailPlaceholder')}
+                />
+              </div>
+            </div>
+
+            {/* Password Input */}
+            <div>
+              <label htmlFor="password" className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5">
+                {t('login.password')}
+              </label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                  placeholder={t('login.passwordPlaceholder')}
+                />
+              </div>
+            </div>
+
+            {/* Forgot Password */}
+            <div className="flex justify-end">
+              <Link
+                href="/forgot-password"
+                className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline"
+              >
+                {t('login.forgotPassword')}
+              </Link>
+            </div>
+
+            {/* Submit Button */}
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full py-2.5 px-4 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+            >
+              {isLoading ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <>
+                  <span>{t('login.signIn')}</span>
+                  <ArrowRight className="w-4 h-4" />
+                </>
+              )}
+            </button>
+          </form>
+
+          {/* Sign Up Link */}
+          <p className="mt-4 text-center text-xs text-gray-600 dark:text-gray-400">
+            {t('login.noAccount')}{' '}
+            <Link
+              href={`/register${returnUrl ? `?return_url=${encodeURIComponent(returnUrl)}` : ''}`}
+              className="font-medium text-emerald-600 dark:text-emerald-400 hover:underline"
+            >
+              {t('login.signUp')}
+            </Link>
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // Standard full-page login design (for direct visits to wallet.az/login)
   return (
     <div className="relative min-h-screen overflow-hidden flex items-center justify-center">
       {/* Background Effects */}

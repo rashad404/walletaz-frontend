@@ -311,6 +311,7 @@
   "login": {
     "welcomeBack": "Добро пожаловать",
     "signInToManage": "Войдите для управления кошельком",
+    "signInToContinue": "Войдите для продолжения",
     "emailAddress": "Электронная почта",
     "password": "Пароль",
     "forgotPassword": "Забыли пароль?",

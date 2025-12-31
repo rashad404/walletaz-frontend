@@ -311,6 +311,7 @@
   "login": {
     "welcomeBack": "Xoş gəlmisiniz",
     "signInToManage": "Pul kisənizi idarə etmək üçün daxil olun",
+    "signInToContinue": "Davam etmək üçün daxil olun",
     "emailAddress": "E-poçt ünvanı",
     "password": "Şifrə",
     "forgotPassword": "Şifrəni unutdunuz?",

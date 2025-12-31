@@ -39,7 +39,11 @@ export default async function LangLayout({
   // Check if this is an OAuth popup (no header/footer needed)
   const headersList = await headers();
   const pathname = headersList.get("x-pathname") || "";
-  const isOAuthPopup = pathname.includes("/oauth/");
+  const fullUrl = headersList.get("x-url") || "";
+  // Hide header/footer for OAuth authorize and login pages with OAuth return_url
+  const isOAuthPopup = pathname.includes("/oauth/") ||
+    (pathname.includes("/login") && fullUrl.includes("oauth")) ||
+    (pathname.includes("/register") && fullUrl.includes("oauth"));
 
   if (isOAuthPopup) {
     return (

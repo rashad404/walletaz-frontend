@@ -52,11 +52,13 @@ export function middleware(request: NextRequest) {
     url.search = request.nextUrl.search;
     const response = NextResponse.rewrite(url);
     response.headers.set('x-pathname', pathname);
+    response.headers.set('x-url', request.url);
     return response;
   }
 
   const response = NextResponse.next();
   response.headers.set('x-pathname', pathname);
+  response.headers.set('x-url', request.url);
 
   if (process.env.NODE_ENV === 'production') {
     response.headers.set('Cache-Control', 's-maxage=1, stale-while-revalidate');

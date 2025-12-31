@@ -311,6 +311,7 @@
   "login": {
     "welcomeBack": "Welcome Back",
     "signInToManage": "Sign in to manage your wallet",
+    "signInToContinue": "Sign in to continue",
     "emailAddress": "Email Address",
     "password": "Password",
     "forgotPassword": "Forgot password?",
