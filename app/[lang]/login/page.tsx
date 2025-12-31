@@ -193,18 +193,6 @@ export default function LoginPage() {
       </div>
 
       <div className="w-full max-w-md px-6 py-12">
-        {/* Logo */}
-        <Link href="/" className="flex items-center justify-center gap-2 mb-8">
-          <div className="relative">
-            <div className="relative w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 p-[1px]">
-              <div className="w-full h-full rounded-2xl bg-white dark:bg-gray-900 flex items-center justify-center">
-                <Wallet className="w-6 h-6 text-emerald-600 dark:text-emerald-400" strokeWidth={2} />
-              </div>
-            </div>
-          </div>
-          <span className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">Wallet.az</span>
-        </Link>
-
         {/* Welcome Text */}
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
