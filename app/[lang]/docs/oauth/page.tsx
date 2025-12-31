@@ -436,7 +436,7 @@ def wallet_callback():
         <aside className="hidden lg:block w-64 shrink-0 border-r border-gray-200 dark:border-gray-800 bg-white/50 dark:bg-gray-900/50 backdrop-blur-xl sticky top-0 h-screen overflow-y-auto">
           <div className="p-6">
             <Link
-              href="/"
+              href="/docs"
               className="inline-flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors mb-6"
             >
               <ArrowLeft className="w-4 h-4" />
@@ -472,7 +472,7 @@ def wallet_callback():
         <main className="flex-1 p-6 lg:p-12 max-w-4xl">
           {/* Mobile Back Button */}
           <Link
-            href="/"
+            href="/docs"
             className="lg:hidden inline-flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors mb-6"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -510,19 +510,19 @@ def wallet_callback():
               </p>
               <div className="grid md:grid-cols-3 gap-4 mt-6">
                 <div className="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800">
-                  <User className="w-8 h-8 text-emerald-600 dark:text-emerald-400 mb-2" />
-                  <h3 className="font-semibold text-gray-900 dark:text-white">{t('oauthDocs.overview.benefit1Title')}</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">{t('oauthDocs.overview.benefit1Desc')}</p>
+                  <User className="w-5 h-5 text-emerald-600 dark:text-emerald-400 mb-2" />
+                  <h3 className="text-sm font-semibold text-gray-900 dark:text-white">{t('oauthDocs.overview.benefit1Title')}</h3>
+                  <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">{t('oauthDocs.overview.benefit1Desc')}</p>
                 </div>
                 <div className="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800">
-                  <Shield className="w-8 h-8 text-emerald-600 dark:text-emerald-400 mb-2" />
-                  <h3 className="font-semibold text-gray-900 dark:text-white">{t('oauthDocs.overview.benefit2Title')}</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">{t('oauthDocs.overview.benefit2Desc')}</p>
+                  <Shield className="w-5 h-5 text-emerald-600 dark:text-emerald-400 mb-2" />
+                  <h3 className="text-sm font-semibold text-gray-900 dark:text-white">{t('oauthDocs.overview.benefit2Title')}</h3>
+                  <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">{t('oauthDocs.overview.benefit2Desc')}</p>
                 </div>
                 <div className="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800">
-                  <Wallet className="w-8 h-8 text-emerald-600 dark:text-emerald-400 mb-2" />
-                  <h3 className="font-semibold text-gray-900 dark:text-white">{t('oauthDocs.overview.benefit3Title')}</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">{t('oauthDocs.overview.benefit3Desc')}</p>
+                  <Wallet className="w-5 h-5 text-emerald-600 dark:text-emerald-400 mb-2" />
+                  <h3 className="text-sm font-semibold text-gray-900 dark:text-white">{t('oauthDocs.overview.benefit3Title')}</h3>
+                  <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">{t('oauthDocs.overview.benefit3Desc')}</p>
                 </div>
               </div>
             </div>

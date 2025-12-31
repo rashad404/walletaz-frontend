@@ -165,7 +165,7 @@ export default function DashboardPage() {
             </div>
             <div className="flex items-center gap-3 flex-shrink-0">
               <Link
-                href="/docs/oauth"
+                href="/docs"
                 className="px-5 py-2.5 rounded-xl border border-purple-300 dark:border-purple-700 text-purple-700 dark:text-purple-300 font-medium hover:bg-purple-50 dark:hover:bg-purple-900/30 transition-colors flex items-center gap-2"
               >
                 <ExternalLink className="w-4 h-4" />

@@ -1,8 +1,9 @@
 'use client';
 
 import { ArrowDownLeft, ArrowUpRight, RefreshCw, Settings, ChevronLeft, ChevronRight } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import type { Transaction } from '@/lib/api/wallet';
+import { formatDateInTimezone } from '@/lib/utils/date';
 
 interface TransactionListProps {
   transactions: Transaction[];
@@ -20,23 +21,13 @@ export default function TransactionList({
   onPageChange,
 }: TransactionListProps) {
   const t = useTranslations();
+  const locale = useLocale();
 
   const formatAmount = (amount: number) => {
     return new Intl.NumberFormat('az-AZ', {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }).format(amount);
-  };
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat('az-AZ', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    }).format(date);
   };
 
   const getTransactionIcon = (type: string) => {
@@ -138,14 +129,14 @@ export default function TransactionList({
               {transaction.description}
             </p>
             <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">
-              {formatDate(transaction.created_at)}
+              {formatDateInTimezone(transaction.created_at, 'Asia/Baku', { includeTime: true, locale })}
             </p>
           </div>
 
           {/* Amount & Status */}
           <div className="text-right flex-shrink-0">
             <p className={`text-lg font-bold ${getAmountColor(transaction.type)}`}>
-              {getAmountSign(transaction.type)}{formatAmount(transaction.amount)} AZN
+              {getAmountSign(transaction.type)}{formatAmount(Math.abs(transaction.amount))} AZN
             </p>
             <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${
               transaction.status === 'completed'

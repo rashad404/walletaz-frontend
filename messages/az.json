@@ -199,8 +199,12 @@
       "profilePhoto": "Profil Şəkli",
       "photoHint": "JPG, PNG və ya GIF. Maksimum 5MB.",
       "updateSuccess": "Profil uğurla yeniləndi",
+      "updateSuccessRedirecting": "Profil uğurla yeniləndi. Yönləndirilir...",
+      "editingFromPartner": "Siz tərəfdaş saytdan gəldiniz. Dəyişikliklərdən sonra avtomatik geri yönləndiriləcəksiniz.",
+      "backToApp": "Tətbiqə qayıt",
       "timezone": "Saat qurşağı",
-      "selectTimezone": "Saat qurşağını seçin"
+      "selectTimezone": "Saat qurşağını seçin",
+      "timezoneHint": "Bu, vaxtla əlaqəli funksiyalar üçün istifadə olunur"
     },
     "security": {
       "title": "Təhlükəsizlik",
@@ -290,7 +294,8 @@
     "days": "gün",
     "azn": "AZN",
     "yes": "Bəli",
-    "no": "Xeyr"
+    "no": "Xeyr",
+    "optional": "isteğe bağlı"
   },
   "footer": {
     "allRightsReserved": "Bütün hüquqlar qorunur.",
@@ -377,6 +382,23 @@
       "invalidRedirect": "Yanlış yönləndirmə URL",
       "invalidScope": "Yanlış icazə tələbi",
       "accessDenied": "Giriş rədd edildi"
+    },
+    "charge": {
+      "requestAmount": "istəyir",
+      "yourBalance": "Balansınız",
+      "insufficientBalance": "Balans kifayət deyil",
+      "expired": "Bu ödəniş sorğusu müddəti bitib",
+      "notFound": "Ödəniş sorğusu tapılmadı",
+      "error": "Ödəniş xətası baş verdi",
+      "approve": "Təsdiq et",
+      "reject": "İmtina et",
+      "approved": "Ödəniş təsdiqləndi!",
+      "rejected": "Ödəniş rədd edildi",
+      "redirecting": "Yönləndirilir...",
+      "autoApproveTitle": "Avtomatik təsdiq",
+      "autoApproveDesc": "{app} üçün təyin etdiyiniz limitdən aşağı məbləğləri avtomatik təsdiq edin",
+      "maxAmount": "Limit",
+      "footer": "Ödəniş Wallet.az hesabınızdan tutulacaq"
     }
   },
   "connectedApps": {
@@ -388,6 +410,110 @@
     "lastUsed": "Bağlandı: {date}",
     "permissions": "İcazələr",
     "confirmRevoke": "{app} üçün girişi ləğv etmək istədiyinizə əminsiniz?"
+  },
+  "docs": {
+    "title": "Developer Sənədləri",
+    "subtitle": "Wallet.az API-lərini tətbiqinizə inteqrasiya edin",
+    "quickStart": {
+      "title": "Tez Başla",
+      "description": "OAuth ilə \"Wallet ilə daxil ol\" əlavə edin, sonra ödəniş qəbul etməyə başlayın.",
+      "startWithOAuth": "OAuth ilə başlayın"
+    },
+    "oauth": {
+      "title": "OAuth & Autentifikasiya",
+      "description": "\"Wallet ilə daxil ol\" düyməsini tətbiqinizə əlavə edin. İstifadəçilər bir kliklə daxil olur."
+    },
+    "payments": {
+      "title": "Ödəniş API",
+      "description": "İstifadəçi hesabından ödəniş tələb edin. Balans artırma, xidmət haqqı və s."
+    },
+    "features": {
+      "secure": {
+        "title": "Təhlükəsiz",
+        "description": "OAuth 2.0 + PKCE standartları ilə qorunur"
+      },
+      "easy": {
+        "title": "Asan İnteqrasiya",
+        "description": "JavaScript, PHP, Python nümunələri ilə"
+      },
+      "payments": {
+        "title": "Ödəniş Qəbul Et",
+        "description": "İstifadəçi balansından ödəniş tələb edin"
+      }
+    },
+    "support": {
+      "title": "Köməyə ehtiyacınız var?",
+      "description": "Developer dəstək komandamız sizə kömək etməyə hazırdır",
+      "contact": "Bizimlə əlaqə"
+    }
+  },
+  "paymentsDocs": {
+    "title": "Ödəniş API Sənədləri",
+    "subtitle": "İstifadəçi balansından ödəniş qəbul edin",
+    "overview": {
+      "title": "İcmal",
+      "description": "Ödəniş API istifadəçinin Wallet.az balansından ödəniş tələb etməyə imkan verir. İstifadəçi təsdiq etdikdən sonra məbləğ onun balansından sizin tərəfdaş balansınıza köçürülür.",
+      "scopeRequired": "Bu API wallet:charge scope-u tələb edir. OAuth zamanı bu scope-u tələb edin."
+    },
+    "howItWorks": {
+      "title": "Necə işləyir",
+      "step1Title": "Charge yaradın",
+      "step1Desc": "API vasitəsilə ödəniş tələbi yaradın (məbləğ, təsvir)",
+      "step2Title": "İstifadəçi təsdiqi",
+      "step2Desc": "İstifadəçi Wallet.az popup-da ödənişi təsdiqləyir",
+      "step3Title": "Webhook bildirişi",
+      "step3Desc": "Ödəniş tamamlandıqda sizə webhook göndərilir",
+      "step4Title": "Balans yenilənir",
+      "step4Desc": "Məbləğ istifadəçidən sizin tərəfdaş balansınıza keçir"
+    },
+    "createCharge": {
+      "title": "Charge Yaratma",
+      "requestBody": "Sorğu",
+      "field": "Sahə",
+      "type": "Tip",
+      "description": "Təsvir",
+      "amountDesc": "Ödəniş məbləği (AZN)",
+      "descriptionDesc": "Ödənişin təsviri (istifadəçiyə göstərilir)",
+      "referenceDesc": "Sizin daxili referans ID-niz (isteğe bağlı)"
+    },
+    "approvalFlow": {
+      "title": "Təsdiq Prosesi",
+      "description": "Charge yaratdıqdan sonra istifadəçini Wallet.az təsdiq səhifəsinə yönləndirin. İstifadəçi təsdiqləyəndə və ya rədd edəndə popup pəncərəsinə mesaj göndərilir.",
+      "approvedDesc": "Ödəniş təsdiqləndi. Balansı yeniləyin.",
+      "rejectedDesc": "İstifadəçi ödənişi rədd etdi."
+    },
+    "webhooks": {
+      "title": "Webhook-lar",
+      "description": "Ödəniş statusu dəyişdikdə sizin backend-ə webhook göndərilir. Webhook URL-ni tətbiq parametrlərindən təyin edin.",
+      "signatureNote": "Webhook imzasını X-Wallet-Signature header-i ilə təsdiqləyin",
+      "payload": "Webhook Payload",
+      "events": "Hadisələr",
+      "event": "Hadisə",
+      "completedDesc": "Ödəniş uğurla tamamlandı. İstifadəçi balansına əlavə edin.",
+      "rejectedDesc": "İstifadəçi ödənişi rədd etdi.",
+      "example": "Webhook Handler Nümunəsi"
+    },
+    "autoApprove": {
+      "title": "Avtomatik Təsdiq",
+      "description": "İstifadəçilər kiçik məbləğlər üçün avtomatik təsdiq limiti təyin edə bilər. Məsələn, istifadəçi sizin tətbiq üçün 5 AZN limit təyin edibsə, 5 AZN-dən az ödənişlər avtomatik təsdiqlənəcək.",
+      "howItWorks": "Bu zaman charge cavabında status birbaşa 'approved' olacaq və approval_url olmayacaq.",
+      "example": "Məsələn: İstifadəçi Alert.az üçün 10 AZN limit təyin edib. 7 AZN charge avtomatik təsdiqlənəcək."
+    },
+    "errorHandling": {
+      "title": "Xəta Kodları",
+      "error": "Xəta",
+      "code": "Kod",
+      "description": "Təsvir",
+      "insufficientBalance": "İstifadəçinin balansı kifayət deyil",
+      "chargeExpired": "Charge müddəti bitib (15 dəqiqə)",
+      "invalidScope": "Token-də wallet:charge scope-u yoxdur",
+      "tokenExpired": "Access token-in müddəti bitib"
+    },
+    "support": {
+      "title": "Köməyə ehtiyacınız var?",
+      "description": "Developer dəstək komandamız sizə kömək etməyə hazırdır",
+      "contact": "Bizimlə əlaqə"
+    }
   },
   "oauthDocs": {
     "title": "OAuth API Sənədləri",

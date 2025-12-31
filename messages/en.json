@@ -199,8 +199,12 @@
       "profilePhoto": "Profile Photo",
       "photoHint": "JPG, PNG or GIF. Maximum 5MB.",
       "updateSuccess": "Profile updated successfully",
+      "updateSuccessRedirecting": "Profile updated successfully. Redirecting...",
+      "editingFromPartner": "You came from a partner site. You will be redirected back automatically after saving.",
+      "backToApp": "Back to App",
       "timezone": "Timezone",
-      "selectTimezone": "Select timezone"
+      "selectTimezone": "Select timezone",
+      "timezoneHint": "This is used for time-related features"
     },
     "security": {
       "title": "Security",
@@ -290,7 +294,8 @@
     "days": "days",
     "azn": "AZN",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "optional": "optional"
   },
   "footer": {
     "allRightsReserved": "All rights reserved.",
@@ -377,6 +382,23 @@
       "invalidRedirect": "Invalid redirect URL",
       "invalidScope": "Invalid permissions requested",
       "accessDenied": "Access denied"
+    },
+    "charge": {
+      "requestAmount": "wants to charge",
+      "yourBalance": "Your balance",
+      "insufficientBalance": "Insufficient balance",
+      "expired": "This payment request has expired",
+      "notFound": "Payment request not found",
+      "error": "Payment error occurred",
+      "approve": "Approve",
+      "reject": "Reject",
+      "approved": "Payment approved!",
+      "rejected": "Payment rejected",
+      "redirecting": "Redirecting...",
+      "autoApproveTitle": "Auto-approve",
+      "autoApproveDesc": "Automatically approve amounts below your set limit for {app}",
+      "maxAmount": "Limit",
+      "footer": "Payment will be charged from your Wallet.az account"
     }
   },
   "connectedApps": {
@@ -388,6 +410,110 @@
     "lastUsed": "Connected: {date}",
     "permissions": "Permissions",
     "confirmRevoke": "Are you sure you want to revoke access for {app}?"
+  },
+  "docs": {
+    "title": "Developer Documentation",
+    "subtitle": "Integrate Wallet.az APIs into your application",
+    "quickStart": {
+      "title": "Quick Start",
+      "description": "Add \"Login with Wallet\" using OAuth, then start accepting payments.",
+      "startWithOAuth": "Start with OAuth"
+    },
+    "oauth": {
+      "title": "OAuth & Authentication",
+      "description": "Add \"Login with Wallet\" button to your app. Users log in with one click."
+    },
+    "payments": {
+      "title": "Payments API",
+      "description": "Request payments from user accounts. Top-up balance, service fees, etc."
+    },
+    "features": {
+      "secure": {
+        "title": "Secure",
+        "description": "Protected by OAuth 2.0 + PKCE standards"
+      },
+      "easy": {
+        "title": "Easy Integration",
+        "description": "With JavaScript, PHP, Python examples"
+      },
+      "payments": {
+        "title": "Accept Payments",
+        "description": "Request payments from user balance"
+      }
+    },
+    "support": {
+      "title": "Need help?",
+      "description": "Our developer support team is ready to help",
+      "contact": "Contact us"
+    }
+  },
+  "paymentsDocs": {
+    "title": "Payments API Documentation",
+    "subtitle": "Accept payments from user balance",
+    "overview": {
+      "title": "Overview",
+      "description": "The Payments API allows you to request payments from a user's Wallet.az balance. After the user approves, the amount is transferred from their balance to your partner balance.",
+      "scopeRequired": "This API requires the wallet:charge scope. Request this scope during OAuth."
+    },
+    "howItWorks": {
+      "title": "How It Works",
+      "step1Title": "Create a Charge",
+      "step1Desc": "Create a payment request via API (amount, description)",
+      "step2Title": "User Approval",
+      "step2Desc": "User approves the payment in Wallet.az popup",
+      "step3Title": "Webhook Notification",
+      "step3Desc": "You receive a webhook when payment is completed",
+      "step4Title": "Balance Updated",
+      "step4Desc": "Amount moves from user to your partner balance"
+    },
+    "createCharge": {
+      "title": "Create Charge",
+      "requestBody": "Request Body",
+      "field": "Field",
+      "type": "Type",
+      "description": "Description",
+      "amountDesc": "Payment amount (AZN)",
+      "descriptionDesc": "Payment description (shown to user)",
+      "referenceDesc": "Your internal reference ID (optional)"
+    },
+    "approvalFlow": {
+      "title": "Approval Flow",
+      "description": "After creating a charge, redirect the user to the Wallet.az approval page. When the user approves or rejects, a message is sent to the popup window.",
+      "approvedDesc": "Payment approved. Update the balance.",
+      "rejectedDesc": "User rejected the payment."
+    },
+    "webhooks": {
+      "title": "Webhooks",
+      "description": "When payment status changes, a webhook is sent to your backend. Set the webhook URL in your app settings.",
+      "signatureNote": "Verify webhook signature using the X-Wallet-Signature header",
+      "payload": "Webhook Payload",
+      "events": "Events",
+      "event": "Event",
+      "completedDesc": "Payment completed successfully. Add to user balance.",
+      "rejectedDesc": "User rejected the payment.",
+      "example": "Webhook Handler Example"
+    },
+    "autoApprove": {
+      "title": "Auto-Approve",
+      "description": "Users can set auto-approve limits for small amounts. For example, if a user sets a 5 AZN limit for your app, payments under 5 AZN will be auto-approved.",
+      "howItWorks": "In this case, the charge response will have status 'approved' directly without an approval_url.",
+      "example": "Example: User sets 10 AZN limit for Alert.az. A 7 AZN charge will be auto-approved."
+    },
+    "errorHandling": {
+      "title": "Error Codes",
+      "error": "Error",
+      "code": "Code",
+      "description": "Description",
+      "insufficientBalance": "User's balance is insufficient",
+      "chargeExpired": "Charge has expired (15 minutes)",
+      "invalidScope": "Token doesn't have wallet:charge scope",
+      "tokenExpired": "Access token has expired"
+    },
+    "support": {
+      "title": "Need help?",
+      "description": "Our developer support team is ready to help",
+      "contact": "Contact us"
+    }
   },
   "oauthDocs": {
     "title": "OAuth API Documentation",

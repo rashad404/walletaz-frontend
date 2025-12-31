@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter, useParams } from 'next/navigation';
+import { useRouter, useParams, useSearchParams } from 'next/navigation';
 import { Link } from '@/lib/navigation';
 import {
   User,
@@ -11,7 +11,8 @@ import {
   Loader2,
   ChevronLeft,
   Camera,
-  Globe
+  Globe,
+  ExternalLink
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { TIMEZONES } from '@/lib/utils/date';
@@ -20,7 +21,11 @@ export default function ProfileSettingsPage() {
   const t = useTranslations();
   const router = useRouter();
   const params = useParams();
+  const searchParams = useSearchParams();
   const locale = (params?.lang as string) || 'az';
+
+  // Get return_url from query params (for OAuth partner redirects)
+  const returnUrl = searchParams.get('return_url');
 
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -126,7 +131,6 @@ export default function ProfileSettingsPage() {
       const data = await response.json();
 
       if (response.ok) {
-        setMessage({ type: 'success', text: t('settings.profile.updateSuccess') });
         const updatedUser = data.data;
         setUser(updatedUser);
 
@@ -141,6 +145,26 @@ export default function ProfileSettingsPage() {
         setErrors({});
         setAvatarFile(null);
         setAvatarPreview(null);
+
+        // If return_url is provided (OAuth partner redirect), redirect back
+        if (returnUrl) {
+          try {
+            const url = new URL(returnUrl);
+            // Security: Only redirect to http/https URLs
+            if (url.protocol === 'http:' || url.protocol === 'https:') {
+              setMessage({ type: 'success', text: t('settings.profile.updateSuccessRedirecting') });
+              // Short delay to show success message before redirect
+              setTimeout(() => {
+                window.location.href = returnUrl;
+              }, 1000);
+              return;
+            }
+          } catch {
+            // Invalid URL, ignore and show normal success
+          }
+        }
+
+        setMessage({ type: 'success', text: t('settings.profile.updateSuccess') });
       } else {
         // Handle validation errors
         if (data.errors && typeof data.errors === 'object') {
@@ -192,6 +216,18 @@ export default function ProfileSettingsPage() {
           <ChevronLeft className="w-5 h-5" />
           {t('settings.backToSettings')}
         </Link>
+
+        {/* Partner App Banner - shown when coming from OAuth partner */}
+        {returnUrl && (
+          <div className="mb-6 p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800">
+            <div className="flex items-center gap-3">
+              <ExternalLink className="w-5 h-5 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
+              <p className="text-sm text-emerald-700 dark:text-emerald-300">
+                {t('settings.profile.editingFromPartner')}
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* Header */}
         <div className="mb-8">
@@ -322,7 +358,7 @@ export default function ProfileSettingsPage() {
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 <div className="flex items-center gap-2">
                   <Phone className="w-4 h-4" />
-                  {t('auth.phone')} <span className="text-xs text-gray-500 dark:text-gray-400 font-normal">({t('alerts.quickSetup.optional')})</span>
+                  {t('auth.phone')} <span className="text-xs text-gray-500 dark:text-gray-400 font-normal">({t('common.optional')})</span>
                 </div>
               </label>
               <input
@@ -376,12 +412,22 @@ export default function ProfileSettingsPage() {
 
           {/* Submit Button */}
           <div className="mt-8 flex gap-4">
-            <Link
-              href={`/settings`}
-              className="flex-1 px-6 py-3 rounded-2xl border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-center"
-            >
-              {t('common.cancel')}
-            </Link>
+            {returnUrl ? (
+              <button
+                type="button"
+                onClick={() => window.location.href = returnUrl}
+                className="flex-1 px-6 py-3 rounded-2xl border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-center"
+              >
+                {t('settings.profile.backToApp')}
+              </button>
+            ) : (
+              <Link
+                href={`/settings`}
+                className="flex-1 px-6 py-3 rounded-2xl border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-center"
+              >
+                {t('common.cancel')}
+              </Link>
+            )}
             <button
               type="submit"
               disabled={saving}
