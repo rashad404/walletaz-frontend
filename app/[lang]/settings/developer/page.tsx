@@ -22,6 +22,8 @@ import {
   Loader2,
   BookOpen,
   ArrowRight,
+  DollarSign,
+  Receipt,
 } from 'lucide-react';
 
 interface OAuthApp {
@@ -41,6 +43,13 @@ interface OAuthApp {
   updated_at: string;
 }
 
+interface AppEarnings {
+  pending_balance: number;
+  total_earned: number;
+  total_refunded: number;
+  last_payout_at: string | null;
+}
+
 interface OAuthScope {
   name: string;
   display_name: Record<string, string>;
@@ -56,6 +65,7 @@ export default function DeveloperAppsPage() {
 
   const [apps, setApps] = useState<OAuthApp[]>([]);
   const [scopes, setScopes] = useState<OAuthScope[]>([]);
+  const [appEarnings, setAppEarnings] = useState<Record<number, AppEarnings>>({});
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
@@ -94,6 +104,8 @@ export default function DeveloperAppsPage() {
       const data = await response.json();
       if (data.status === 'success') {
         setApps(data.data);
+        // Load earnings for each app
+        loadEarningsForApps(data.data, token);
       }
       setError(null);
     } catch (err: any) {
@@ -101,6 +113,31 @@ export default function DeveloperAppsPage() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const loadEarningsForApps = async (apps: OAuthApp[], token: string | null) => {
+    if (!token || apps.length === 0) return;
+
+    const earningsMap: Record<number, AppEarnings> = {};
+
+    await Promise.all(
+      apps.map(async (app) => {
+        try {
+          const response = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/oauth/apps/${app.id}/earnings`,
+            { headers: { 'Authorization': `Bearer ${token}` } }
+          );
+          const data = await response.json();
+          if (data.status === 'success') {
+            earningsMap[app.id] = data.data;
+          }
+        } catch (err) {
+          console.error(`Failed to load earnings for app ${app.id}:`, err);
+        }
+      })
+    );
+
+    setAppEarnings(earningsMap);
   };
 
   const loadScopes = async () => {
@@ -359,7 +396,7 @@ export default function DeveloperAppsPage() {
               </div>
             </div>
             <Link
-              href="/docs/oauth"
+              href="/docs"
               className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm transition-colors flex items-center gap-2 flex-shrink-0"
             >
               {t('developer.docs.viewDocs')}
@@ -506,6 +543,45 @@ export default function DeveloperAppsPage() {
                     <div className="text-xs text-gray-500 dark:text-gray-400">{t('developer.apps.scopes')}</div>
                   </div>
                 </div>
+
+                {/* Earnings */}
+                {appEarnings[app.id] && (appEarnings[app.id].total_earned > 0 || appEarnings[app.id].pending_balance > 0) && (
+                  <div className="mb-4 p-4 rounded-xl bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 border border-emerald-200 dark:border-emerald-800">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center gap-2">
+                        <DollarSign className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                        <span className="text-sm font-medium text-emerald-800 dark:text-emerald-300">
+                          {t('developer.apps.earnings')}
+                        </span>
+                      </div>
+                      <Link
+                        href={`/settings/developer/${app.id}/transactions`}
+                        className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1"
+                      >
+                        <Receipt className="w-3 h-3" />
+                        {t('developer.apps.viewTransactions')}
+                      </Link>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <div className="text-lg font-bold text-emerald-700 dark:text-emerald-300">
+                          {appEarnings[app.id].pending_balance.toFixed(2)} AZN
+                        </div>
+                        <div className="text-xs text-emerald-600 dark:text-emerald-400">
+                          {t('developer.apps.pendingBalance')}
+                        </div>
+                      </div>
+                      <div>
+                        <div className="text-lg font-bold text-teal-700 dark:text-teal-300">
+                          {appEarnings[app.id].total_earned.toFixed(2)} AZN
+                        </div>
+                        <div className="text-xs text-teal-600 dark:text-teal-400">
+                          {t('developer.apps.totalEarned')}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 {/* Credentials */}
                 <div className="space-y-3 mb-4">

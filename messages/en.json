@@ -652,7 +652,14 @@
       "regenerateWarning": "This will invalidate the current secret. All apps using the old secret will stop working. Are you sure?",
       "confirmDelete": "Are you sure you want to delete {app}? This will revoke access for all connected users.",
       "secretCreated": "Client Secret Generated",
-      "secretWarning": "Copy this secret now. You won't be able to see it again!"
+      "secretWarning": "Copy this secret now. You won't be able to see it again!",
+      "pendingBalance": "Pending Balance",
+      "totalEarned": "Total Earned",
+      "viewTransactions": "Transactions",
+      "noTransactions": "No transactions yet",
+      "transactionsTitle": "Transactions",
+      "chargeFrom": "from",
+      "earnings": "Earnings"
     },
     "form": {
       "createApp": "Create Application",

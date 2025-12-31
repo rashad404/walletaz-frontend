@@ -652,7 +652,14 @@
       "regenerateWarning": "Bu cari secret-i etibarsız edəcək. Köhnə secret istifadə edən bütün tətbiqlər işləməyəcək. Əminsiniz?",
       "confirmDelete": "{app} tətbiqini silmək istədiyinizə əminsiniz? Bu, bütün bağlı istifadəçilərin girişini ləğv edəcək.",
       "secretCreated": "Client Secret yaradıldı",
-      "secretWarning": "Bu secret-i indi kopyalayın. Bir daha görə bilməyəcəksiniz!"
+      "secretWarning": "Bu secret-i indi kopyalayın. Bir daha görə bilməyəcəksiniz!",
+      "pendingBalance": "Gözləyən balans",
+      "totalEarned": "Cəmi qazanc",
+      "viewTransactions": "Əməliyyatlar",
+      "noTransactions": "Hələ əməliyyat yoxdur",
+      "transactionsTitle": "Əməliyyatlar",
+      "chargeFrom": "tərəfindən",
+      "earnings": "Qazanc"
     },
     "form": {
       "createApp": "Tətbiq yarat",

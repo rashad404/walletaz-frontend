@@ -652,7 +652,14 @@
       "regenerateWarning": "Это сделает текущий secret недействительным. Все приложения, использующие старый secret, перестанут работать. Вы уверены?",
       "confirmDelete": "Вы уверены, что хотите удалить {app}? Это отзовет доступ для всех подключенных пользователей.",
       "secretCreated": "Client Secret создан",
-      "secretWarning": "Скопируйте этот secret сейчас. Вы не сможете увидеть его снова!"
+      "secretWarning": "Скопируйте этот secret сейчас. Вы не сможете увидеть его снова!",
+      "pendingBalance": "Ожидающий баланс",
+      "totalEarned": "Всего заработано",
+      "viewTransactions": "Транзакции",
+      "noTransactions": "Пока нет транзакций",
+      "transactionsTitle": "Транзакции",
+      "chargeFrom": "от",
+      "earnings": "Заработок"
     },
     "form": {
       "createApp": "Создать приложение",

@@ -34,6 +34,10 @@ export default function HomePage() {
     { name: 'alert.az', url: 'https://alert.az' },
     { name: 'sayt.az', url: 'https://sayt.az' },
     { name: 'kredit.az', url: 'https://kredit.az' },
+    { name: 'task.az', url: 'https://task.az' },
+    { name: 'metbuat.az', url: 'https://metbuat.az' },
+    { name: 'bugun.az', url: 'https://bugun.az' },
+    { name: 'football.biz', url: 'https://football.biz' },
   ];
 
   return (
