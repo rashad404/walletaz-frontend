@@ -5,9 +5,11 @@ import { useRouter } from 'next/navigation';
 import { Wallet, Users, CheckCircle, CreditCard, Code, ArrowRight, Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
+import { useAppName } from '@/providers/config-provider';
 
 export default function HomePage() {
   const t = useTranslations();
+  const appName = useAppName();
   const router = useRouter();
   const [isChecking, setIsChecking] = useState(true);
 
@@ -57,7 +59,7 @@ export default function HomePage() {
           {/* Title */}
           <h1 className="text-4xl md:text-6xl font-bold mb-4">
             <span className="bg-gradient-to-r from-emerald-600 via-teal-500 to-cyan-500 bg-clip-text text-transparent">
-              Wallet.az
+              {appName}
             </span>
           </h1>
 

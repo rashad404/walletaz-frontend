@@ -85,7 +85,12 @@
     "suspended": "Dayandırılıb",
     "deposit": "Depozit et",
     "withdraw": "Çıxar",
-    "transactions": "Əməliyyatlar"
+    "transactions": "Əməliyyatlar",
+    "comingSoon": {
+      "title": "Pul Kisəsi - Tezliklə",
+      "description": "Pul kisəsi xidmətlərini təqdim etmək üçün Azərbaycan Mərkəzi Bankından lazımi lisenziyaları almaq üzərində işləyirik. Bu funksiya tezliklə əlçatan olacaq.",
+      "notice": "Səbriniz üçün təşəkkür edirik. Yeniləmələr üçün daha sonra yoxlayın."
+    }
   },
   "transactions": {
     "title": "Əməliyyatlar",
@@ -309,7 +314,8 @@
     "azn": "AZN",
     "yes": "Bəli",
     "no": "Xeyr",
-    "optional": "isteğe bağlı"
+    "optional": "isteğe bağlı",
+    "backToDashboard": "Əsas səhifəyə qayıt"
   },
   "footer": {
     "allRightsReserved": "Bütün hüquqlar qorunur.",

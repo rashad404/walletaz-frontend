@@ -3,9 +3,11 @@
 import { Link } from '@/lib/navigation';
 import { Mail, Phone, Shield, HelpCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { useAppName } from '@/providers/config-provider';
 
 export default function Footer() {
   const t = useTranslations();
+  const appName = useAppName();
   const currentYear = new Date().getFullYear();
 
   return (
@@ -16,7 +18,7 @@ export default function Footer() {
           {/* Left: Copyright */}
           <div className="text-center md:text-left">
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              © {currentYear} Wallet.az. {t('footer.allRightsReserved')}
+              © {currentYear} {appName}. {t('footer.allRightsReserved')}
             </p>
           </div>
 

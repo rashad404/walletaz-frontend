@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { TimezoneProvider } from "@/providers/timezone-provider";
+import { ConfigProvider } from "@/providers/config-provider";
 import { ServiceWorkerRegistration } from "@/components/ServiceWorkerRegistration";
 import { DM_Sans } from "next/font/google";
 
@@ -11,6 +12,8 @@ const dmSans = DM_Sans({
   display: "swap",
 });
 
+const appName = process.env.NEXT_PUBLIC_APP_NAME || "Kimlik.az";
+
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
@@ -18,8 +21,8 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Wallet.az - Digital Wallet & Payments",
-  description: "Your digital wallet for secure payments. Deposit, send, and receive money with ease.",
+  title: `${appName} - Universal Login`,
+  description: "Your universal login for secure authentication. One account, everywhere.",
   icons: {
     icon: [
       { url: '/favicon.svg', type: 'image/svg+xml' },
@@ -46,10 +49,12 @@ export default function RootLayout({
     <html lang="az" suppressHydrationWarning>
       <body className={dmSans.variable} suppressHydrationWarning>
         <ThemeProvider>
-          <TimezoneProvider>
-            <ServiceWorkerRegistration />
-            {children}
-          </TimezoneProvider>
+          <ConfigProvider>
+            <TimezoneProvider>
+              <ServiceWorkerRegistration />
+              {children}
+            </TimezoneProvider>
+          </ConfigProvider>
         </ThemeProvider>
       </body>
     </html>

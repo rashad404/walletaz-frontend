@@ -85,7 +85,12 @@
     "suspended": "Suspended",
     "deposit": "Deposit",
     "withdraw": "Withdraw",
-    "transactions": "Transactions"
+    "transactions": "Transactions",
+    "comingSoon": {
+      "title": "Wallet - Coming Soon",
+      "description": "We are working on obtaining the necessary licenses from the Central Bank of Azerbaijan to offer wallet services. This feature will be available soon.",
+      "notice": "We appreciate your patience. Check back later for updates."
+    }
   },
   "transactions": {
     "title": "Transactions",
@@ -309,7 +314,8 @@
     "azn": "AZN",
     "yes": "Yes",
     "no": "No",
-    "optional": "optional"
+    "optional": "optional",
+    "backToDashboard": "Back to Dashboard"
   },
   "footer": {
     "allRightsReserved": "All rights reserved.",

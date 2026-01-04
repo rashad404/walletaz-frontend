@@ -14,6 +14,7 @@ import {
   Clock,
   Shield
 } from 'lucide-react';
+import { useAppName } from '@/providers/config-provider';
 
 interface ChargeData {
   charge: {
@@ -44,6 +45,7 @@ interface ChargeData {
 
 export default function ChargeApprovePage() {
   const t = useTranslations();
+  const appName = useAppName();
   const router = useRouter();
   const params = useParams();
   const lang = (params?.lang as string) || 'az';
@@ -261,7 +263,7 @@ export default function ChargeApprovePage() {
           <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center">
             <Wallet className="w-4 h-4 text-white" />
           </div>
-          <span className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">Wallet.az</span>
+          <span className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">{appName}</span>
         </div>
         <div className="flex items-center gap-3">
           {client?.logo_url ? (

@@ -8,9 +8,12 @@ import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { TimezoneSelector } from '@/components/ui/timezone-selector';
 import { LanguageSwitcher } from '@/components/ui/language-switcher';
 import { useTranslations } from 'next-intl';
+import { useAppName, useWalletEnabled } from '@/providers/config-provider';
 
 export default function Header() {
   const t = useTranslations();
+  const appName = useAppName();
+  const walletEnabled = useWalletEnabled();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<any>(null);
@@ -76,20 +79,23 @@ export default function Header() {
                 </div>
               </div>
             </div>
-            <span className="bg-gradient-to-r from-emerald-600 via-teal-500 to-cyan-500 bg-clip-text text-transparent text-lg font-bold">Wallet.az</span>
+            <span className="bg-gradient-to-r from-emerald-600 via-teal-500 to-cyan-500 bg-clip-text text-transparent text-lg font-bold">{appName}</span>
           </Link>
 
           {/* Desktop Navigation */}
           <div className={`hidden md:flex items-center gap-6 transition-opacity duration-300 ${isMounted ? 'opacity-100' : 'opacity-0'}`}>
             {isAuthenticated && (
               <>
-                <Link
-                  href="/wallet/deposit"
-                  className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors text-sm font-medium"
-                >
-                  <ArrowDownToLine className="w-4 h-4" />
-                  <span>{t('nav.deposit')}</span>
-                </Link>
+                {/* Only show deposit button when wallet is enabled */}
+                {walletEnabled && (
+                  <Link
+                    href="/wallet/deposit"
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors text-sm font-medium"
+                  >
+                    <ArrowDownToLine className="w-4 h-4" />
+                    <span>{t('nav.deposit')}</span>
+                  </Link>
+                )}
 
                 <Link
                   href="/dashboard"
@@ -102,16 +108,19 @@ export default function Header() {
                   {t('nav.dashboard')}
                 </Link>
 
-                <Link
-                  href="/wallet/transactions"
-                  className={`text-sm font-medium transition-colors ${
-                    pathname?.includes('/transactions')
-                      ? 'text-emerald-600'
-                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
-                  }`}
-                >
-                  {t('nav.transactions')}
-                </Link>
+                {/* Only show transactions link when wallet is enabled */}
+                {walletEnabled && (
+                  <Link
+                    href="/wallet/transactions"
+                    className={`text-sm font-medium transition-colors ${
+                      pathname?.includes('/transactions')
+                        ? 'text-emerald-600'
+                        : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                    }`}
+                  >
+                    {t('nav.transactions')}
+                  </Link>
+                )}
               </>
             )}
 
@@ -177,14 +186,17 @@ export default function Header() {
           <div className="md:hidden py-3 border-t border-gray-200 dark:border-gray-800">
             {isAuthenticated ? (
               <div className="space-y-1">
-                <Link
-                  href="/wallet/deposit"
-                  className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-emerald-500 rounded-lg"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  <ArrowDownToLine className="w-4 h-4" />
-                  {t('nav.deposit')}
-                </Link>
+                {/* Only show deposit button when wallet is enabled */}
+                {walletEnabled && (
+                  <Link
+                    href="/wallet/deposit"
+                    className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-emerald-500 rounded-lg"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <ArrowDownToLine className="w-4 h-4" />
+                    {t('nav.deposit')}
+                  </Link>
+                )}
                 <Link
                   href="/dashboard"
                   className="block px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg"
@@ -192,13 +204,16 @@ export default function Header() {
                 >
                   {t('nav.dashboard')}
                 </Link>
-                <Link
-                  href="/wallet/transactions"
-                  className="block px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {t('nav.transactions')}
-                </Link>
+                {/* Only show transactions link when wallet is enabled */}
+                {walletEnabled && (
+                  <Link
+                    href="/wallet/transactions"
+                    className="block px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {t('nav.transactions')}
+                  </Link>
+                )}
                 <Link
                   href="/settings"
                   className="block px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg"

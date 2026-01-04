@@ -3,15 +3,17 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { ArrowLeft, Wallet } from 'lucide-react';
+import { ArrowLeft, Wallet, Clock } from 'lucide-react';
 import { Link } from '@/lib/navigation';
 import walletApi, { WalletBalance, DepositResponse } from '@/lib/api/wallet';
 import authService from '@/lib/api/auth';
 import { DepositForm } from '@/components/wallet';
+import { useWalletEnabled } from '@/providers/config-provider';
 
 export default function DepositPage() {
   const t = useTranslations();
   const router = useRouter();
+  const walletEnabled = useWalletEnabled();
   const [isLoading, setIsLoading] = useState(true);
   const [balance, setBalance] = useState<WalletBalance | null>(null);
 
@@ -19,6 +21,12 @@ export default function DepositPage() {
     const fetchData = async () => {
       if (!authService.isAuthenticated()) {
         router.push('/login');
+        return;
+      }
+
+      // Skip fetching balance if wallet is disabled
+      if (!walletEnabled) {
+        setIsLoading(false);
         return;
       }
 
@@ -33,7 +41,7 @@ export default function DepositPage() {
     };
 
     fetchData();
-  }, [router]);
+  }, [router, walletEnabled]);
 
   const handleDepositSuccess = async (response: DepositResponse) => {
     // Refresh balance after successful deposit
@@ -58,6 +66,52 @@ export default function DepositPage() {
         <div className="text-center">
           <div className="animate-pulse text-emerald-600 dark:text-emerald-400">
             {t('common.loading')}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Show coming soon notice when wallet is disabled
+  if (!walletEnabled) {
+    return (
+      <div className="relative min-h-screen overflow-hidden">
+        <div className="fixed inset-0 z-[-10]">
+          <div className="absolute inset-0 mesh-gradient opacity-30" />
+        </div>
+
+        <div className="max-w-xl mx-auto px-6 py-12">
+          <div className="mb-8">
+            <Link
+              href="/dashboard"
+              className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 mb-4"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              {t('common.back')}
+            </Link>
+          </div>
+
+          <div className="card-glass rounded-3xl p-8 text-center">
+            <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center">
+              <Clock className="w-10 h-10 text-white" />
+            </div>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+              {t('wallet.comingSoon.title')}
+            </h1>
+            <p className="text-gray-600 dark:text-gray-400 mb-6 max-w-md mx-auto">
+              {t('wallet.comingSoon.description')}
+            </p>
+            <div className="p-4 rounded-2xl bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800">
+              <p className="text-sm text-amber-800 dark:text-amber-200">
+                {t('wallet.comingSoon.notice')}
+              </p>
+            </div>
+            <Link
+              href="/dashboard"
+              className="mt-6 inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-medium transition-colors"
+            >
+              {t('common.backToDashboard')}
+            </Link>
           </div>
         </div>
       </div>

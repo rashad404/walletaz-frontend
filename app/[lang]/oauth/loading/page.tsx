@@ -2,19 +2,21 @@
 
 import { useTranslations } from 'next-intl';
 import { Wallet, Loader2 } from 'lucide-react';
+import { useAppName } from '@/providers/config-provider';
 
 export default function OAuthLoadingPage() {
   const t = useTranslations();
+  const appName = useAppName();
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900">
       <div className="text-center">
-        {/* Wallet.az Logo */}
+        {/* App Logo */}
         <div className="flex items-center justify-center gap-2 mb-6">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center">
             <Wallet className="w-5 h-5 text-white" />
           </div>
-          <span className="text-lg font-semibold text-emerald-600 dark:text-emerald-400">Wallet.az</span>
+          <span className="text-lg font-semibold text-emerald-600 dark:text-emerald-400">{appName}</span>
         </div>
 
         {/* Spinner */}

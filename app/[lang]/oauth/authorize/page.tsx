@@ -5,6 +5,7 @@ import { useSearchParams, useRouter, useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Wallet, Shield, User, CreditCard, History, Check, X, ExternalLink, Loader2, Mail, Phone } from 'lucide-react';
 import { Link } from '@/lib/navigation';
+import { useAppName } from '@/providers/config-provider';
 
 interface OAuthData {
   client: {
@@ -39,6 +40,7 @@ const scopeIcons: Record<string, React.ReactNode> = {
 
 export default function OAuthAuthorizePage() {
   const t = useTranslations();
+  const appName = useAppName();
   const router = useRouter();
   const params = useParams();
   const searchParams = useSearchParams();
@@ -192,7 +194,7 @@ export default function OAuthAuthorizePage() {
           <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center">
             <Wallet className="w-4 h-4 text-white" />
           </div>
-          <span className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">Wallet.az</span>
+          <span className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">{appName}</span>
         </div>
         <div className="flex items-center gap-3">
           {oauthData?.client.logo_url ? (

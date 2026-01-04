@@ -14,6 +14,7 @@ import {
   ArrowRight,
   RefreshCw
 } from 'lucide-react';
+import { useAppName } from '@/providers/config-provider';
 
 interface ClientInfo {
   name: string;
@@ -28,6 +29,7 @@ interface WalletInfo {
 
 export default function TopupPage() {
   const t = useTranslations();
+  const appName = useAppName();
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -284,7 +286,7 @@ export default function TopupPage() {
           <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center">
             <Wallet className="w-4 h-4 text-white" />
           </div>
-          <span className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">Wallet.az</span>
+          <span className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">{appName}</span>
         </div>
 
         {/* Client info */}
