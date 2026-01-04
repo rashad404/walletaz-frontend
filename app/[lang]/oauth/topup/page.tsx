@@ -445,8 +445,8 @@ export default function TopupPage() {
         {/* Spacer */}
         <div className="flex-1" />
 
-        {/* Action Buttons */}
-        <div className="flex gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
+        {/* Action Buttons - pb-safe for iPhone bottom bar */}
+        <div className="flex gap-2 pt-4 border-t border-gray-200 dark:border-gray-700" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
           <button
             type="button"
             onClick={handleCancel}

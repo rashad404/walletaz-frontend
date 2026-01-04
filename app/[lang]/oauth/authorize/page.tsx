@@ -281,8 +281,8 @@ export default function OAuthAuthorizePage() {
         )}
       </div>
 
-      {/* Action Buttons */}
-      <div className="p-4 border-t border-gray-200 dark:border-gray-700">
+      {/* Action Buttons - pb-safe for iPhone bottom bar */}
+      <div className="p-4 border-t border-gray-200 dark:border-gray-700" style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}>
         <div className="flex gap-2">
           <button
             onClick={() => handleDecision('deny')}
