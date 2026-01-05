@@ -3,13 +3,12 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Link } from '@/lib/navigation';
-import { Wallet, Mail, Lock, ArrowRight, Loader2 } from 'lucide-react';
+import { Mail, Lock, ArrowRight, Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useAppName } from '@/providers/config-provider';
+import { AppLogo } from '@/components/ui/app-logo';
 
 export default function LoginPage() {
   const t = useTranslations();
-  const appName = useAppName();
   const router = useRouter();
   const searchParams = useSearchParams();
   const returnUrl = searchParams.get('return_url');
@@ -100,12 +99,7 @@ export default function LoginPage() {
       <div className="min-h-screen bg-white dark:bg-gray-900 flex flex-col">
         {/* Header with Kimlik.az branding */}
         <div className="p-4 border-b border-gray-200 dark:border-gray-700">
-          <div className="flex items-center justify-center gap-2">
-            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center">
-              <Wallet className="w-4 h-4 text-white" />
-            </div>
-            <span className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">{appName}</span>
-          </div>
+          <AppLogo size="sm" />
         </div>
 
         {/* Content */}

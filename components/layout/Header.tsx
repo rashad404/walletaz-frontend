@@ -3,16 +3,16 @@
 import { useState, useEffect } from 'react';
 import { Link } from '@/lib/navigation';
 import { useRouter, usePathname } from 'next/navigation';
-import { Menu, X, Wallet, User, CreditCard, LogOut, ArrowDownToLine } from 'lucide-react';
+import { Menu, X, User, LogOut, ArrowDownToLine } from 'lucide-react';
+import { AppLogo } from '@/components/ui/app-logo';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { TimezoneSelector } from '@/components/ui/timezone-selector';
 import { LanguageSwitcher } from '@/components/ui/language-switcher';
 import { useTranslations } from 'next-intl';
-import { useAppName, useWalletEnabled } from '@/providers/config-provider';
+import { useWalletEnabled } from '@/providers/config-provider';
 
 export default function Header() {
   const t = useTranslations();
-  const appName = useAppName();
   const walletEnabled = useWalletEnabled();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -71,16 +71,7 @@ export default function Header() {
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="relative">
-              <div className="relative w-10 h-10 rounded-2xl bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 p-[1px] transition-transform group-hover:scale-105 duration-300">
-                <div className="w-full h-full rounded-2xl bg-white dark:bg-gray-900 flex items-center justify-center">
-                  <Wallet className="w-5 h-5 text-emerald-600 dark:text-emerald-400" strokeWidth={2} />
-                </div>
-              </div>
-            </div>
-            <span className="bg-gradient-to-r from-emerald-600 via-teal-500 to-cyan-500 bg-clip-text text-transparent text-lg font-bold">{appName}</span>
-          </Link>
+          <AppLogo size="md" linkToHome />
 
           {/* Desktop Navigation */}
           <div className={`hidden md:flex items-center gap-6 transition-opacity duration-300 ${isMounted ? 'opacity-100' : 'opacity-0'}`}>

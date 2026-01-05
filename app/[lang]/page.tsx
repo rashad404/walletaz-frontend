@@ -2,14 +2,13 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Wallet, Users, CheckCircle, CreditCard, Code, ArrowRight, Loader2 } from 'lucide-react';
+import { Users, CheckCircle, CreditCard, Code, ArrowRight, Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
-import { useAppName } from '@/providers/config-provider';
+import { AppLogo } from '@/components/ui/app-logo';
 
 export default function HomePage() {
   const t = useTranslations();
-  const appName = useAppName();
   const router = useRouter();
   const [isChecking, setIsChecking] = useState(true);
 
@@ -49,19 +48,8 @@ export default function HomePage() {
         <div className="max-w-4xl mx-auto text-center">
           {/* Logo */}
           <div className="flex justify-center mb-8">
-            <div className="relative w-20 h-20 rounded-3xl bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 p-[2px]">
-              <div className="w-full h-full rounded-3xl bg-white dark:bg-gray-900 flex items-center justify-center">
-                <Wallet className="w-10 h-10 text-emerald-600 dark:text-emerald-400" strokeWidth={1.5} />
-              </div>
-            </div>
+            <AppLogo size="xl" />
           </div>
-
-          {/* Title */}
-          <h1 className="text-4xl md:text-6xl font-bold mb-4">
-            <span className="bg-gradient-to-r from-emerald-600 via-teal-500 to-cyan-500 bg-clip-text text-transparent">
-              {appName}
-            </span>
-          </h1>
 
           {/* Headline */}
           <h2 className="text-2xl md:text-3xl font-semibold text-gray-900 dark:text-white mb-4">

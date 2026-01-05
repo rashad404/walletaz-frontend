@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import {
-  Wallet,
   CreditCard,
   Check,
   X,
@@ -14,7 +13,7 @@ import {
   Clock,
   Shield
 } from 'lucide-react';
-import { useAppName } from '@/providers/config-provider';
+import { AppLogo } from '@/components/ui/app-logo';
 
 interface ChargeData {
   charge: {
@@ -45,7 +44,6 @@ interface ChargeData {
 
 export default function ChargeApprovePage() {
   const t = useTranslations();
-  const appName = useAppName();
   const router = useRouter();
   const params = useParams();
   const lang = (params?.lang as string) || 'az';
@@ -259,11 +257,8 @@ export default function ChargeApprovePage() {
     <div className="min-h-screen bg-white dark:bg-gray-900 flex flex-col">
       {/* Header with Kimlik.az branding + App */}
       <div className="p-4 border-b border-gray-200 dark:border-gray-700">
-        <div className="flex items-center justify-center gap-2 mb-3">
-          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center">
-            <Wallet className="w-4 h-4 text-white" />
-          </div>
-          <span className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">{appName}</span>
+        <div className="flex justify-center mb-3">
+          <AppLogo size="sm" />
         </div>
         <div className="flex items-center gap-3">
           {client?.logo_url ? (
