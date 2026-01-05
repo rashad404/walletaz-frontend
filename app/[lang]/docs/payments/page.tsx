@@ -60,7 +60,7 @@ export default function PaymentsDocsPage() {
     { id: 'error-handling', labelKey: 'paymentsDocs.errorHandling.title', icon: AlertCircle, level: 'main' },
   ];
 
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.wallet.az';
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.kimlik.az';
 
   const chargeExample = {
     javascript: `// Create a charge request
@@ -563,7 +563,7 @@ app.post('/webhooks/wallet', (req, res) => {
               <h2 className="text-xl font-bold mb-2">{t('paymentsDocs.support.title')}</h2>
               <p className="opacity-90 mb-4">{t('paymentsDocs.support.description')}</p>
               <a
-                href="mailto:developer@wallet.az"
+                href="mailto:developer@kimlik.az"
                 className="inline-flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 rounded-xl transition-colors"
               >
                 {t('paymentsDocs.support.contact')}

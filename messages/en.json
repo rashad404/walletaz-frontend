@@ -10,7 +10,7 @@
     "logout": "Logout"
   },
   "home": {
-    "headline": "One account, everywhere",
+    "headline": "One identity, everywhere",
     "subtitle": "Register once, use on all partner sites",
     "createAccount": "Create account",
     "signIn": "Sign in",
@@ -61,7 +61,7 @@
   },
   "dashboard": {
     "welcome": "Welcome back, {name}!",
-    "subtitle": "Manage your wallet",
+    "subtitle": "One identity, everywhere",
     "balance": "Balance",
     "availableBalance": "Available Balance",
     "reservedBalance": "Reserved Balance",
@@ -72,7 +72,7 @@
     "deposit": "Deposit",
     "withdraw": "Withdraw",
     "transfer": "Transfer",
-    "developerDesc": "Integrate Wallet.az into your application with OAuth 2.0. Let your users login with their Wallet account.",
+    "developerDesc": "Integrate Kimlik.az into your application with OAuth 2.0. Let your users login with their Wallet account.",
     "apiDocs": "API Docs"
   },
   "wallet": {
@@ -325,12 +325,12 @@
     "contact": "Contact"
   },
   "metadata": {
-    "title": "Wallet.az - Digital Wallet",
-    "description": "Your secure digital wallet. Pay easily on partner sites."
+    "title": "Kimlik.az - One identity, everywhere",
+    "description": "Register once, use on all partner sites."
   },
   "login": {
     "welcomeBack": "Welcome Back",
-    "signInToManage": "Sign in to manage your wallet",
+    "signInToManage": "Sign in to your account",
     "signInToContinue": "Sign in to continue",
     "emailAddress": "Email Address",
     "password": "Password",
@@ -450,7 +450,7 @@
       "autoApproveTitle": "Auto-approve",
       "autoApproveDesc": "Automatically approve amounts below your set limit for {app}",
       "maxAmount": "Limit",
-      "footer": "Payment will be charged from your Wallet.az account"
+      "footer": "Payment will be charged from your Kimlik.az account"
     },
     "topup": {
       "title": "Top up balance",
@@ -479,7 +479,7 @@
   },
   "docs": {
     "title": "Developer Documentation",
-    "subtitle": "Integrate Wallet.az APIs into your application",
+    "subtitle": "Integrate Kimlik.az APIs into your application",
     "quickStart": {
       "title": "Quick Start",
       "description": "Add \"Login with Wallet\" using OAuth, then start accepting payments.",
@@ -518,7 +518,7 @@
     "subtitle": "Accept payments from user balance",
     "overview": {
       "title": "Overview",
-      "description": "The Payments API allows you to request payments from a user's Wallet.az balance. After the user approves, the amount is transferred from their balance to your partner balance.",
+      "description": "The Payments API allows you to request payments from a user's Kimlik.az balance. After the user approves, the amount is transferred from their balance to your partner balance.",
       "scopeRequired": "This API requires the wallet:charge scope. Request this scope during OAuth."
     },
     "howItWorks": {
@@ -526,7 +526,7 @@
       "step1Title": "Create a Charge",
       "step1Desc": "Create a payment request via API (amount, description)",
       "step2Title": "User Approval",
-      "step2Desc": "User approves the payment in Wallet.az popup",
+      "step2Desc": "User approves the payment in Kimlik.az popup",
       "step3Title": "Webhook Notification",
       "step3Desc": "You receive a webhook when payment is completed",
       "step4Title": "Balance Updated",
@@ -544,7 +544,7 @@
     },
     "approvalFlow": {
       "title": "Approval Flow",
-      "description": "After creating a charge, redirect the user to the Wallet.az approval page. When the user approves or rejects, a message is sent to the popup window.",
+      "description": "After creating a charge, redirect the user to the Kimlik.az approval page. When the user approves or rejects, a message is sent to the popup window.",
       "approvedDesc": "Payment approved. Update the balance.",
       "rejectedDesc": "User rejected the payment."
     },
@@ -586,7 +586,7 @@
     "subtitle": "Integrate \"Login with Wallet\" into your application",
     "overview": {
       "title": "Overview",
-      "description": "Wallet.az OAuth 2.0 allows partner applications to authenticate users through their Wallet.az account. Users verify their identity once on Wallet.az and can then use this verification across all partner sites. This eliminates the need for separate registration on each partner site.",
+      "description": "Kimlik.az OAuth 2.0 allows partner applications to authenticate users through their Kimlik.az account. Users verify their identity once on Kimlik.az and can then use this verification across all partner sites. This eliminates the need for separate registration on each partner site.",
       "benefit1Title": "Single Sign-On",
       "benefit1Desc": "Users log in once, access everywhere",
       "benefit2Title": "Verified Identity",
@@ -596,18 +596,18 @@
     },
     "gettingStarted": {
       "title": "Getting Started",
-      "description": "To integrate Wallet.az OAuth into your application, follow these steps:",
+      "description": "To integrate Kimlik.az OAuth into your application, follow these steps:",
       "step1": "Contact us to register your application and receive a client_id",
       "step1New": "Create your OAuth application in the Developer Dashboard",
       "step2": "Configure your redirect URIs (must be HTTPS in production)",
       "step3": "Choose the scopes your application needs",
       "step4": "Implement the OAuth flow in your application",
-      "contactNote": "To register your application, contact us at developer@wallet.az",
+      "contactNote": "To register your application, contact us at developer@kimlik.az",
       "createAppNote": "Ready to start? Create your first OAuth application now!"
     },
     "flow": {
       "title": "Authorization Flow",
-      "description": "Wallet.az uses the OAuth 2.0 Authorization Code flow with PKCE for secure authentication.",
+      "description": "Kimlik.az uses the OAuth 2.0 Authorization Code flow with PKCE for secure authentication.",
       "steps": "Flow Steps",
       "yourApp": "Your App",
       "redirect": "Redirect",
@@ -617,15 +617,15 @@
       "step1Title": "Generate PKCE codes",
       "step1Desc": "Create a code_verifier and code_challenge using SHA-256",
       "step2Title": "Open authorization popup",
-      "step2Desc": "Redirect user to Wallet.az consent screen with your client_id, scopes, and PKCE challenge",
+      "step2Desc": "Redirect user to Kimlik.az consent screen with your client_id, scopes, and PKCE challenge",
       "step3Title": "User grants permission",
-      "step3Desc": "User reviews requested permissions and clicks Allow. Wallet.az redirects back with an authorization code",
+      "step3Desc": "User reviews requested permissions and clicks Allow. Kimlik.az redirects back with an authorization code",
       "step4Title": "Exchange code for tokens",
       "step4Desc": "Your backend exchanges the authorization code + code_verifier for access and refresh tokens"
     },
     "pkce": {
       "title": "PKCE (Proof Key for Code Exchange)",
-      "description": "PKCE adds an extra layer of security to the OAuth flow by preventing authorization code interception attacks. It's required for all Wallet.az OAuth integrations.",
+      "description": "PKCE adds an extra layer of security to the OAuth flow by preventing authorization code interception attacks. It's required for all Kimlik.az OAuth integrations.",
       "required": "PKCE is required for all OAuth requests. Requests without valid code_challenge will be rejected.",
       "howItWorks": "How it works:",
       "step1": "Generate a random code_verifier (43-128 characters, URL-safe)",
@@ -687,7 +687,7 @@
     },
     "support": {
       "title": "Need Help?",
-      "description": "If you have questions about integrating Wallet.az OAuth, our developer support team is here to help.",
+      "description": "If you have questions about integrating Kimlik.az OAuth, our developer support team is here to help.",
       "contact": "Contact Developer Support"
     }
   },
@@ -703,7 +703,7 @@
       "title": "My Applications",
       "createApp": "Create Application",
       "noApps": "No applications yet",
-      "noAppsDesc": "Create your first OAuth application to integrate with Wallet.az",
+      "noAppsDesc": "Create your first OAuth application to integrate with Kimlik.az",
       "clientId": "Client ID",
       "clientSecret": "Client Secret",
       "redirectUris": "Redirect URIs",

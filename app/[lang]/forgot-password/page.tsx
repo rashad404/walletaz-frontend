@@ -190,7 +190,7 @@ export default function ForgotPasswordPage() {
   if (isOAuthFlow) {
     return (
       <div className="min-h-screen bg-white dark:bg-gray-900 flex flex-col">
-        {/* Header with Wallet.az branding */}
+        {/* Header with Kimlik.az branding */}
         <div className="p-4 border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-center gap-2">
             <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center">

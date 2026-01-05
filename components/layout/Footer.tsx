@@ -48,11 +48,11 @@ export default function Footer() {
           {/* Right: Contact */}
           <div className="flex items-center gap-4 text-sm">
             <a
-              href="mailto:info@wallet.az"
+              href="mailto:info@kimlik.az"
               className="text-gray-600 dark:text-gray-400 hover:text-emerald-600 transition-colors flex items-center gap-1"
             >
               <Mail className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">info@wallet.az</span>
+              <span className="hidden sm:inline">info@kimlik.az</span>
             </a>
             <a
               href="tel:+994123456789"

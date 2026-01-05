@@ -98,7 +98,7 @@ export default function LoginPage() {
   if (isOAuthFlow) {
     return (
       <div className="min-h-screen bg-white dark:bg-gray-900 flex flex-col">
-        {/* Header with Wallet.az branding */}
+        {/* Header with Kimlik.az branding */}
         <div className="p-4 border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-center gap-2">
             <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center">
@@ -206,7 +206,7 @@ export default function LoginPage() {
     );
   }
 
-  // Standard full-page login design (for direct visits to wallet.az/login)
+  // Standard full-page login design (for direct visits to kimlik.az/login)
   return (
     <div className="relative min-h-screen overflow-hidden flex items-center justify-center">
       {/* Background Effects */}

@@ -82,7 +82,7 @@ export default function OAuthDocsPage() {
     { id: 'error-codes', labelKey: 'oauthDocs.errorCodes.title', icon: AlertCircle, level: 'main' },
   ];
 
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.wallet.az';
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.kimlik.az';
 
   const codeExamples: Record<CodeTab, string> = {
     javascript: `// 1. Generate PKCE code verifier and challenge
@@ -590,7 +590,7 @@ def wallet_callback():
                     <div className="w-16 h-16 mx-auto rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center mb-2">
                       <Wallet className="w-8 h-8 text-emerald-600 dark:text-emerald-400" />
                     </div>
-                    <span className="text-gray-600 dark:text-gray-400">Wallet.az</span>
+                    <span className="text-gray-600 dark:text-gray-400">Kimlik.az</span>
                   </div>
                   <div className="flex-1 flex items-center justify-center">
                     <ChevronRight className="w-4 h-4 text-gray-400 rotate-180" />
@@ -839,7 +839,7 @@ const codeChallenge = base64url(sha256(codeVerifier));
     "name": "John Doe",
     "email": "john@example.com",
     "phone": "+994501234567",
-    "avatar": "https://wallet.az/avatars/123.jpg",
+    "avatar": "https://kimlik.az/avatars/123.jpg",
     "verification": {
       "email_verified": true,
       "phone_verified": true,
@@ -1036,7 +1036,7 @@ const codeChallenge = base64url(sha256(codeVerifier));
               <h2 className="text-xl font-bold mb-2">{t('oauthDocs.support.title')}</h2>
               <p className="opacity-90 mb-4">{t('oauthDocs.support.description')}</p>
               <a
-                href="mailto:developer@wallet.az"
+                href="mailto:developer@kimlik.az"
                 className="inline-flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 rounded-xl transition-colors"
               >
                 {t('oauthDocs.support.contact')}

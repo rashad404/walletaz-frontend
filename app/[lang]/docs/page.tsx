@@ -171,7 +171,7 @@ export default function DocsPage() {
             {t('docs.support.description')}
           </p>
           <a
-            href="mailto:developer@wallet.az"
+            href="mailto:developer@kimlik.az"
             className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-xl font-medium hover:shadow-lg transition-all"
           >
             {t('docs.support.contact')}

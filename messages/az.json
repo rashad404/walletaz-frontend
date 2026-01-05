@@ -10,7 +10,7 @@
     "logout": "Çıxış"
   },
   "home": {
-    "headline": "Bir hesab, hər yerdə",
+    "headline": "Bir kimlik, hər yerdə",
     "subtitle": "Bir dəfə qeydiyyat olun, bütün tərəfdaş saytlarda istifadə edin",
     "createAccount": "Hesab yarat",
     "signIn": "Daxil ol",
@@ -61,7 +61,7 @@
   },
   "dashboard": {
     "welcome": "Xoş gəldiniz, {name}!",
-    "subtitle": "Pul kisənizi idarə edin",
+    "subtitle": "Bir kimlik, hər yerdə",
     "balance": "Balans",
     "availableBalance": "Mövcud balans",
     "reservedBalance": "Bağlanmış balans",
@@ -72,7 +72,7 @@
     "deposit": "Depozit",
     "withdraw": "Çıxarış",
     "transfer": "Köçürmə",
-    "developerDesc": "OAuth 2.0 ilə Wallet.az-ı tətbiqinizə inteqrasiya edin. İstifadəçiləriniz Wallet hesabı ilə daxil ola bilsin.",
+    "developerDesc": "OAuth 2.0 ilə Kimlik.az-ı tətbiqinizə inteqrasiya edin. İstifadəçiləriniz Wallet hesabı ilə daxil ola bilsin.",
     "apiDocs": "API Sənədləri"
   },
   "wallet": {
@@ -325,12 +325,12 @@
     "contact": "Əlaqə"
   },
   "metadata": {
-    "title": "Wallet.az - Rəqəmsal Pul Kisəsi",
-    "description": "Təhlükəsiz rəqəmsal pul kisəniz. Tərəfdaş saytlarda asan ödəniş edin."
+    "title": "Kimlik.az - Bir kimlik, hər yerdə",
+    "description": "Bir dəfə qeydiyyat olun, bütün tərəfdaş saytlarda istifadə edin."
   },
   "login": {
     "welcomeBack": "Xoş gəlmisiniz",
-    "signInToManage": "Pul kisənizi idarə etmək üçün daxil olun",
+    "signInToManage": "Hesabınıza daxil olun",
     "signInToContinue": "Davam etmək üçün daxil olun",
     "emailAddress": "E-poçt ünvanı",
     "password": "Şifrə",
@@ -450,7 +450,7 @@
       "autoApproveTitle": "Avtomatik təsdiq",
       "autoApproveDesc": "{app} üçün təyin etdiyiniz limitdən aşağı məbləğləri avtomatik təsdiq edin",
       "maxAmount": "Limit",
-      "footer": "Ödəniş Wallet.az hesabınızdan tutulacaq"
+      "footer": "Ödəniş Kimlik.az hesabınızdan tutulacaq"
     },
     "topup": {
       "title": "Balans artır",
@@ -479,7 +479,7 @@
   },
   "docs": {
     "title": "Developer Sənədləri",
-    "subtitle": "Wallet.az API-lərini tətbiqinizə inteqrasiya edin",
+    "subtitle": "Kimlik.az API-lərini tətbiqinizə inteqrasiya edin",
     "quickStart": {
       "title": "Tez Başla",
       "description": "OAuth ilə \"Wallet ilə daxil ol\" əlavə edin, sonra ödəniş qəbul etməyə başlayın.",
@@ -518,7 +518,7 @@
     "subtitle": "İstifadəçi balansından ödəniş qəbul edin",
     "overview": {
       "title": "İcmal",
-      "description": "Ödəniş API istifadəçinin Wallet.az balansından ödəniş tələb etməyə imkan verir. İstifadəçi təsdiq etdikdən sonra məbləğ onun balansından sizin tərəfdaş balansınıza köçürülür.",
+      "description": "Ödəniş API istifadəçinin Kimlik.az balansından ödəniş tələb etməyə imkan verir. İstifadəçi təsdiq etdikdən sonra məbləğ onun balansından sizin tərəfdaş balansınıza köçürülür.",
       "scopeRequired": "Bu API wallet:charge scope-u tələb edir. OAuth zamanı bu scope-u tələb edin."
     },
     "howItWorks": {
@@ -526,7 +526,7 @@
       "step1Title": "Charge yaradın",
       "step1Desc": "API vasitəsilə ödəniş tələbi yaradın (məbləğ, təsvir)",
       "step2Title": "İstifadəçi təsdiqi",
-      "step2Desc": "İstifadəçi Wallet.az popup-da ödənişi təsdiqləyir",
+      "step2Desc": "İstifadəçi Kimlik.az popup-da ödənişi təsdiqləyir",
       "step3Title": "Webhook bildirişi",
       "step3Desc": "Ödəniş tamamlandıqda sizə webhook göndərilir",
       "step4Title": "Balans yenilənir",
@@ -544,7 +544,7 @@
     },
     "approvalFlow": {
       "title": "Təsdiq Prosesi",
-      "description": "Charge yaratdıqdan sonra istifadəçini Wallet.az təsdiq səhifəsinə yönləndirin. İstifadəçi təsdiqləyəndə və ya rədd edəndə popup pəncərəsinə mesaj göndərilir.",
+      "description": "Charge yaratdıqdan sonra istifadəçini Kimlik.az təsdiq səhifəsinə yönləndirin. İstifadəçi təsdiqləyəndə və ya rədd edəndə popup pəncərəsinə mesaj göndərilir.",
       "approvedDesc": "Ödəniş təsdiqləndi. Balansı yeniləyin.",
       "rejectedDesc": "İstifadəçi ödənişi rədd etdi."
     },
@@ -586,28 +586,28 @@
     "subtitle": "Tətbiqinizə \"Wallet ilə daxil ol\" inteqrasiya edin",
     "overview": {
       "title": "İcmal",
-      "description": "Wallet.az OAuth 2.0 tərəfdaş tətbiqlərə istifadəçiləri Wallet.az hesabları vasitəsilə autentifikasiya etməyə imkan verir. İstifadəçilər şəxsiyyətlərini bir dəfə Wallet.az-da təsdiq edir və sonra bu təsdiqdən bütün tərəfdaş saytlarda istifadə edə bilirlər. Bu, hər tərəfdaş saytda ayrıca qeydiyyat ehtiyacını aradan qaldırır.",
+      "description": "Kimlik.az OAuth 2.0 tərəfdaş tətbiqlərə istifadəçiləri Kimlik.az hesabları vasitəsilə autentifikasiya etməyə imkan verir. İstifadəçilər şəxsiyyətlərini bir dəfə Kimlik.az-da təsdiq edir və sonra bu təsdiqdən bütün tərəfdaş saytlarda istifadə edə bilirlər. Bu, hər tərəfdaş saytda ayrıca qeydiyyat ehtiyacını aradan qaldırır.",
       "benefit1Title": "Vahid giriş",
       "benefit1Desc": "İstifadəçilər bir dəfə daxil olur, hər yerdə istifadə edir",
       "benefit2Title": "Təsdiqlənmiş şəxsiyyət",
       "benefit2Desc": "Telefon və email artıq təsdiqlənib",
       "benefit3Title": "Pul kisəsinə giriş",
-      "benefit3Desc": "İstifadəçi balansına isteğe bağlı giriş"
+      "benefit3Desc": "İstifadəçi balansına istəyə bağlı giriş"
     },
     "gettingStarted": {
       "title": "Başlayın",
-      "description": "Wallet.az OAuth-u tətbiqinizə inteqrasiya etmək üçün bu addımları izləyin:",
+      "description": "Kimlik.az OAuth-u tətbiqinizə inteqrasiya etmək üçün bu addımları izləyin:",
       "step1": "Tətbiqinizi qeydiyyatdan keçirmək və client_id almaq üçün bizimlə əlaqə saxlayın",
       "step1New": "Developer Panelindən OAuth tətbiqinizi yaradın",
       "step2": "Yönləndirmə URL-lərinizi konfiqurasiya edin (prodakşnda HTTPS olmalıdır)",
       "step3": "Tətbiqiniz üçün lazım olan scope-ları seçin",
       "step4": "OAuth axınını tətbiqinizdə həyata keçirin",
-      "contactNote": "Tətbiqinizi qeydiyyatdan keçirmək üçün developer@wallet.az ünvanına yazın",
+      "contactNote": "Tətbiqinizi qeydiyyatdan keçirmək üçün developer@kimlik.az ünvanına yazın",
       "createAppNote": "Başlamağa hazırsınız? İlk OAuth tətbiqinizi indi yaradın!"
     },
     "flow": {
       "title": "Avtorizasiya axını",
-      "description": "Wallet.az təhlükəsiz autentifikasiya üçün PKCE ilə OAuth 2.0 Authorization Code axınını istifadə edir.",
+      "description": "Kimlik.az təhlükəsiz autentifikasiya üçün PKCE ilə OAuth 2.0 Authorization Code axınını istifadə edir.",
       "steps": "Axın addımları",
       "yourApp": "Sizin tətbiq",
       "redirect": "Yönləndir",
@@ -617,15 +617,15 @@
       "step1Title": "PKCE kodlarını yaradın",
       "step1Desc": "SHA-256 istifadə edərək code_verifier və code_challenge yaradın",
       "step2Title": "Avtorizasiya popup-ını açın",
-      "step2Desc": "İstifadəçini client_id, scope-lar və PKCE challenge ilə Wallet.az razılıq ekranına yönləndirin",
+      "step2Desc": "İstifadəçini client_id, scope-lar və PKCE challenge ilə Kimlik.az razılıq ekranına yönləndirin",
       "step3Title": "İstifadəçi icazə verir",
-      "step3Desc": "İstifadəçi tələb olunan icazələri nəzərdən keçirir və İcazə ver düyməsini basır. Wallet.az avtorizasiya kodu ilə geri yönləndirir",
+      "step3Desc": "İstifadəçi tələb olunan icazələri nəzərdən keçirir və İcazə ver düyməsini basır. Kimlik.az avtorizasiya kodu ilə geri yönləndirir",
       "step4Title": "Kodu tokenlərə mübadilə edin",
       "step4Desc": "Backend-iniz avtorizasiya kodu + code_verifier-i access və refresh tokenlərinə mübadilə edir"
     },
     "pkce": {
       "title": "PKCE (Kod mübadiləsi üçün sübut açarı)",
-      "description": "PKCE avtorizasiya kodu tutma hücumlarının qarşısını alaraq OAuth axınına əlavə təhlükəsizlik təbəqəsi əlavə edir. Bütün Wallet.az OAuth inteqrasiyaları üçün tələb olunur.",
+      "description": "PKCE avtorizasiya kodu tutma hücumlarının qarşısını alaraq OAuth axınına əlavə təhlükəsizlik təbəqəsi əlavə edir. Bütün Kimlik.az OAuth inteqrasiyaları üçün tələb olunur.",
       "required": "PKCE bütün OAuth sorğuları üçün tələb olunur. Etibarlı code_challenge olmadan sorğular rədd ediləcək.",
       "howItWorks": "Necə işləyir:",
       "step1": "Təsadüfi code_verifier yaradın (43-128 simvol, URL-safe)",
@@ -687,7 +687,7 @@
     },
     "support": {
       "title": "Köməyə ehtiyacınız var?",
-      "description": "Wallet.az OAuth inteqrasiyası haqqında suallarınız varsa, developer dəstək komandamız kömək etməyə hazırdır.",
+      "description": "Kimlik.az OAuth inteqrasiyası haqqında suallarınız varsa, developer dəstək komandamız kömək etməyə hazırdır.",
       "contact": "Developer dəstəyi ilə əlaqə"
     }
   },
@@ -703,7 +703,7 @@
       "title": "Tətbiqlərim",
       "createApp": "Tətbiq yarat",
       "noApps": "Hələ tətbiq yoxdur",
-      "noAppsDesc": "Wallet.az ilə inteqrasiya üçün ilk OAuth tətbiqinizi yaradın",
+      "noAppsDesc": "Kimlik.az ilə inteqrasiya üçün ilk OAuth tətbiqinizi yaradın",
       "clientId": "Client ID",
       "clientSecret": "Client Secret",
       "redirectUris": "Yönləndirmə URI-ləri",
