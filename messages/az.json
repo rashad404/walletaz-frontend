@@ -477,6 +477,19 @@
     "permissions": "İcazələr",
     "confirmRevoke": "{app} üçün girişi ləğv etmək istədiyinizə əminsiniz?"
   },
+  "loginHistory": {
+    "title": "Giriş tarixçəsi",
+    "description": "Hesabınıza girişlərin tarixçəsi",
+    "noHistory": "Giriş tarixçəsi yoxdur",
+    "noHistoryDesc": "Hesabınıza giriş etdiyiniz zaman, onlar burada görünəcək.",
+    "directLogin": "Birbaşa giriş",
+    "currentSession": "Cari sessiya",
+    "justNow": "İndicə",
+    "minutesAgo": "{count} dəqiqə əvvəl",
+    "hoursAgo": "{count} saat əvvəl",
+    "daysAgo": "{count} gün əvvəl",
+    "securityNotice": "Əgər tanımadığınız girişlər görürsünüzsə, dərhal şifrənizi dəyişdirin və bizə xəbər verin."
+  },
   "docs": {
     "title": "Developer Sənədləri",
     "subtitle": "Kimlik.az API-lərini tətbiqinizə inteqrasiya edin",

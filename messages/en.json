@@ -477,6 +477,19 @@
     "permissions": "Permissions",
     "confirmRevoke": "Are you sure you want to revoke access for {app}?"
   },
+  "loginHistory": {
+    "title": "Login History",
+    "description": "History of logins to your account",
+    "noHistory": "No login history",
+    "noHistoryDesc": "When you log in to your account, it will appear here.",
+    "directLogin": "Direct login",
+    "currentSession": "Current session",
+    "justNow": "Just now",
+    "minutesAgo": "{count} minutes ago",
+    "hoursAgo": "{count} hours ago",
+    "daysAgo": "{count} days ago",
+    "securityNotice": "If you see any unfamiliar logins, change your password immediately and contact us."
+  },
   "docs": {
     "title": "Developer Documentation",
     "subtitle": "Integrate Kimlik.az APIs into your application",

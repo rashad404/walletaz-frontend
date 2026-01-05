@@ -15,6 +15,7 @@ import {
   AlertCircle,
   ExternalLink,
   Code,
+  History,
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
@@ -117,6 +118,16 @@ export default function SettingsPage() {
       href: `/settings/connected-apps`,
       color: 'text-blue-600 dark:text-blue-400',
       bgColor: 'bg-blue-100 dark:bg-blue-900/30',
+      badge: null
+    },
+    {
+      id: 'login-history',
+      title: t('loginHistory.title'),
+      description: t('loginHistory.description'),
+      icon: History,
+      href: `/settings/login-history`,
+      color: 'text-orange-600 dark:text-orange-400',
+      bgColor: 'bg-orange-100 dark:bg-orange-900/30',
       badge: null
     },
     {
