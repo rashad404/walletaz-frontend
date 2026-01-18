@@ -37,9 +37,45 @@ export default function ProfileSettingsPage() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    countryCode: '994',
     phone: '',
     timezone: 'Asia/Baku'
   });
+
+  // Country codes for the selector with phone length validation
+  const countryCodes = [
+    { code: '994', country: 'AZ', label: 'Azerbaijan (+994)', minLength: 9, maxLength: 9 },   // 50 123 45 67
+    { code: '90', country: 'TR', label: 'Turkey (+90)', minLength: 10, maxLength: 10 },       // 532 123 4567
+    { code: '7', country: 'RU', label: 'Russia (+7)', minLength: 10, maxLength: 10 },         // 912 345 6789
+    { code: '380', country: 'UA', label: 'Ukraine (+380)', minLength: 9, maxLength: 9 },      // 50 123 4567
+    { code: '995', country: 'GE', label: 'Georgia (+995)', minLength: 9, maxLength: 9 },      // 555 12 34 56
+    { code: '1', country: 'US', label: 'USA (+1)', minLength: 10, maxLength: 10 },            // 202 555 1234
+    { code: '44', country: 'GB', label: 'UK (+44)', minLength: 10, maxLength: 10 },           // 7911 123456
+    { code: '49', country: 'DE', label: 'Germany (+49)', minLength: 10, maxLength: 11 },      // 151 12345678
+  ];
+
+  // Get current country code config
+  const currentCountry = countryCodes.find(cc => cc.code === formData.countryCode) || countryCodes[0];
+
+  // Validate phone length for current country (empty phone is valid since it's optional)
+  const isPhoneValid = formData.phone === '' || (formData.phone.length >= currentCountry.minLength && formData.phone.length <= currentCountry.maxLength);
+
+  // Parse stored phone into country code and local number
+  const parseStoredPhone = (phone: string) => {
+    if (!phone) return { countryCode: '994', localPhone: '' };
+
+    // Phone is stored as country code + number (e.g., 994501234567)
+    for (const cc of countryCodes) {
+      if (phone.startsWith(cc.code)) {
+        return {
+          countryCode: cc.code,
+          localPhone: phone.slice(cc.code.length)
+        };
+      }
+    }
+    // Default to Azerbaijan if no match
+    return { countryCode: '994', localPhone: phone };
+  };
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -57,10 +93,12 @@ export default function ProfileSettingsPage() {
       .then(data => {
         if (data.status === 'success') {
           setUser(data.data);
+          const { countryCode, localPhone } = parseStoredPhone(data.data.phone ? String(data.data.phone) : '');
           setFormData({
             name: data.data.name || '',
             email: data.data.email || '',
-            phone: data.data.phone ? String(data.data.phone) : '',
+            countryCode: countryCode,
+            phone: localPhone,
             timezone: data.data.timezone || 'Asia/Baku'
           });
         }
@@ -113,7 +151,9 @@ export default function ProfileSettingsPage() {
       formDataToSend.append('_method', 'PUT'); // Laravel method spoofing for file uploads
       formDataToSend.append('name', String(formData.name));
       formDataToSend.append('email', String(formData.email));
-      formDataToSend.append('phone', formData.phone ? String(formData.phone) : '');
+      // Combine country code and phone number (without +)
+      const fullPhone = formData.phone ? `${formData.countryCode}${formData.phone}` : '';
+      formDataToSend.append('phone', fullPhone);
       formDataToSend.append('timezone', formData.timezone);
 
       if (avatarFile) {
@@ -135,10 +175,12 @@ export default function ProfileSettingsPage() {
         setUser(updatedUser);
 
         // Update formData with the latest user info
+        const { countryCode, localPhone } = parseStoredPhone(updatedUser.phone ? String(updatedUser.phone) : '');
         setFormData({
           name: updatedUser.name || '',
           email: updatedUser.email || '',
-          phone: updatedUser.phone ? String(updatedUser.phone) : '',
+          countryCode: countryCode,
+          phone: localPhone,
           timezone: updatedUser.timezone || 'Asia/Baku'
         });
 
@@ -361,19 +403,54 @@ export default function ProfileSettingsPage() {
                   {t('auth.phone')} <span className="text-xs text-gray-500 dark:text-gray-400 font-normal">({t('common.optional')})</span>
                 </div>
               </label>
-              <input
-                type="tel"
-                value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                className={`w-full px-4 py-3 rounded-2xl border ${
-                  errors.phone
-                    ? 'border-red-500 dark:border-red-500'
-                    : 'border-gray-300 dark:border-gray-700'
-                } bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all`}
-                placeholder="+994 XX XXX XX XX"
-              />
+              <div className="flex gap-2">
+                {/* Country Code Selector */}
+                <select
+                  value={formData.countryCode}
+                  onChange={(e) => setFormData({ ...formData, countryCode: e.target.value })}
+                  className={`w-40 px-3 py-3 rounded-2xl border ${
+                    errors.phone
+                      ? 'border-red-500 dark:border-red-500'
+                      : 'border-gray-300 dark:border-gray-700'
+                  } bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all`}
+                >
+                  {countryCodes.map((cc) => (
+                    <option key={cc.code} value={cc.code}>
+                      {cc.country} +{cc.code}
+                    </option>
+                  ))}
+                </select>
+                {/* Phone Number Input */}
+                <input
+                  type="tel"
+                  value={formData.phone}
+                  onChange={(e) => {
+                    // Only allow digits
+                    const value = e.target.value.replace(/\D/g, '');
+                    setFormData({ ...formData, phone: value });
+                  }}
+                  className={`flex-1 px-4 py-3 rounded-2xl border ${
+                    errors.phone || (formData.phone && !isPhoneValid)
+                      ? 'border-red-500 dark:border-red-500'
+                      : 'border-gray-300 dark:border-gray-700'
+                  } bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all`}
+                  placeholder={t('settings.profile.phonePlaceholder')}
+                  maxLength={currentCountry.maxLength}
+                />
+              </div>
+              {/* Phone length hint */}
+              <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                {currentCountry.minLength === currentCountry.maxLength
+                  ? `${currentCountry.minLength} digits required`
+                  : `${currentCountry.minLength}-${currentCountry.maxLength} digits required`}
+              </p>
               {errors.phone && (
                 <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.phone}</p>
+              )}
+              {formData.phone && !isPhoneValid && !errors.phone && (
+                <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+                  {`Phone number must be ${currentCountry.minLength === currentCountry.maxLength ? currentCountry.minLength : `${currentCountry.minLength}-${currentCountry.maxLength}`} digits`}
+                </p>
               )}
             </div>
 
@@ -430,7 +507,7 @@ export default function ProfileSettingsPage() {
             )}
             <button
               type="submit"
-              disabled={saving}
+              disabled={saving || !isPhoneValid}
               className="flex-1 px-6 py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
             >
               {saving ? (

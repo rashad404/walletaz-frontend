@@ -214,7 +214,12 @@
       "name": "Full Name",
       "namePlaceholder": "Enter your name",
       "phone": "Phone",
-      "phonePlaceholder": "+994 XX XXX XX XX",
+      "phonePlaceholder": "XX XXX XX XX",
+      "countryCode": "Country Code",
+      "digitsRequired": "{count} digits required",
+      "digitsRangeRequired": "{min}-{max} digits required",
+      "invalidPhoneLength": "Phone number must be {count} digits",
+      "invalidPhoneLengthRange": "Phone number must be {min}-{max} digits",
       "profilePhoto": "Profile Photo",
       "photoHint": "JPG, PNG or GIF. Maximum 5MB.",
       "updateSuccess": "Profile updated successfully",
@@ -223,7 +228,9 @@
       "backToApp": "Back to App",
       "timezone": "Timezone",
       "selectTimezone": "Select timezone",
-      "timezoneHint": "This is used for time-related features"
+      "timezoneHint": "This is used for time-related features",
+      "fixErrors": "Please fix the errors below",
+      "connectionError": "Connection error. Please try again."
     },
     "security": {
       "title": "Security",
@@ -344,7 +351,9 @@
     "signUp": "Sign up",
     "invalidCredentials": "Invalid email or password",
     "emailPlaceholder": "you@example.com",
-    "passwordPlaceholder": "••••••••"
+    "passwordPlaceholder": "••••••••",
+    "otpSendFailed": "Failed to send verification code. Please try again.",
+    "invalidPhoneCredentials": "Invalid phone number or password"
   },
   "register": {
     "createAccount": "Create Account",
