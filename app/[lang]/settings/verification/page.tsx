@@ -27,23 +27,38 @@ export default function VerificationPage() {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
+  // Country codes for the selector with phone length validation
+  const countryCodes = [
+    { code: '994', country: 'AZ', label: 'Azerbaijan (+994)', minLength: 9, maxLength: 9 },
+    { code: '90', country: 'TR', label: 'Turkey (+90)', minLength: 10, maxLength: 10 },
+    { code: '7', country: 'RU', label: 'Russia (+7)', minLength: 10, maxLength: 10 },
+    { code: '380', country: 'UA', label: 'Ukraine (+380)', minLength: 9, maxLength: 9 },
+    { code: '995', country: 'GE', label: 'Georgia (+995)', minLength: 9, maxLength: 9 },
+    { code: '1', country: 'US', label: 'USA (+1)', minLength: 10, maxLength: 10 },
+    { code: '44', country: 'GB', label: 'UK (+44)', minLength: 10, maxLength: 10 },
+    { code: '49', country: 'DE', label: 'Germany (+49)', minLength: 10, maxLength: 11 },
+  ];
+
   // Phone verification state
   const [phoneStep, setPhoneStep] = useState<VerificationStep>('idle');
-  const [phonePrefix, setPhonePrefix] = useState('050');
+  const [countryCode, setCountryCode] = useState('994');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [phoneCode, setPhoneCode] = useState('');
   const [phoneError, setPhoneError] = useState('');
   const [phoneCountdown, setPhoneCountdown] = useState(0);
   const [isEditingPhone, setIsEditingPhone] = useState(false);
 
-  // Azerbaijan mobile operator prefixes
-  const phonePrefixes = ['050', '051', '055', '070', '077', '099', '010', '060'];
+  // Get current country code config
+  const currentCountry = countryCodes.find(cc => cc.code === countryCode) || countryCodes[0];
 
-  // Format full phone number for API (994XXYYYYYY)
-  const getFullPhoneNumber = () => `994${phonePrefix.slice(1)}${phoneNumber}`;
+  // Validate phone length for current country
+  const isPhoneValid = phoneNumber.length >= currentCountry.minLength && phoneNumber.length <= currentCountry.maxLength;
+
+  // Format full phone number for API
+  const getFullPhoneNumber = () => `${countryCode}${phoneNumber}`;
 
   // Format display phone number
-  const getDisplayPhone = () => `+994 ${phonePrefix.slice(1)} ${phoneNumber}`;
+  const getDisplayPhone = () => `+${countryCode} ${phoneNumber}`;
 
   // Email verification state
   const [emailStep, setEmailStep] = useState<VerificationStep>('idle');
@@ -63,15 +78,16 @@ export default function VerificationPage() {
       const userData = await authService.getCurrentUser();
       if (userData) {
         setUser(userData);
-        // Parse existing phone number (format: 994XXYYYYYY)
+        // Parse existing phone number by matching country codes
         if (userData.phone) {
           const phone = userData.phone.replace(/\D/g, '');
-          if (phone.startsWith('994') && phone.length === 12) {
-            const prefix = '0' + phone.slice(3, 5);
-            const number = phone.slice(5);
-            if (phonePrefixes.includes(prefix)) {
-              setPhonePrefix(prefix);
-              setPhoneNumber(number);
+          // Try to match against known country codes (longest first)
+          const sortedCodes = [...countryCodes].sort((a, b) => b.code.length - a.code.length);
+          for (const cc of sortedCodes) {
+            if (phone.startsWith(cc.code)) {
+              setCountryCode(cc.code);
+              setPhoneNumber(phone.slice(cc.code.length));
+              break;
             }
           }
         }
@@ -108,7 +124,7 @@ export default function VerificationPage() {
 
   // Send phone verification code
   const sendPhoneCode = async () => {
-    if (phoneNumber.length !== 7) {
+    if (!isPhoneValid) {
       setPhoneError(t('verification.invalidPhoneNumber'));
       return;
     }
@@ -345,29 +361,40 @@ export default function VerificationPage() {
                   <div className="space-y-3">
                     <div className="flex gap-2">
                       <select
-                        value={phonePrefix}
-                        onChange={(e) => setPhonePrefix(e.target.value)}
-                        className="px-3 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 font-medium"
+                        value={countryCode}
+                        onChange={(e) => {
+                          setCountryCode(e.target.value);
+                          setPhoneNumber(''); // Reset phone number when country changes
+                        }}
+                        className="w-28 px-2 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 font-medium"
                       >
-                        {phonePrefixes.map((prefix) => (
-                          <option key={prefix} value={prefix}>
-                            {prefix}
+                        {countryCodes.map((cc) => (
+                          <option key={cc.code} value={cc.code}>
+                            {cc.country} +{cc.code}
                           </option>
                         ))}
                       </select>
-                      <input
-                        type="tel"
-                        value={phoneNumber}
-                        onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/g, '').slice(0, 7))}
-                        placeholder="XXX XX XX"
-                        maxLength={7}
-                        className="flex-1 px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 tracking-wider"
-                      />
+                      <div className="relative flex-1">
+                        <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                        <input
+                          type="tel"
+                          value={phoneNumber}
+                          onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/g, '').slice(0, currentCountry.maxLength))}
+                          placeholder={t('settings.profile.phonePlaceholder')}
+                          maxLength={currentCountry.maxLength}
+                          className="w-full pl-10 pr-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 tracking-wider"
+                        />
+                      </div>
                     </div>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                      {currentCountry.minLength === currentCountry.maxLength
+                        ? `${currentCountry.minLength} digits required`
+                        : `${currentCountry.minLength}-${currentCountry.maxLength} digits required`}
+                    </p>
                     <div className="flex gap-3">
                       <button
                         onClick={() => sendPhoneCode()}
-                        disabled={phoneNumber.length !== 7}
+                        disabled={!isPhoneValid}
                         className="flex-1 px-4 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-xl hover:shadow-lg hover:scale-[1.02] transition-all duration-300 font-medium disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                       >
                         {t('verification.sendCode')}
@@ -379,9 +406,13 @@ export default function VerificationPage() {
                             // Reset to user's current phone
                             if (user.phone) {
                               const phone = user.phone.replace(/\D/g, '');
-                              if (phone.startsWith('994') && phone.length === 12) {
-                                setPhonePrefix('0' + phone.slice(3, 5));
-                                setPhoneNumber(phone.slice(5));
+                              const sortedCodes = [...countryCodes].sort((a, b) => b.code.length - a.code.length);
+                              for (const cc of sortedCodes) {
+                                if (phone.startsWith(cc.code)) {
+                                  setCountryCode(cc.code);
+                                  setPhoneNumber(phone.slice(cc.code.length));
+                                  break;
+                                }
                               }
                             }
                           }}
