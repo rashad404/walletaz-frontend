@@ -26,6 +26,7 @@ interface OAuthData {
     email: string;
     avatar: string | null;
   };
+  already_authorized: boolean;
 }
 
 const scopeIcons: Record<string, React.ReactNode> = {
@@ -219,26 +220,36 @@ export default function OAuthAuthorizePage() {
 
       {/* Content */}
       <div className="flex-1 p-4">
-        <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">
-          {t('oauth.consent.willAllow', { app: oauthData?.client.name })}
-        </p>
+        {oauthData?.already_authorized ? (
+          /* Returning user - simplified UI */
+          <p className="text-sm text-gray-700 dark:text-gray-300 mb-4">
+            {t('oauth.consent.signingInAs', { app: oauthData?.client.name })}
+          </p>
+        ) : (
+          /* First time authorization - show permissions */
+          <>
+            <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">
+              {t('oauth.consent.willAllow', { app: oauthData?.client.name })}
+            </p>
 
-        {/* Compact Scopes Grid */}
-        <div className="grid grid-cols-2 gap-2 mb-4">
-          {oauthData?.scopes.map((scope) => (
-            <div
-              key={scope.name}
-              className="flex items-center gap-2 px-2.5 py-2 rounded-xl bg-gray-50 dark:bg-gray-800/50"
-            >
-              <div className="w-6 h-6 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400 flex-shrink-0">
-                {scopeIcons[scope.name] || <Shield className="w-3.5 h-3.5" />}
-              </div>
-              <span className="text-xs font-medium text-gray-700 dark:text-gray-300 truncate">
-                {scope.display_name[lang] || scope.display_name['en'] || scope.name}
-              </span>
+            {/* Compact Scopes Grid */}
+            <div className="grid grid-cols-2 gap-2 mb-4">
+              {oauthData?.scopes.map((scope) => (
+                <div
+                  key={scope.name}
+                  className="flex items-center gap-2 px-2.5 py-2 rounded-xl bg-gray-50 dark:bg-gray-800/50"
+                >
+                  <div className="w-6 h-6 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400 flex-shrink-0">
+                    {scopeIcons[scope.name] || <Shield className="w-3.5 h-3.5" />}
+                  </div>
+                  <span className="text-xs font-medium text-gray-700 dark:text-gray-300 truncate">
+                    {scope.display_name[lang] || scope.display_name['en'] || scope.name}
+                  </span>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </>
+        )}
 
         {/* User Info */}
         <div className="flex items-center justify-between p-3 rounded-xl bg-gray-100 dark:bg-gray-800">
@@ -299,7 +310,9 @@ export default function OAuthAuthorizePage() {
             ) : (
               <>
                 <Check className="w-4 h-4" />
-                {t('oauth.consent.allow')}
+                {oauthData?.already_authorized
+                  ? t('oauth.consent.continue')
+                  : t('oauth.consent.allow')}
               </>
             )}
           </button>

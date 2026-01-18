@@ -423,7 +423,8 @@
       "willAllow": "Bu {app} tətbiqinə aşağıdakıları icazə verəcək:",
       "allow": "İcazə ver",
       "deny": "İmtina et",
-      "signingInAs": "{email} kimi daxil olursunuz",
+      "continue": "Davam et",
+      "signingInAs": "{app} tətbiqinə daxil olursunuz",
       "switchAccount": "Siz deyilsiniz?",
       "footer": "Hesab parametrlərinizdə istənilən vaxt girişi ləğv edə bilərsiniz"
     },

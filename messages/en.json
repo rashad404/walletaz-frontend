@@ -423,7 +423,8 @@
       "willAllow": "This will allow {app} to:",
       "allow": "Allow",
       "deny": "Deny",
-      "signingInAs": "Signing in as {email}",
+      "continue": "Continue",
+      "signingInAs": "Signing in to {app}",
       "switchAccount": "Not you?",
       "footer": "You can revoke access at any time in your account settings"
     },
