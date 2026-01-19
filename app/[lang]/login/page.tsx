@@ -86,7 +86,7 @@ export default function LoginPage() {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ email, password, return_url: returnUrl || '' })
       });
 
       const data = await response.json();
@@ -124,8 +124,9 @@ export default function LoginPage() {
 
       if (data.data?.token) {
         localStorage.setItem('token', data.data.token);
-        if (returnUrl) {
-          window.location.href = returnUrl;
+        const redirectUrl = data.data.return_url || returnUrl;
+        if (redirectUrl) {
+          window.location.href = redirectUrl;
         } else {
           router.push('/dashboard');
         }
@@ -218,7 +219,7 @@ export default function LoginPage() {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
-        body: JSON.stringify({ phone: fullPhone, password: phonePassword })
+        body: JSON.stringify({ phone: fullPhone, password: phonePassword, return_url: returnUrl || '' })
       });
 
       const data = await response.json();
@@ -240,8 +241,9 @@ export default function LoginPage() {
 
       if (data.data?.token) {
         localStorage.setItem('token', data.data.token);
-        if (returnUrl) {
-          window.location.href = returnUrl;
+        const redirectUrl = data.data.return_url || returnUrl;
+        if (redirectUrl) {
+          window.location.href = redirectUrl;
         } else {
           router.push('/dashboard');
         }
