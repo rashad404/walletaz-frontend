@@ -784,34 +784,148 @@
     "title": "İstifadə Şərtləri",
     "description": "Kimlik.az üçün İstifadə Şərtləri",
     "lastUpdated": "Son yenilənmə",
+    "effectiveDate": "Qüvvəyə minmə tarixi",
     "sections": {
       "acceptance": {
         "title": "Şərtlərin Qəbulu",
-        "content": "Kimlik.az-a daxil olmaqla və istifadə etməklə, bu İstifadə Şərtlərinə tabe olmağı qəbul edirsiniz. Bu şərtlərlə razı deyilsinizsə, xidmətlərimizdən istifadə etməyin."
+        "content": "Kimlik.az-a daxil olmaqla və istifadə etməklə, bu İstifadə Şərtlərini və Məxfilik Siyasətimizi qəbul etmiş olursunuz. Bu şərtlərlə razı deyilsinizsə, xidmətlərimizdən istifadə etməyin. Bu şərtlər sizinlə websiteca.com arasında hüquqi cəhətdən bağlayıcı müqavilədir."
+      },
+      "age": {
+        "title": "Yaş Tələbləri",
+        "content": "Bu xidmətdən istifadə etmək üçün ən azı 13 yaşınız olmalıdır. Avropa İttifaqında yerləşirsinizsə, ən azı 16 yaşınız olmalıdır. Hesab yaratmaqla bu yaş tələblərinə cavab verdiyinizi təsdiqləyirsiniz. Bu yaş həddindən kiçik uşaqdan şəxsi məlumat topladığımızı öyrənsək, bu məlumatı dərhal siləcəyik."
       },
       "services": {
         "title": "Xidmətlərimiz",
-        "content": "Kimlik.az şəxsiyyət yoxlaması və vahid giriş xidmətləri təqdim edir. Bir hesab yaradaraq çoxsaylı tərəfdaş veb-saytlarında və tətbiqlərdə istifadə edə bilərsiniz."
+        "content": "Kimlik.az şəxsiyyət yoxlaması və vahid giriş xidmətləri təqdim edir. Bir hesab yaradaraq çoxsaylı tərəfdaş veb-saytlarında və tətbiqlərdə istifadə edə bilərsiniz. Xidmətlərimizə daxildir:",
+        "items": {
+          "identity": "Şəxsiyyət yoxlaması: Telefon və e-poçt təsdiqləməsi",
+          "sso": "Vahid giriş: Tərəfdaş saytlarda bir hesabla istifadə",
+          "oauth": "OAuth avtorizasiyası: Tərəfdaş tətbiqlər üçün təhlükəsiz giriş",
+          "wallet": "Pul kisəsi xidmətləri: Rəqəmsal pul kisəsi funksionallığı (mövcud olduqda)"
+        }
       },
       "accounts": {
         "title": "İstifadəçi Hesabları",
-        "content": "Hesab məlumatlarınızın məxfiliyini qorumaq və hesabınız altında baş verən bütün fəaliyyətlər üçün məsuliyyət daşıyırsınız. Hesab yaratarkən dəqiq və tam məlumat təqdim etməlisiniz."
+        "content": "Hesab məlumatlarınızın məxfiliyini qorumaq və hesabınız altında baş verən bütün fəaliyyətlər üçün məsuliyyət daşıyırsınız. Siz razılaşırsınız:",
+        "items": {
+          "accurate": "Hesab yaratarkən dəqiq və tam məlumat təqdim etmək",
+          "update": "Hesab məlumatlarınızı yeni saxlamaq",
+          "security": "Şifrənizin təhlükəsizliyini qorumaq və hesabınız altında bütün fəaliyyətlər üçün məsuliyyət daşımaq",
+          "notify": "Hesabınızın icazəsiz istifadəsi barədə dərhal bizə xəbər vermək",
+          "noShare": "Hesab məlumatlarınızı başqaları ilə paylaşmamaq"
+        }
+      },
+      "intellectualProperty": {
+        "title": "Əqli Mülkiyyət",
+        "content": "Kimlik.az-ın bütün məzmunu, xüsusiyyətləri və funksionallığı, o cümlədən mətn, qrafika, loqolar, işarələr, şəkillər, proqram təminatı və bunların kompilyasiyası websiteca.com-un müstəsna mülkiyyətidir və beynəlxalq müəllif hüququ, ticarət nişanı və digər əqli mülkiyyət qanunları ilə qorunur.",
+        "restrictions": {
+          "title": "Siz bunu edə bilməzsiniz:",
+          "items": {
+            "copy": "İcazəsiz məzmunumuzu kopyalamaq, dəyişdirmək və ya yaymaq",
+            "trademark": "Yazılı icazə olmadan ticarət nişanlarımızı, loqolarımızı və ya brendinqi istifadə etmək",
+            "reverse": "Proqram təminatımızı geri mühəndislik etmək, dekompilə etmək və ya sökmək",
+            "scrape": "Xidmətlərimizdən məlumat çıxarmaq üçün avtomatlaşdırılmış sistemlərdən istifadə etmək"
+          }
+        }
+      },
+      "partnerResponsibilities": {
+        "title": "Tərəfdaş Saytları və Üçüncü Tərəf Xidmətləri",
+        "content": "Kimlik.az hesabınızı tərəfdaş saytlarına daxil olmaq üçün istifadə etdiyiniz zaman:",
+        "items": {
+          "separate": "Tərəfdaş saytları ilə münasibətiniz onların öz şərtləri və məxfilik siyasətləri ilə tənzimlənir",
+          "liability": "Tərəfdaş saytların fəaliyyətləri, məzmunu və ya məlumat təcrübələri üçün məsuliyyət daşımırıq",
+          "compliance": "Kimlik.az OAuth istifadə edən tərəfdaş saytlar Tərəfdaş Şərtlərimizə və müvafiq məlumat qorunması qanunlarına riayət etməlidirlər",
+          "misuse": "Tərəfdaş sayt bizimlə müqaviləsini pozaraq məlumatlarınızı sui-istifadə edərsə, onların xidmətlərimizə çıxışını dayandıra bilərik"
+        },
+        "report": "Tərəfdaş saytın məlumatlarınızı sui-istifadə etdiyinə inanırsınızsa, bizimlə əlaqə saxlayın: abuse@kimlik.az"
       },
       "prohibited": {
         "title": "Qadağan Edilmiş Fəaliyyətlər",
-        "content": "Xidmətlərimizdən qeyri-qanuni məqsədlər üçün, başqalarını təqlid etmək, zərərli proqram yaymaq və ya sistemlərimizə və ya digər istifadəçilərin hesablarına icazəsiz giriş əldə etməyə cəhd etmək üçün istifadə edə bilməzsiniz."
+        "content": "Xidmətlərimizdən bunun üçün istifadə edə bilməzsiniz:",
+        "items": {
+          "illegal": "Qeyri-qanuni fəaliyyətlərə cəlb olmaq və ya müvafiq qanunları pozmaq",
+          "impersonate": "Başqalarını təqlid etmək və ya şəxsiyyətinizi və ya əlaqələrinizi yanlış təqdim etmək",
+          "malware": "Zərərli proqram, viruslar və ya digər təhlükəli proqram təminatı yaymaq",
+          "unauthorized": "Sistemlərimizə və ya digər istifadəçilərin hesablarına icazəsiz giriş əldə etməyə cəhd etmək",
+          "interfere": "Xidmətlərimizin bütövlüyünə və ya işinə müdaxilə etmək",
+          "spam": "Spam, fişinq cəhdləri və ya digər istənilməyən əlaqələr göndərmək",
+          "fraud": "Dələduzluq fəaliyyəti və ya maliyyə cinayətləri ilə məşğul olmaq",
+          "abuse": "Digər istifadəçilərə zülm etmək, əziyyət vermək və ya zərər vermək"
+        }
+      },
+      "termination": {
+        "title": "Hesabın Dayandırılması",
+        "content": "Hesabınızı və xidmətlərimizə çıxışınızı dayandıra və ya ləğv edə bilərik:",
+        "reasons": {
+          "title": "Dayandırma səbəblərinə daxildir:",
+          "items": {
+            "violation": "Bu İstifadə Şərtlərinin pozulması",
+            "illegal": "Qeyri-qanuni fəaliyyətlərə cəlb olma",
+            "fraud": "Dələduzluq şübhəsi və ya təhlükəsizlik narahatlıqları",
+            "request": "Hesabınızın silinməsi tələbiniz",
+            "inactivity": "Hesabın uzun müddət istifadə olunmaması (2 ildən çox)"
+          }
+        },
+        "effect": "Dayandırma zamanı xidmətlərimizdən istifadə hüququnuz dərhal dayandırılacaq. Qanunla tələb olunan və ya qanuni biznes məqsədləri üçün müəyyən məlumatları saxlaya bilərik.",
+        "appeal": "Hesabınızın səhvən dayandırıldığına inanırsınızsa, bizimlə əlaqə saxlayın: appeals@kimlik.az"
       },
       "liability": {
         "title": "Məsuliyyətin Məhdudlaşdırılması",
-        "content": "Kimlik.az heç bir zəmanət olmadan \"olduğu kimi\" təqdim edilir. Xidmətlərimizdən istifadə nəticəsində yaranan dolayı, təsadüfi və ya nəticəli zərərlərə görə məsuliyyət daşımırıq."
+        "content": "TƏTBİQ OLUNAN QANUNLA İCAZƏ VERİLƏN MAKSİMUM DƏRƏCƏDƏ:",
+        "items": {
+          "asis": "Kimlik.az heç bir zəmanət olmadan, açıq və ya gizli, \"OLDUĞU KİMİ\" və \"MÖVCUD OLDUĞU KİMİ\" təqdim edilir",
+          "nowarranty": "Xidmətlərimizin fasiləsiz, xətasız və ya təhlükəsiz olacağına zəmanət vermirik",
+          "nodamages": "Xidmətlərimizdən istifadə nəticəsində yaranan dolayı, təsadüfi, xüsusi, nəticəli və ya cəza xarakterli zərərlərə görə məsuliyyət daşımırıq",
+          "cap": "Ümumi məsuliyyətimiz iddiadan əvvəlki 12 ay ərzində bizə ödədiyiniz məbləğdən artıq olmayacaq"
+        }
+      },
+      "indemnification": {
+        "title": "Zərərsizləşdirmə",
+        "content": "websiteca.com-u, onun müdirlərini, direktorlarını, işçilərini, agentlərini və törəmələrini aşağıdakılarla əlaqədar bütün iddialar, öhdəliklər, zərərlər, itkilər və xərclərdən, o cümlədən məqbul hüquqi xərclərdən qorumağı, müdafiə etməyi və zərərsiz saxlamağı qəbul edirsiniz:",
+        "items": {
+          "access": "Xidmətlərimizə çıxışınız və ya istifadəniz",
+          "violation": "Bu İstifadə Şərtlərinin pozulması",
+          "rights": "Əqli mülkiyyət hüquqları daxil olmaqla üçüncü tərəf hüquqlarının pozulması",
+          "content": "Xidmətlərimiz vasitəsilə təqdim etdiyiniz və ya ötürdüyünüz istənilən məzmun"
+        }
+      },
+      "governingLaw": {
+        "title": "Tətbiq Olunan Qanun və Mübahisələrin Həlli",
+        "content": "Bu İstifadə Şərtləri ABŞ-ın Kaliforniya əyalətinin qanunlarına uyğun olaraq tənzimlənəcək və şərh ediləcək, qanun münaqişəsi müddəaları nəzərə alınmadan.",
+        "disputes": {
+          "title": "Mübahisələrin Həlli",
+          "content": "Bu şərtlərdən və ya xidmətlərimizdən istifadənizdən yaranan istənilən mübahisə bunlar vasitəsilə həll ediləcək:",
+          "items": {
+            "informal": "Qeyri-rəsmi danışıqlar: Problemləri həll etmək üçün əvvəlcə bizimlə əlaqə saxlamağınızı tövsiyə edirik",
+            "arbitration": "Məcburi arbitraj: Qeyri-rəsmi həll uğursuz olarsa, mübahisələr Los-Anceles, Kaliforniyada məcburi arbitraj yolu ilə həll ediləcək",
+            "courts": "Məhkəmə yurisdiksiyası: Los-Anceles Dairəsi, Kaliforniya məhkəmələrində iddia qaldıra bilərsiniz"
+          }
+        },
+        "classAction": "Mübahisələri fərdi əsasda həll etməyi və kollektiv iddia davalarında iştirak etmək hüququndan imtina etməyi qəbul edirsiniz."
       },
       "changes": {
         "title": "Şərtlərdə Dəyişikliklər",
-        "content": "Bu şərtləri istənilən vaxt dəyişdirmək hüququnu özümüzdə saxlayırıq. Əhəmiyyətli dəyişikliklər barədə istifadəçiləri e-poçt və ya veb-saytımız vasitəsilə xəbərdar edəcəyik."
+        "content": "Bu şərtləri istənilən vaxt dəyişdirmək hüququnu özümüzdə saxlayırıq. İstifadəçiləri əhəmiyyətli dəyişikliklər barədə bunlarla xəbərdar edəcəyik:",
+        "items": {
+          "email": "Qeydiyyatdan keçmiş e-poçt ünvanınıza e-poçt göndərərək",
+          "notice": "Veb saytımızda bildiriş yerləşdirərək",
+          "login": "Daxil olduğunuzda bildiriş göstərərək"
+        },
+        "continued": "Dəyişikliklər yerləşdirildikdən sonra xidmətlərimizdən istifadəyə davam etməyiniz dəyişdirilmiş şərtləri qəbul etmək deməkdir. Dəyişikliklərlə razı deyilsinizsə, xidmətlərimizdən istifadəni dayandırmalısınız."
+      },
+      "severability": {
+        "title": "Bölünə Bilmə",
+        "content": "Bu İstifadə Şərtlərinin hər hansı müddəası icra edilə bilməz və ya etibarsız olarsa, bu müddəa minimum zəruri dərəcədə məhdudlaşdırılacaq və ya aradan qaldırılacaq, qalan müddəalar tam qüvvədə qalacaq."
       },
       "contact": {
         "title": "Bizimlə Əlaqə",
-        "content": "Bu İstifadə Şərtləri ilə bağlı suallarınız varsa, bizimlə əlaqə saxlayın"
+        "content": "Bu İstifadə Şərtləri ilə bağlı suallarınız varsa, bizimlə əlaqə saxlayın:"
+      },
+      "companyInfo": {
+        "title": "Şirkət Məlumatları",
+        "name": "websiteca.com",
+        "address": "5670 WILSHIRE BLVD, STE 1838, LOS ANGELES, CA 90036-5679, USA",
+        "email": "legal@kimlik.az"
       }
     }
   },
@@ -827,36 +941,206 @@
     "alternative": "Alternativ olaraq, bizimlə əlaqə saxlayaraq hesabın silinməsini tələb edə bilərsiniz:",
     "contactEmail": "E-poçt",
     "timeframe": "Sorğunuzdan sonra 30 gün ərzində məlumatlarınız həmişəlik silinəcək. Bəzi məlumatlar qanuni tələblərə uyğun olaraq saxlanıla bilər.",
-    "backToPrivacy": "Məxfilik Siyasətinə qayıt"
+    "backToPrivacy": "Məxfilik Siyasətinə qayıt",
+    "socialLoginRevocation": {
+      "title": "Sosial Giriş İcazəsinin Ləğvi",
+      "description": "Sosial giriş (Facebook və ya Google) istifadə edərək qeydiyyatdan keçmisinizsə, həmçinin həmin platformalardan icazəni ləğv etməyi tövsiyə edirik:",
+      "facebook": {
+        "title": "Facebook-dan Ayırma",
+        "description": "Facebook hesabınızdan Kimlik.az icazəsini ləğv etmək üçün:",
+        "step1": "Facebook-u açın və Parametrlər və Məxfilik → Parametrlər bölməsinə keçin",
+        "step2": "Sol menyuda \"Tətbiqlər və Veb-saytlar\" üzərinə klikləyin",
+        "step3": "Bağlı tətbiqlər siyahısında \"Kimlik.az\" tapın",
+        "step4": "Kimlik.az-ı Facebook hesabınızdan ayırmaq üçün \"Sil\" üzərinə klikləyin"
+      },
+      "google": {
+        "title": "Google-dan Ayırma",
+        "description": "Google hesabınızdan Kimlik.az icazəsini ləğv etmək üçün:",
+        "step1": "Google Hesabınıza keçin (myaccount.google.com)",
+        "step2": "Təhlükəsizlik → Hesab girişi olan üçüncü tərəf tətbiqləri bölməsinə keçin",
+        "step3": "\"Kimlik.az\" tapın və üzərinə klikləyin",
+        "step4": "Kimlik.az-ı Google hesabınızdan ayırmaq üçün \"Girişi Ləğv Et\" üzərinə klikləyin"
+      }
+    },
+    "dataRetention": {
+      "title": "Silinmədən Sonra Məlumatların Saxlanması",
+      "description": "Hesabınızı sildiyiniz zaman məlumatlarınızın çoxu dərhal silinir. Lakin bəzi məlumatlar saxlanıla bilər:",
+      "items": {
+        "transactions": "Əməliyyat qeydləri: Hüquqi və mühasibat məqsədləri üçün 7 il saxlanılır",
+        "logs": "Təhlükəsizlik jurnalları: Dələduzluğun qarşısının alınması üçün 2 il saxlanılır",
+        "legal": "Hüquqi uyğunluq məlumatları: Müvafiq qanunların tələb etdiyi kimi saxlanılır",
+        "anonymized": "Anonimləşdirilmiş analitika məlumatları: Xidmət təkmilləşdirməsi üçün qeyri-müəyyən müddətə saxlanıla bilər"
+      },
+      "partners": "Nəzərə alın ki, Kimlik.az istifadə edərək daxil olduğunuz tərəfdaş saytların onlarla paylaşdığınız məlumatların öz nüsxələri ola bilər. Məlumatlarınızın onların sistemlərindən silinməsini tələb etmək üçün birbaşa həmin saytlarla əlaqə saxlamalısınız."
+    },
+    "confirmationEmail": "Hesab silinməsini başlatdıqdan sonra təsdiq e-poçtu alacaqsınız. Fikirlərinizi dəyişsəniz, hesabınız 14 gün ərzində əlçatan qalacaq. Bu gözləmə müddətindən sonra bütün uyğun məlumatlar 30 gün ərzində həmişəlik silinəcək."
   },
   "privacy": {
     "title": "Məxfilik Siyasəti",
     "description": "Kimlik.az üçün Məxfilik Siyasəti",
     "lastUpdated": "Son yenilənmə",
+    "effectiveDate": "Qüvvəyə minmə tarixi",
     "sections": {
+      "introduction": {
+        "title": "Giriş",
+        "content": "Kimlik.az (\"biz\" və ya \"bizim\") websiteca.com tərəfindən idarə olunur. Biz məxfiliyinizi və şəxsi məlumatlarınızı qorumağa sadiqik. Bu Məxfilik Siyasəti şəxsiyyət yoxlaması və vahid giriş xidmətlərimizdən istifadə etdiyiniz zaman məlumatlarınızı necə topladığımızı, istifadə etdiyimizi, açıqladığımızı və qoruduğumuzu izah edir."
+      },
       "collection": {
         "title": "Topladığımız Məlumatlar",
-        "content": "Hesab yaratarkən və ya xidmətlərimizdən istifadə edərkən bizə birbaşa təqdim etdiyiniz məlumatları toplayırıq: adınız, e-poçt ünvanınız, telefon nömrəniz və digər məlumatlar."
+        "content": "Hesab yaratarkən və ya xidmətlərimizdən istifadə edərkən bizə birbaşa təqdim etdiyiniz məlumatları toplayırıq:",
+        "items": {
+          "personal": "Şəxsi identifikasiya məlumatları: ad, e-poçt ünvanı, telefon nömrəsi",
+          "profile": "Profil məlumatları: profil şəkli, göstərilən ad, saat qurşağı seçimləri",
+          "verification": "Təsdiqləmə məlumatları: telefon təsdiqləmə statusu, e-poçt təsdiqləmə statusu",
+          "payment": "Ödəniş və pul kisəsi məlumatları: əməliyyat tarixçəsi, balans məlumatları",
+          "usage": "İstifadə məlumatları: giriş tarixçəsi, bağlı tətbiqlər, cihaz məlumatları"
+        }
+      },
+      "socialLogin": {
+        "title": "Sosial Giriş (Facebook və Google)",
+        "content": "Facebook və ya Google istifadə edərək qeydiyyatdan keçməyi və ya daxil olmağı seçdiyiniz zaman, bu platformalardan müəyyən məlumatlar toplayırıq:",
+        "facebook": {
+          "title": "Facebook Girişi",
+          "content": "Facebook Girişi vasitəsilə topladığımız məlumatlar bunlardır: adınız, e-poçt ünvanınız və Facebook məxfilik parametrləriniz tərəfindən icazə verildiyi kimi profil şəkliniz. Biz Facebook zaman xəttinizə paylaşım etmirik və ya dostlar siyahınıza daxil olmuruq.",
+          "revoke": "İstənilən vaxt Facebook Parametrləri → Tətbiqlər və Veb-saytlar → Kimlik.az-ı Sil vasitəsilə Facebook icazəsini ləğv edə bilərsiniz"
+        },
+        "google": {
+          "title": "Google Girişi",
+          "content": "Google Girişi istifadə etdikdə, adınızı, e-poçt ünvanınızı və profil şəklinizi alırıq. Google Drive, Gmail və ya digər Google xidmətlərinə daxil olmuruq.",
+          "revoke": "İstənilən vaxt Google Hesabınız → Təhlükəsizlik → Hesab girişi olan üçüncü tərəf tətbiqləri → Kimlik.az-ı Sil vasitəsilə Google icazəsini ləğv edə bilərsiniz"
+        }
+      },
+      "thirdPartyPartners": {
+        "title": "Üçüncü Tərəf Tərəfdaş Saytları",
+        "content": "Kimlik.az hesabınızı OAuth sistemi vasitəsilə tərəfdaş saytlarına daxil olmaq üçün istifadə etdiyiniz zaman:",
+        "dataShared": {
+          "title": "Tərəfdaşlarla Paylaşılan Məlumatlar",
+          "content": "Tərəfdaş saytlar yalnız razılıq prosesi zamanı açıq şəkildə icazə verdiyiniz məlumatları alır. Bunlara daxil ola bilər:",
+          "items": {
+            "profile": "Profil məlumatlarınız (ad, profil şəkli)",
+            "email": "E-poçt ünvanınız",
+            "phone": "Telefon nömrəniz",
+            "verification": "Təsdiqləmə statusunuz",
+            "wallet": "Pul kisəsi balansınız (icazə verilərsə)"
+          }
+        },
+        "partnerObligations": {
+          "title": "Tərəfdaş Öhdəlikləri",
+          "content": "Tərəfdaş saytlar məlumatlarınızı qorumaq və müvafiq məxfilik qanunlarına riayət etmək üçün müqavilə ilə bağlıdırlar. Tərəfdaşlar sizin razılığınız olmadan məlumatlarınızı üçüncü tərəflərlə paylaşmamalı və tələb edildikdə məlumatlarınızı silməlidirlər."
+        },
+        "revokeAccess": {
+          "title": "Tərəfdaş Girişini Ləğv Etmə",
+          "content": "İstənilən tərəfdaş saytın məlumatlarınıza girişini istənilən vaxt Kimlik.az hesabınızda Parametrlər → Bağlı Tətbiqlər vasitəsilə ləğv edə bilərsiniz."
+        }
+      },
+      "cookies": {
+        "title": "Çerezlər və İzləmə Texnologiyaları",
+        "content": "Xidmətlərimizi idarə etmək üçün çerezlər və oxşar izləmə texnologiyalarından istifadə edirik:",
+        "types": {
+          "essential": "Vacib çerezlər: Xidmətin işləməsi üçün tələb olunur (sessiya idarəetməsi, avtorizasiya)",
+          "analytics": "Analitika çerezləri: Xidmətdən necə istifadə etdiyinizi anlamağımıza və onu təkmilləşdirməyə kömək edir",
+          "preferences": "Seçim çerezləri: Parametrlərinizi və seçimlərinizi yadda saxlayır"
+        },
+        "manage": "Çerez seçimlərini brauzer parametrləriniz vasitəsilə idarə edə bilərsiniz. Nəzərə alın ki, vacib çerezləri deaktiv etmək xidmətlərimizdən istifadə etməyinizi əngəlləyə bilər."
       },
       "usage": {
         "title": "Məlumatlarınızı Necə İstifadə Edirik",
-        "content": "Topladığımız məlumatları xidmətlərimizi təqdim etmək, saxlamaq və təkmilləşdirmək, əməliyyatları emal etmək, texniki bildirişlər və dəstək mesajları göndərmək üçün istifadə edirik."
+        "content": "Topladığımız məlumatları aşağıdakı məqsədlər üçün istifadə edirik:",
+        "items": {
+          "provide": "Xidmətlərimizi təmin etmək, saxlamaq və təkmilləşdirmək",
+          "process": "Əməliyyatları emal etmək və əlaqəli məlumat göndərmək",
+          "verify": "Şəxsiyyətinizi yoxlamaq və dələduzluğun qarşısını almaq",
+          "communicate": "Sizə texniki bildirişlər, yeniləmələr, təhlükəsizlik xəbərdarlıqları və dəstək mesajları göndərmək",
+          "respond": "Şərhlərinizə, suallarınıza və müştəri xidmət tələblərinə cavab vermək",
+          "analytics": "İstifadə nümunələrini təhlil etmək və istifadəçi təcrübəsini yaxşılaşdırmaq",
+          "legal": "Hüquqi öhdəliklərə riayət etmək və şərtlərimizi tətbiq etmək"
+        }
       },
       "sharing": {
         "title": "Məlumat Paylaşımı",
-        "content": "Məlumatlarınızı yalnız sizin razılığınızla, OAuth sistemi vasitəsilə icazə verdiyiniz tətbiqlərlə və qanunla tələb olunduqda paylaşırıq. Şəxsi məlumatlarınızı satmırıq."
+        "content": "Məlumatlarınızı yalnız aşağıdakı hallarda paylaşırıq:",
+        "items": {
+          "consent": "Sizin razılığınızla: OAuth vasitəsilə tərəfdaş saytlara icazə verdiyiniz zaman",
+          "legal": "Hüquqi səbəblərə görə: Qanun, məhkəmə qərarı və ya dövlət sorğusu tələb etdikdə",
+          "protection": "Qorunma üçün: Kimlik.az, istifadəçilərimiz və ya başqalarının hüquqlarını, mülkiyyətini və ya təhlükəsizliyini qorumaq üçün",
+          "business": "Biznes transferləri: Hər hansı birləşmə, satış və ya alış-veriş ilə əlaqədar"
+        },
+        "noSale": "Şəxsi məlumatlarınızı üçüncü tərəflərə satmırıq."
+      },
+      "retention": {
+        "title": "Məlumatların Saxlanması",
+        "content": "Şəxsi məlumatlarınızı hesabınız aktiv olduğu müddətdə və ya sizə xidmət göstərmək üçün lazım olduğu müddətdə saxlayırıq. Xüsusi saxlama müddətləri:",
+        "periods": {
+          "account": "Hesab məlumatları: Hesabın silinməsi tələb olunana qədər saxlanılır",
+          "transactions": "Əməliyyat tarixçəsi: Hüquqi və mühasibat məqsədləri üçün 7 il",
+          "logs": "Təhlükəsizlik və giriş jurnalları: 2 il",
+          "analytics": "Analitika məlumatları: Anonimləşdirilmiş formada 26 ay"
+        },
+        "partners": "Tərəfdaş saytların öz məlumat saxlama siyasətləri ola bilər. Ətraflı məlumat üçün onların məxfilik siyasətlərini nəzərdən keçirin."
+      },
+      "rights": {
+        "title": "Hüquqlarınız (GDPR və Müvafiq Qanunlar)",
+        "content": "Şəxsi məlumatlarınızla bağlı aşağıdakı hüquqlara maliksiniz:",
+        "items": {
+          "access": "Giriş Hüququ: Haqqınızda saxladığımız şəxsi məlumatların surətini tələb edin",
+          "rectification": "Düzəliş Hüququ: Qeyri-dəqiq və ya natamam məlumatların düzəldilməsini tələb edin",
+          "erasure": "Silinmə Hüququ: Şəxsi məlumatlarınızın silinməsini tələb edin (\"unudulmaq hüququ\")",
+          "portability": "Məlumatların Daşınması Hüququ: Məlumatlarınızı maşın-oxuna bilən formatda tələb edin",
+          "restriction": "Məhdudiyyət Hüququ: Müəyyən hallarda emalın məhdudlaşdırılmasını tələb edin",
+          "objection": "Etiraz Hüququ: Qanuni maraqlara əsaslanan emala etiraz edin",
+          "withdraw": "Razılığı Geri Çəkmə Hüququ: Razılığa əsaslandığımız hallarda istənilən vaxt razılığı geri çəkin"
+        },
+        "exercise": "Bu hüquqlardan hər hansı birini həyata keçirmək üçün privacy@kimlik.az ünvanına və ya hesabınızda Parametrlər → Məxfilik vasitəsilə bizimlə əlaqə saxlayın."
+      },
+      "legalBasis": {
+        "title": "Emal üçün Hüquqi Əsas",
+        "content": "Şəxsi məlumatlarınızı aşağıdakı hüquqi əsaslarla emal edirik:",
+        "items": {
+          "consent": "Razılıq: Hesab yaratdıqda, sosial girişi aktiv etdikdə və ya tərəfdaş girişinə icazə verdikdə",
+          "contract": "Müqavilə: Xidmət göstərmək üçün müqavilə öhdəliklərimizi yerinə yetirmək",
+          "legitimate": "Qanuni Maraq: Dələduzluğun qarşısının alınması, təhlükəsizlik və xidmətin təkmilləşdirilməsi üçün",
+          "legal": "Hüquqi Öhdəlik: Müvafiq qanunlara və qaydalara riayət etmək üçün"
+        }
+      },
+      "internationalTransfers": {
+        "title": "Beynəlxalq Məlumat Transferləri",
+        "content": "Məlumatlarınız əsasən Azərbaycanda saxlanılır və emal edilir. Məlumatları beynəlxalq səviyyədə transfer etdikdə, müvafiq məlumat qorunması orqanları tərəfindən təsdiqlənmiş standart müqavilə şərtləri daxil olmaqla müvafiq təminatların olmasını təmin edirik."
+      },
+      "children": {
+        "title": "Uşaqların Məxfiliyi",
+        "content": "Xidmətlərimiz 13 yaşından (Avropa İttifaqında 16 yaşından) kiçik uşaqlar üçün nəzərdə tutulmayıb. Bu yaşlardan kiçik uşaqlardan bilərəkdən şəxsi məlumat toplamırıq. Uşaqdan məlumat topladığımıza inanırsınızsa, dərhal privacy@kimlik.az ünvanına bizimlə əlaqə saxlayın və biz bu cür məlumatı dərhal siləcəyik."
       },
       "security": {
-        "title": "Məlumat Təhlükəsizliyi",
-        "content": "Şəxsi məlumatlarınızı icazəsiz giriş, dəyişiklik, açıqlama və ya məhv etmədən qorumaq üçün müvafiq texniki və təşkilati tədbirlər həyata keçiririk."
+        "title": "Təhlükəsizlik Tədbirləri",
+        "content": "Məlumatlarınızı qorumaq üçün hərtərəfli təhlükəsizlik tədbirləri həyata keçiririk:",
+        "items": {
+          "encryption": "Şifrələmə: Bütün məlumatlar transit (TLS 1.3) və saxlama (AES-256) zamanı şifrələnir",
+          "access": "Giriş Nəzarəti: Sistemlərimiz üçün ciddi giriş nəzarəti və avtorizasiya",
+          "monitoring": "Monitorinq: 24/7 təhlükəsizlik monitorinqi və müdaxilənin aşkarlanması",
+          "audits": "Auditlər: Müntəzəm təhlükəsizlik auditləri və zəiflik qiymətləndirmələri",
+          "training": "Təlim: Məlumat qorunması və təhlükəsizlik təcrübələri üzrə işçi təlimi"
+        }
       },
-      "deletion": {
-        "title": "Məlumatların Silinməsi",
-        "content": "İstənilən vaxt bizimlə əlaqə saxlayaraq hesabınızın və şəxsi məlumatlarınızın silinməsini tələb edə bilərsiniz. Sorğunuzu aldıqdan sonra 30 gün ərzində məlumatlarınızı siləcəyik."
+      "changes": {
+        "title": "Bu Siyasətdə Dəyişikliklər",
+        "content": "Bu Məxfilik Siyasətini vaxtaşırı yeniləyə bilərik. Əhəmiyyətli dəyişikliklər barədə sizi bunlarla xəbərdar edəcəyik:",
+        "items": {
+          "email": "Qeydiyyatdan keçmiş e-poçt ünvanınıza e-poçt göndərərək",
+          "notice": "Veb saytımızda görünən bildiriş yerləşdirərək",
+          "app": "Hesabınıza daxil olduğunuzda bildiriş göstərərək"
+        },
+        "effective": "Dəyişikliklər başqa şəkildə bildirilmədiyi halda dərhal qüvvəyə minəcək. Bu siyasəti vaxtaşırı nəzərdən keçirməyinizi tövsiyə edirik."
       },
       "contact": {
         "title": "Bizimlə Əlaqə",
-        "content": "Bu Məxfilik Siyasəti ilə bağlı suallarınız varsa, bizimlə əlaqə saxlayın"
+        "content": "Bu Məxfilik Siyasəti haqqında suallarınız varsa və ya məlumat qorunması hüquqlarınızı həyata keçirmək istəyirsinizsə, bizimlə əlaqə saxlayın:"
+      },
+      "companyInfo": {
+        "title": "Şirkət Məlumatları",
+        "name": "websiteca.com",
+        "address": "5670 WILSHIRE BLVD, STE 1838, LOS ANGELES, CA 90036-5679, USA",
+        "email": "privacy@kimlik.az",
+        "dataProtection": "Məlumat qorunması sorğuları üçün Məlumat Qorunması Məsulumuzla dpo@kimlik.az ünvanında əlaqə saxlaya bilərsiniz"
       }
     }
   }

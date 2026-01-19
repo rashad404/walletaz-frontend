@@ -784,34 +784,148 @@
     "title": "Terms of Service",
     "description": "Terms of Service for Kimlik.az",
     "lastUpdated": "Last updated",
+    "effectiveDate": "Effective Date",
     "sections": {
       "acceptance": {
         "title": "Acceptance of Terms",
-        "content": "By accessing and using Kimlik.az, you accept and agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our services."
+        "content": "By accessing and using Kimlik.az, you accept and agree to be bound by these Terms of Service and our Privacy Policy. If you do not agree to these terms, please do not use our services. These terms constitute a legally binding agreement between you and websiteca.com."
+      },
+      "age": {
+        "title": "Age Requirements",
+        "content": "You must be at least 13 years old to use this service. If you are located in the European Union, you must be at least 16 years old. By creating an account, you represent and warrant that you meet these age requirements. If we learn that we have collected personal information from a child under these ages, we will delete that information promptly."
       },
       "services": {
         "title": "Our Services",
-        "content": "Kimlik.az provides identity verification and single sign-on services. We allow you to create one account and use it across multiple partner websites and applications."
+        "content": "Kimlik.az provides identity verification and single sign-on services. We allow you to create one account and use it across multiple partner websites and applications. Our services include:",
+        "items": {
+          "identity": "Identity verification: Phone and email verification",
+          "sso": "Single sign-on: Use one account across partner sites",
+          "oauth": "OAuth authentication: Secure login for partner applications",
+          "wallet": "Wallet services: Digital wallet functionality (where available)"
+        }
       },
       "accounts": {
         "title": "User Accounts",
-        "content": "You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account. You must provide accurate and complete information when creating an account."
+        "content": "You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account. You agree to:",
+        "items": {
+          "accurate": "Provide accurate and complete information when creating an account",
+          "update": "Keep your account information up to date",
+          "security": "Maintain the security of your password and accept responsibility for all activities under your account",
+          "notify": "Notify us immediately of any unauthorized use of your account",
+          "noShare": "Not share your account credentials with others"
+        }
+      },
+      "intellectualProperty": {
+        "title": "Intellectual Property",
+        "content": "All content, features, and functionality of Kimlik.az, including but not limited to text, graphics, logos, icons, images, software, and the compilation thereof, are the exclusive property of websiteca.com and are protected by international copyright, trademark, and other intellectual property laws.",
+        "restrictions": {
+          "title": "You may not:",
+          "items": {
+            "copy": "Copy, modify, or distribute our content without permission",
+            "trademark": "Use our trademarks, logos, or branding without written authorization",
+            "reverse": "Reverse engineer, decompile, or disassemble our software",
+            "scrape": "Use automated systems to extract data from our services"
+          }
+        }
+      },
+      "partnerResponsibilities": {
+        "title": "Partner Sites and Third-Party Services",
+        "content": "When you use your Kimlik.az account to access partner sites:",
+        "items": {
+          "separate": "Your relationship with partner sites is governed by their own terms and privacy policies",
+          "liability": "We are not responsible for the actions, content, or data practices of partner sites",
+          "compliance": "Partner sites using Kimlik.az OAuth must comply with our Partner Terms and applicable data protection laws",
+          "misuse": "If a partner site misuses your data in violation of their agreement with us, we may terminate their access to our services"
+        },
+        "report": "If you believe a partner site has misused your data, please contact us at abuse@kimlik.az"
       },
       "prohibited": {
         "title": "Prohibited Activities",
-        "content": "You may not use our services for any illegal purposes, to impersonate others, to distribute malware, or to attempt to gain unauthorized access to our systems or other users' accounts."
+        "content": "You may not use our services to:",
+        "items": {
+          "illegal": "Engage in any illegal activities or violate any applicable laws",
+          "impersonate": "Impersonate others or misrepresent your identity or affiliations",
+          "malware": "Distribute malware, viruses, or other harmful software",
+          "unauthorized": "Attempt to gain unauthorized access to our systems or other users' accounts",
+          "interfere": "Interfere with or disrupt the integrity or performance of our services",
+          "spam": "Send spam, phishing attempts, or other unsolicited communications",
+          "fraud": "Engage in fraudulent activities or financial crimes",
+          "abuse": "Abuse, harass, or harm other users"
+        }
+      },
+      "termination": {
+        "title": "Account Termination",
+        "content": "We may suspend or terminate your account and access to our services:",
+        "reasons": {
+          "title": "Reasons for termination include:",
+          "items": {
+            "violation": "Violation of these Terms of Service",
+            "illegal": "Engagement in illegal activities",
+            "fraud": "Suspected fraud or security concerns",
+            "request": "Your request to delete your account",
+            "inactivity": "Extended period of account inactivity (over 2 years)"
+          }
+        },
+        "effect": "Upon termination, your right to use our services will cease immediately. We may retain certain data as required by law or for legitimate business purposes.",
+        "appeal": "If you believe your account was terminated in error, you may contact us at appeals@kimlik.az"
       },
       "liability": {
         "title": "Limitation of Liability",
-        "content": "Kimlik.az is provided \"as is\" without warranties of any kind. We are not liable for any indirect, incidental, or consequential damages arising from your use of our services."
+        "content": "TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW:",
+        "items": {
+          "asis": "Kimlik.az is provided \"AS IS\" and \"AS AVAILABLE\" without warranties of any kind, either express or implied",
+          "nowarranty": "We do not warrant that our services will be uninterrupted, error-free, or secure",
+          "nodamages": "We are not liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of our services",
+          "cap": "Our total liability shall not exceed the amount you paid us in the 12 months preceding the claim"
+        }
+      },
+      "indemnification": {
+        "title": "Indemnification",
+        "content": "You agree to indemnify, defend, and hold harmless websiteca.com, its officers, directors, employees, agents, and affiliates from and against any claims, liabilities, damages, losses, and expenses, including reasonable legal fees, arising out of or in any way connected with:",
+        "items": {
+          "access": "Your access to or use of our services",
+          "violation": "Your violation of these Terms of Service",
+          "rights": "Your violation of any third-party rights, including intellectual property rights",
+          "content": "Any content you submit or transmit through our services"
+        }
+      },
+      "governingLaw": {
+        "title": "Governing Law and Dispute Resolution",
+        "content": "These Terms of Service shall be governed by and construed in accordance with the laws of the State of California, United States, without regard to its conflict of law provisions.",
+        "disputes": {
+          "title": "Dispute Resolution",
+          "content": "Any disputes arising from these terms or your use of our services shall be resolved through:",
+          "items": {
+            "informal": "Informal negotiation: We encourage you to contact us first to resolve issues",
+            "arbitration": "Binding arbitration: If informal resolution fails, disputes will be resolved through binding arbitration in Los Angeles, California",
+            "courts": "Court jurisdiction: You may also bring claims in the courts of Los Angeles County, California"
+          }
+        },
+        "classAction": "You agree to resolve disputes on an individual basis and waive the right to participate in class action lawsuits."
       },
       "changes": {
         "title": "Changes to Terms",
-        "content": "We reserve the right to modify these terms at any time. We will notify users of significant changes via email or through our website. Continued use of our services constitutes acceptance of modified terms."
+        "content": "We reserve the right to modify these terms at any time. We will notify users of significant changes by:",
+        "items": {
+          "email": "Sending an email to your registered email address",
+          "notice": "Posting a notice on our website",
+          "login": "Displaying a notification when you log in"
+        },
+        "continued": "Continued use of our services after changes are posted constitutes acceptance of the modified terms. If you do not agree to the changes, you must stop using our services."
+      },
+      "severability": {
+        "title": "Severability",
+        "content": "If any provision of these Terms of Service is found to be unenforceable or invalid, that provision shall be limited or eliminated to the minimum extent necessary, and the remaining provisions shall remain in full force and effect."
       },
       "contact": {
         "title": "Contact Us",
-        "content": "If you have questions about these Terms of Service, please contact us at"
+        "content": "If you have questions about these Terms of Service, please contact us:"
+      },
+      "companyInfo": {
+        "title": "Company Information",
+        "name": "websiteca.com",
+        "address": "5670 WILSHIRE BLVD, STE 1838, LOS ANGELES, CA 90036-5679, USA",
+        "email": "legal@kimlik.az"
       }
     }
   },
@@ -827,36 +941,206 @@
     "alternative": "Alternatively, you can request account deletion by contacting us:",
     "contactEmail": "Email",
     "timeframe": "Your data will be permanently deleted within 30 days of your request. Some data may be retained for legal compliance purposes.",
-    "backToPrivacy": "Back to Privacy Policy"
+    "backToPrivacy": "Back to Privacy Policy",
+    "socialLoginRevocation": {
+      "title": "Revoking Social Login Access",
+      "description": "If you signed up using a social login (Facebook or Google), we recommend also revoking access from those platforms:",
+      "facebook": {
+        "title": "Disconnect from Facebook",
+        "description": "To revoke Kimlik.az access from your Facebook account:",
+        "step1": "Open Facebook and go to Settings & Privacy → Settings",
+        "step2": "Click on \"Apps and Websites\" in the left menu",
+        "step3": "Find \"Kimlik.az\" in the list of connected apps",
+        "step4": "Click \"Remove\" to disconnect Kimlik.az from your Facebook account"
+      },
+      "google": {
+        "title": "Disconnect from Google",
+        "description": "To revoke Kimlik.az access from your Google account:",
+        "step1": "Go to your Google Account (myaccount.google.com)",
+        "step2": "Navigate to Security → Third-party apps with account access",
+        "step3": "Find \"Kimlik.az\" and click on it",
+        "step4": "Click \"Remove Access\" to disconnect Kimlik.az from your Google account"
+      }
+    },
+    "dataRetention": {
+      "title": "Data Retention After Deletion",
+      "description": "When you delete your account, most of your data is immediately removed. However, some data may be retained:",
+      "items": {
+        "transactions": "Transaction records: Retained for 7 years for legal and accounting purposes",
+        "logs": "Security logs: Retained for 2 years for fraud prevention",
+        "legal": "Legal compliance data: Retained as required by applicable laws",
+        "anonymized": "Anonymized analytics data: May be retained indefinitely for service improvement"
+      },
+      "partners": "Please note that partner sites you logged into using Kimlik.az may have their own copies of data you shared with them. You should contact those sites directly to request deletion of your data from their systems."
+    },
+    "confirmationEmail": "After initiating account deletion, you will receive a confirmation email. Your account will remain accessible for 14 days in case you change your mind. After this grace period, all eligible data will be permanently deleted within 30 days."
   },
   "privacy": {
     "title": "Privacy Policy",
     "description": "Privacy Policy for Kimlik.az",
     "lastUpdated": "Last updated",
+    "effectiveDate": "Effective Date",
     "sections": {
+      "introduction": {
+        "title": "Introduction",
+        "content": "Kimlik.az (\"we,\" \"our,\" or \"us\") is operated by websiteca.com. We are committed to protecting your privacy and personal data. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our identity verification and single sign-on services."
+      },
       "collection": {
         "title": "Information We Collect",
-        "content": "We collect information you provide directly to us, such as your name, email address, phone number, and any other information you choose to provide when creating an account or using our services."
+        "content": "We collect information you provide directly to us when creating an account or using our services:",
+        "items": {
+          "personal": "Personal identification information: name, email address, phone number",
+          "profile": "Profile information: profile photo, display name, timezone preferences",
+          "verification": "Verification data: phone verification status, email verification status",
+          "payment": "Payment and wallet information: transaction history, balance information",
+          "usage": "Usage data: login history, connected applications, device information"
+        }
+      },
+      "socialLogin": {
+        "title": "Social Login (Facebook & Google)",
+        "content": "When you choose to register or sign in using Facebook or Google, we collect specific data from these platforms:",
+        "facebook": {
+          "title": "Facebook Login",
+          "content": "We collect data via Facebook Login including: your name, email address, and profile picture as permitted by your Facebook privacy settings. We do not post to your Facebook timeline or access your friends list.",
+          "revoke": "You can revoke Facebook access at any time through Facebook Settings → Apps and Websites → Remove Kimlik.az"
+        },
+        "google": {
+          "title": "Google Login",
+          "content": "When using Google Sign-In, we receive your name, email address, and profile picture. We do not access your Google Drive, Gmail, or any other Google services.",
+          "revoke": "You can revoke Google access at any time through your Google Account → Security → Third-party apps with account access → Remove Kimlik.az"
+        }
+      },
+      "thirdPartyPartners": {
+        "title": "Third-Party Partner Sites",
+        "content": "When you use your Kimlik.az account to log in to partner sites through our OAuth system:",
+        "dataShared": {
+          "title": "Data Shared with Partners",
+          "content": "Partner sites receive only the data you explicitly authorize during the consent process. This may include:",
+          "items": {
+            "profile": "Your profile information (name, profile picture)",
+            "email": "Your email address",
+            "phone": "Your phone number",
+            "verification": "Your verification status",
+            "wallet": "Your wallet balance (if authorized)"
+          }
+        },
+        "partnerObligations": {
+          "title": "Partner Obligations",
+          "content": "Partner sites are contractually bound to protect your data and comply with applicable privacy laws. Partners must not share your data with third parties without your consent and must delete your data upon request."
+        },
+        "revokeAccess": {
+          "title": "Revoking Partner Access",
+          "content": "You can revoke any partner site's access to your data at any time through Settings → Connected Apps in your Kimlik.az account."
+        }
+      },
+      "cookies": {
+        "title": "Cookies and Tracking Technologies",
+        "content": "We use cookies and similar tracking technologies to operate our services:",
+        "types": {
+          "essential": "Essential cookies: Required for the service to function (session management, authentication)",
+          "analytics": "Analytics cookies: Help us understand how you use our service to improve it",
+          "preferences": "Preference cookies: Remember your settings and preferences"
+        },
+        "manage": "You can manage cookie preferences through your browser settings. Note that disabling essential cookies may prevent you from using our services."
       },
       "usage": {
         "title": "How We Use Your Information",
-        "content": "We use the information we collect to provide, maintain, and improve our services, to process transactions, to send you technical notices and support messages, and to respond to your comments and questions."
+        "content": "We use the information we collect for the following purposes:",
+        "items": {
+          "provide": "To provide, maintain, and improve our services",
+          "process": "To process transactions and send related information",
+          "verify": "To verify your identity and prevent fraud",
+          "communicate": "To send you technical notices, updates, security alerts, and support messages",
+          "respond": "To respond to your comments, questions, and customer service requests",
+          "analytics": "To analyze usage patterns and improve user experience",
+          "legal": "To comply with legal obligations and enforce our terms"
+        }
       },
       "sharing": {
         "title": "Information Sharing",
-        "content": "We share your information only with your consent, with third-party applications you authorize through our OAuth system, and as required by law. We do not sell your personal information."
+        "content": "We share your information only in the following circumstances:",
+        "items": {
+          "consent": "With your consent: When you authorize partner sites through OAuth",
+          "legal": "For legal reasons: When required by law, court order, or government request",
+          "protection": "For protection: To protect the rights, property, or safety of Kimlik.az, our users, or others",
+          "business": "Business transfers: In connection with any merger, sale, or acquisition"
+        },
+        "noSale": "We do not sell your personal information to third parties."
+      },
+      "retention": {
+        "title": "Data Retention",
+        "content": "We retain your personal data for as long as your account is active or as needed to provide you services. Specific retention periods:",
+        "periods": {
+          "account": "Account data: Retained until account deletion is requested",
+          "transactions": "Transaction history: 7 years for legal and accounting purposes",
+          "logs": "Security and login logs: 2 years",
+          "analytics": "Analytics data: 26 months in anonymized form"
+        },
+        "partners": "Partner sites may have their own data retention policies. Please review their privacy policies for details."
+      },
+      "rights": {
+        "title": "Your Rights (GDPR and Applicable Laws)",
+        "content": "You have the following rights regarding your personal data:",
+        "items": {
+          "access": "Right to Access: Request a copy of the personal data we hold about you",
+          "rectification": "Right to Rectification: Request correction of inaccurate or incomplete data",
+          "erasure": "Right to Erasure: Request deletion of your personal data (\"right to be forgotten\")",
+          "portability": "Right to Data Portability: Request your data in a machine-readable format",
+          "restriction": "Right to Restriction: Request limitation of processing in certain circumstances",
+          "objection": "Right to Object: Object to processing based on legitimate interests",
+          "withdraw": "Right to Withdraw Consent: Withdraw consent at any time where we rely on consent"
+        },
+        "exercise": "To exercise any of these rights, please contact us at privacy@kimlik.az or through Settings → Privacy in your account."
+      },
+      "legalBasis": {
+        "title": "Legal Basis for Processing",
+        "content": "We process your personal data based on the following legal grounds:",
+        "items": {
+          "consent": "Consent: When you create an account, enable social login, or authorize partner access",
+          "contract": "Contract: To fulfill our contractual obligations to provide services",
+          "legitimate": "Legitimate Interest: For fraud prevention, security, and service improvement",
+          "legal": "Legal Obligation: To comply with applicable laws and regulations"
+        }
+      },
+      "internationalTransfers": {
+        "title": "International Data Transfers",
+        "content": "Your data is primarily stored and processed in Azerbaijan. When we transfer data internationally, we ensure appropriate safeguards are in place, including standard contractual clauses approved by relevant data protection authorities."
+      },
+      "children": {
+        "title": "Children's Privacy",
+        "content": "Our services are not intended for children under 13 years of age (or 16 in the European Union). We do not knowingly collect personal information from children under these ages. If you believe we have collected information from a child, please contact us immediately at privacy@kimlik.az, and we will promptly delete such information."
       },
       "security": {
-        "title": "Data Security",
-        "content": "We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction."
+        "title": "Security Measures",
+        "content": "We implement comprehensive security measures to protect your data:",
+        "items": {
+          "encryption": "Encryption: All data is encrypted in transit (TLS 1.3) and at rest (AES-256)",
+          "access": "Access Controls: Strict access controls and authentication for our systems",
+          "monitoring": "Monitoring: 24/7 security monitoring and intrusion detection",
+          "audits": "Audits: Regular security audits and vulnerability assessments",
+          "training": "Training: Staff training on data protection and security practices"
+        }
       },
-      "deletion": {
-        "title": "Data Deletion",
-        "content": "You can request deletion of your account and personal data at any time by contacting us. We will delete your data within 30 days of receiving your request, except where retention is required by law."
+      "changes": {
+        "title": "Changes to This Policy",
+        "content": "We may update this Privacy Policy from time to time. We will notify you of material changes by:",
+        "items": {
+          "email": "Sending an email to your registered email address",
+          "notice": "Posting a prominent notice on our website",
+          "app": "Displaying a notification when you log in to your account"
+        },
+        "effective": "Changes will be effective immediately upon posting, unless otherwise stated. We encourage you to review this policy periodically."
       },
       "contact": {
         "title": "Contact Us",
-        "content": "If you have questions about this Privacy Policy, please contact us at"
+        "content": "If you have questions about this Privacy Policy or wish to exercise your data protection rights, please contact us:"
+      },
+      "companyInfo": {
+        "title": "Company Information",
+        "name": "websiteca.com",
+        "address": "5670 WILSHIRE BLVD, STE 1838, LOS ANGELES, CA 90036-5679, USA",
+        "email": "privacy@kimlik.az",
+        "dataProtection": "For data protection inquiries, you may also contact our Data Protection Officer at dpo@kimlik.az"
       }
     }
   }
