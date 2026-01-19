@@ -48,6 +48,7 @@ export default function LoginPage() {
   const [requires2FA, setRequires2FA] = useState(false);
   const [twoFactorUserId, setTwoFactorUserId] = useState<number | null>(null);
   const [twoFactorCode, setTwoFactorCode] = useState('');
+  const [twoFactorAuthMethod, setTwoFactorAuthMethod] = useState<string | null>(null);
 
   // Get current country code config
   const currentCountry = countryCodes.find(cc => cc.code === countryCode) || countryCodes[0];
@@ -117,6 +118,7 @@ export default function LoginPage() {
       if (data.status === 'requires_2fa' && data.data?.user_id) {
         setRequires2FA(true);
         setTwoFactorUserId(data.data.user_id);
+        setTwoFactorAuthMethod(data.data.auth_method || 'email');
         return;
       }
 
@@ -161,9 +163,12 @@ export default function LoginPage() {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
+        credentials: 'include',
         body: JSON.stringify({
           code: twoFactorCode,
-          user_id: twoFactorUserId
+          user_id: twoFactorUserId,
+          auth_method: twoFactorAuthMethod,
+          is_oauth_flow: isOAuthFlow
         })
       });
 
@@ -177,7 +182,14 @@ export default function LoginPage() {
       if (data.data?.token) {
         localStorage.setItem('token', data.data.token);
         if (returnUrl) {
-          window.location.href = returnUrl;
+          // For OAuth flow, append auth_method to return URL
+          let redirectUrl = returnUrl;
+          if (isOAuthFlow && twoFactorAuthMethod) {
+            const separator = redirectUrl.includes('?') ? '&' : '?';
+            const loginType = twoFactorAuthMethod + '_2fa';
+            redirectUrl = `${redirectUrl}${separator}auth_method=${loginType}`;
+          }
+          window.location.href = redirectUrl;
         } else {
           router.push('/dashboard');
         }
@@ -222,6 +234,7 @@ export default function LoginPage() {
       if (data.status === 'requires_2fa' && data.data?.user_id) {
         setRequires2FA(true);
         setTwoFactorUserId(data.data.user_id);
+        setTwoFactorAuthMethod(data.data.auth_method || 'phone');
         return;
       }
 
@@ -320,6 +333,7 @@ export default function LoginPage() {
                     setRequires2FA(false);
                     setTwoFactorUserId(null);
                     setTwoFactorCode('');
+                    setTwoFactorAuthMethod(null);
                     setError('');
                   }}
                   className="w-full py-2 text-xs text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
@@ -620,6 +634,7 @@ export default function LoginPage() {
                     setRequires2FA(false);
                     setTwoFactorUserId(null);
                     setTwoFactorCode('');
+                    setTwoFactorAuthMethod(null);
                     setError('');
                   }}
                   className="w-full py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
