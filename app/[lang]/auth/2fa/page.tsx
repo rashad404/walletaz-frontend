@@ -13,7 +13,10 @@ function TwoFactorContent() {
 
   const userId = searchParams.get('user_id');
   const returnUrl = searchParams.get('return_url');
-  const provider = searchParams.get('provider');
+  // auth_method tells us how user authenticated (google, facebook, telegram, email, phone)
+  const authMethod = searchParams.get('auth_method') || searchParams.get('provider');
+  // Check if this is part of an OAuth flow
+  const isOAuthFlow = returnUrl?.includes('oauth/authorize') || returnUrl?.includes('oauth%2Fauthorize');
 
   const [twoFactorCode, setTwoFactorCode] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -52,10 +55,12 @@ function TwoFactorContent() {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
+        credentials: 'include', // Include cookies for session
         body: JSON.stringify({
           code: twoFactorCode,
           user_id: parseInt(userId || '0', 10),
-          provider: provider || undefined
+          auth_method: authMethod || undefined,
+          is_oauth_flow: isOAuthFlow || false
         })
       });
 
@@ -89,13 +94,19 @@ function TwoFactorContent() {
     router.push(loginUrl);
   };
 
-  // Get provider display name
-  const getProviderName = (p: string | null): string => {
-    switch (p) {
+  // Get auth method display name
+  const getAuthMethodName = (method: string | null): string => {
+    switch (method) {
       case 'google':
         return 'Google';
       case 'facebook':
         return 'Facebook';
+      case 'telegram':
+        return 'Telegram';
+      case 'email':
+        return 'Email';
+      case 'phone':
+        return 'Phone';
       default:
         return '';
     }
@@ -132,9 +143,9 @@ function TwoFactorContent() {
           <p className="text-gray-600 dark:text-gray-400">
             {t('auth.twoFactorSubtitle')}
           </p>
-          {provider && (
+          {authMethod && (
             <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-              {t('auth.signedInWith')} {getProviderName(provider)}
+              {t('auth.signedInWith')} {getAuthMethodName(authMethod)}
             </p>
           )}
         </div>
