@@ -780,6 +780,20 @@
       "webhookUrlHint": "Ödəniş bildirişləri göndəriləcək endpoint URL-i"
     }
   },
+  "dataDeletion": {
+    "title": "Məlumatların Silinməsi",
+    "description": "Kimlik.az-dan məlumatlarınızı necə silmək olar",
+    "howTo": "Məlumatlarınızı Necə Silmək Olar",
+    "intro": "Kimlik.az hesabınızı və bütün əlaqəli məlumatları silmək istəyirsinizsə, aşağıdakı addımları izləyin:",
+    "step1": "Kimlik.az hesabınıza daxil olun",
+    "step2": "Parametrlər → Hesab bölməsinə keçin",
+    "step3": "\"Hesabı Sil\" düyməsini klikləyin",
+    "step4": "Şifrənizi daxil edərək silinməni təsdiqləyin",
+    "alternative": "Alternativ olaraq, bizimlə əlaqə saxlayaraq hesabın silinməsini tələb edə bilərsiniz:",
+    "contactEmail": "E-poçt",
+    "timeframe": "Sorğunuzdan sonra 30 gün ərzində məlumatlarınız həmişəlik silinəcək. Bəzi məlumatlar qanuni tələblərə uyğun olaraq saxlanıla bilər.",
+    "backToPrivacy": "Məxfilik Siyasətinə qayıt"
+  },
   "privacy": {
     "title": "Məxfilik Siyasəti",
     "description": "Kimlik.az üçün Məxfilik Siyasəti",

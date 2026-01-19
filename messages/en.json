@@ -780,6 +780,20 @@
       "webhookUrlHint": "Endpoint URL where payment notifications will be sent"
     }
   },
+  "dataDeletion": {
+    "title": "Data Deletion",
+    "description": "How to delete your data from Kimlik.az",
+    "howTo": "How to Delete Your Data",
+    "intro": "If you want to delete your Kimlik.az account and all associated data, you can do so by following these steps:",
+    "step1": "Log in to your Kimlik.az account",
+    "step2": "Go to Settings → Account",
+    "step3": "Click on \"Delete Account\"",
+    "step4": "Confirm the deletion by entering your password",
+    "alternative": "Alternatively, you can request account deletion by contacting us:",
+    "contactEmail": "Email",
+    "timeframe": "Your data will be permanently deleted within 30 days of your request. Some data may be retained for legal compliance purposes.",
+    "backToPrivacy": "Back to Privacy Policy"
+  },
   "privacy": {
     "title": "Privacy Policy",
     "description": "Privacy Policy for Kimlik.az",
