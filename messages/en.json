@@ -780,6 +780,41 @@
       "webhookUrlHint": "Endpoint URL where payment notifications will be sent"
     }
   },
+  "terms": {
+    "title": "Terms of Service",
+    "description": "Terms of Service for Kimlik.az",
+    "lastUpdated": "Last updated",
+    "sections": {
+      "acceptance": {
+        "title": "Acceptance of Terms",
+        "content": "By accessing and using Kimlik.az, you accept and agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our services."
+      },
+      "services": {
+        "title": "Our Services",
+        "content": "Kimlik.az provides identity verification and single sign-on services. We allow you to create one account and use it across multiple partner websites and applications."
+      },
+      "accounts": {
+        "title": "User Accounts",
+        "content": "You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account. You must provide accurate and complete information when creating an account."
+      },
+      "prohibited": {
+        "title": "Prohibited Activities",
+        "content": "You may not use our services for any illegal purposes, to impersonate others, to distribute malware, or to attempt to gain unauthorized access to our systems or other users' accounts."
+      },
+      "liability": {
+        "title": "Limitation of Liability",
+        "content": "Kimlik.az is provided \"as is\" without warranties of any kind. We are not liable for any indirect, incidental, or consequential damages arising from your use of our services."
+      },
+      "changes": {
+        "title": "Changes to Terms",
+        "content": "We reserve the right to modify these terms at any time. We will notify users of significant changes via email or through our website. Continued use of our services constitutes acceptance of modified terms."
+      },
+      "contact": {
+        "title": "Contact Us",
+        "content": "If you have questions about these Terms of Service, please contact us at"
+      }
+    }
+  },
   "dataDeletion": {
     "title": "Data Deletion",
     "description": "How to delete your data from Kimlik.az",

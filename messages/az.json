@@ -780,6 +780,41 @@
       "webhookUrlHint": "Ödəniş bildirişləri göndəriləcək endpoint URL-i"
     }
   },
+  "terms": {
+    "title": "İstifadə Şərtləri",
+    "description": "Kimlik.az üçün İstifadə Şərtləri",
+    "lastUpdated": "Son yenilənmə",
+    "sections": {
+      "acceptance": {
+        "title": "Şərtlərin Qəbulu",
+        "content": "Kimlik.az-a daxil olmaqla və istifadə etməklə, bu İstifadə Şərtlərinə tabe olmağı qəbul edirsiniz. Bu şərtlərlə razı deyilsinizsə, xidmətlərimizdən istifadə etməyin."
+      },
+      "services": {
+        "title": "Xidmətlərimiz",
+        "content": "Kimlik.az şəxsiyyət yoxlaması və vahid giriş xidmətləri təqdim edir. Bir hesab yaradaraq çoxsaylı tərəfdaş veb-saytlarında və tətbiqlərdə istifadə edə bilərsiniz."
+      },
+      "accounts": {
+        "title": "İstifadəçi Hesabları",
+        "content": "Hesab məlumatlarınızın məxfiliyini qorumaq və hesabınız altında baş verən bütün fəaliyyətlər üçün məsuliyyət daşıyırsınız. Hesab yaratarkən dəqiq və tam məlumat təqdim etməlisiniz."
+      },
+      "prohibited": {
+        "title": "Qadağan Edilmiş Fəaliyyətlər",
+        "content": "Xidmətlərimizdən qeyri-qanuni məqsədlər üçün, başqalarını təqlid etmək, zərərli proqram yaymaq və ya sistemlərimizə və ya digər istifadəçilərin hesablarına icazəsiz giriş əldə etməyə cəhd etmək üçün istifadə edə bilməzsiniz."
+      },
+      "liability": {
+        "title": "Məsuliyyətin Məhdudlaşdırılması",
+        "content": "Kimlik.az heç bir zəmanət olmadan \"olduğu kimi\" təqdim edilir. Xidmətlərimizdən istifadə nəticəsində yaranan dolayı, təsadüfi və ya nəticəli zərərlərə görə məsuliyyət daşımırıq."
+      },
+      "changes": {
+        "title": "Şərtlərdə Dəyişikliklər",
+        "content": "Bu şərtləri istənilən vaxt dəyişdirmək hüququnu özümüzdə saxlayırıq. Əhəmiyyətli dəyişikliklər barədə istifadəçiləri e-poçt və ya veb-saytımız vasitəsilə xəbərdar edəcəyik."
+      },
+      "contact": {
+        "title": "Bizimlə Əlaqə",
+        "content": "Bu İstifadə Şərtləri ilə bağlı suallarınız varsa, bizimlə əlaqə saxlayın"
+      }
+    }
+  },
   "dataDeletion": {
     "title": "Məlumatların Silinməsi",
     "description": "Kimlik.az-dan məlumatlarınızı necə silmək olar",
