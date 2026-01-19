@@ -74,7 +74,14 @@ function TwoFactorContent() {
       if (data.data?.token) {
         localStorage.setItem('token', data.data.token);
         if (returnUrl) {
-          window.location.href = decodeURIComponent(returnUrl);
+          // For OAuth flow, append auth_method to return URL so it can be stored with authorization code
+          let redirectUrl = decodeURIComponent(returnUrl);
+          if (isOAuthFlow && authMethod) {
+            const separator = redirectUrl.includes('?') ? '&' : '?';
+            const loginType = authMethod + '_2fa';
+            redirectUrl = `${redirectUrl}${separator}auth_method=${loginType}`;
+          }
+          window.location.href = redirectUrl;
         } else {
           router.push('/dashboard');
         }

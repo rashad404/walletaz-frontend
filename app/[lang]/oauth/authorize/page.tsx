@@ -57,6 +57,7 @@ export default function OAuthAuthorizePage() {
   const codeChallenge = searchParams.get('code_challenge');
   const codeChallengeMethod = searchParams.get('code_challenge_method');
   const responseType = searchParams.get('response_type');
+  const authMethod = searchParams.get('auth_method'); // How user authenticated (google_2fa, etc.)
 
   useEffect(() => {
     fetchOAuthData();
@@ -120,6 +121,7 @@ export default function OAuthAuthorizePage() {
           code_challenge: codeChallenge,
           code_challenge_method: codeChallengeMethod,
           decision,
+          auth_method: authMethod, // Pass how user authenticated for login history
         }),
       });
 
