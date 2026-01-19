@@ -67,7 +67,8 @@
     "verificationCode": "Təsdiq kodu",
     "twoFactorHint": "Autentifikator tətbiqinizdən 6 rəqəmli kodu və ya bərpa kodunu daxil edin",
     "verify": "Təsdiqlə",
-    "backToLogin": "Girişə qayıt"
+    "backToLogin": "Girişə qayıt",
+    "signedInWith": "İlə daxil oldunuz:"
   },
   "dashboard": {
     "welcome": "Xoş gəldiniz, {name}!",

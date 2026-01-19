@@ -67,7 +67,8 @@
     "verificationCode": "Verification code",
     "twoFactorHint": "Enter the 6-digit code from your authenticator app or a recovery code",
     "verify": "Verify",
-    "backToLogin": "Back to login"
+    "backToLogin": "Back to login",
+    "signedInWith": "Signed in with"
   },
   "dashboard": {
     "welcome": "Welcome back, {name}!",
