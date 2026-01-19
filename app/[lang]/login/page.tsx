@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Link } from '@/lib/navigation';
-import { Mail, Lock, ArrowRight, Loader2, Phone } from 'lucide-react';
+import { Mail, Lock, ArrowRight, Loader2, Phone, ShieldCheck } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { AppLogo } from '@/components/ui/app-logo';
 import { SocialLoginButtons, SocialLoginDivider } from '@/components/auth/SocialLoginButtons';
@@ -43,6 +43,11 @@ export default function LoginPage() {
   // Common state
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+
+  // 2FA state
+  const [requires2FA, setRequires2FA] = useState(false);
+  const [twoFactorUserId, setTwoFactorUserId] = useState<number | null>(null);
+  const [twoFactorCode, setTwoFactorCode] = useState('');
 
   // Get current country code config
   const currentCountry = countryCodes.find(cc => cc.code === countryCode) || countryCodes[0];
@@ -108,6 +113,13 @@ export default function LoginPage() {
         throw new Error(t('auth.errors.loginFailed'));
       }
 
+      // Check if 2FA is required
+      if (data.status === 'requires_2fa' && data.data?.user_id) {
+        setRequires2FA(true);
+        setTwoFactorUserId(data.data.user_id);
+        return;
+      }
+
       if (data.data?.token) {
         localStorage.setItem('token', data.data.token);
         if (returnUrl) {
@@ -120,6 +132,48 @@ export default function LoginPage() {
       }
     } catch (err: any) {
       setError(err.message || t('auth.errors.invalidCredentials'));
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // 2FA verification handler
+  const handle2FASubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setIsLoading(true);
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/auth/2fa/verify`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          code: twoFactorCode,
+          user_id: twoFactorUserId
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || data.status === 'error') {
+        throw new Error(data.message || t('auth.errors.invalid2FACode'));
+      }
+
+      if (data.data?.token) {
+        localStorage.setItem('token', data.data.token);
+        if (returnUrl) {
+          window.location.href = returnUrl;
+        } else {
+          router.push('/dashboard');
+        }
+      } else {
+        throw new Error('No token received from server');
+      }
+    } catch (err: any) {
+      setError(err.message || t('auth.errors.invalid2FACode'));
     } finally {
       setIsLoading(false);
     }
@@ -150,6 +204,13 @@ export default function LoginPage() {
           throw new Error(t('login.invalidPhoneCredentials'));
         }
         throw new Error(t('auth.errors.loginFailed'));
+      }
+
+      // Check if 2FA is required
+      if (data.status === 'requires_2fa' && data.data?.user_id) {
+        setRequires2FA(true);
+        setTwoFactorUserId(data.data.user_id);
+        return;
       }
 
       if (data.data?.token) {
@@ -184,17 +245,90 @@ export default function LoginPage() {
         </div>
 
         <div className="flex-1 p-4">
-          <div className="text-center mb-4">
-            <h1 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
-              {t('login.signIn')}
-            </h1>
-            <p className="text-xs text-gray-600 dark:text-gray-400">
-              {t('auth.signInToContinue')}
-            </p>
-          </div>
+          {/* 2FA Form (Compact) */}
+          {requires2FA ? (
+            <>
+              <div className="text-center mb-4">
+                <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
+                  <ShieldCheck className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+                </div>
+                <h1 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
+                  {t('auth.twoFactorTitle')}
+                </h1>
+                <p className="text-xs text-gray-600 dark:text-gray-400">
+                  {t('auth.twoFactorSubtitle')}
+                </p>
+              </div>
 
-          {/* Login method tabs */}
-          <div className="flex gap-1 mb-3 p-1 rounded-xl bg-gray-100 dark:bg-gray-800">
+              <form onSubmit={handle2FASubmit} className="space-y-3">
+                {error && (
+                  <div className="p-2.5 rounded-xl bg-red-100 dark:bg-red-900/30">
+                    <p className="text-xs text-red-600 dark:text-red-400">{error}</p>
+                  </div>
+                )}
+
+                <div>
+                  <label htmlFor="2fa-code-compact" className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5">
+                    {t('auth.verificationCode')}
+                  </label>
+                  <input
+                    id="2fa-code-compact"
+                    type="text"
+                    inputMode="numeric"
+                    autoComplete="one-time-code"
+                    value={twoFactorCode}
+                    onChange={(e) => setTwoFactorCode(e.target.value.replace(/\D/g, '').slice(0, 8))}
+                    required
+                    className="w-full px-4 py-2.5 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all text-center tracking-widest font-mono"
+                    placeholder="000000"
+                  />
+                  <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                    {t('auth.twoFactorHint')}
+                  </p>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isLoading || twoFactorCode.length < 6}
+                  className="w-full py-2.5 px-4 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+                >
+                  {isLoading ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <>
+                      <span>{t('auth.verify')}</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </>
+                  )}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setRequires2FA(false);
+                    setTwoFactorUserId(null);
+                    setTwoFactorCode('');
+                    setError('');
+                  }}
+                  className="w-full py-2 text-xs text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                >
+                  {t('auth.backToLogin')}
+                </button>
+              </form>
+            </>
+          ) : (
+            <>
+              <div className="text-center mb-4">
+                <h1 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
+                  {t('login.signIn')}
+                </h1>
+                <p className="text-xs text-gray-600 dark:text-gray-400">
+                  {t('auth.signInToContinue')}
+                </p>
+              </div>
+
+              {/* Login method tabs */}
+              <div className="flex gap-1 mb-3 p-1 rounded-xl bg-gray-100 dark:bg-gray-800">
             <button
               type="button"
               onClick={() => switchLoginMethod('email')}
@@ -382,19 +516,21 @@ export default function LoginPage() {
             </form>
           )}
 
-          {/* Social Login for OAuth flow */}
-          <SocialLoginDivider variant="compact" />
-          <SocialLoginButtons returnUrl={returnUrl} variant="compact" />
+              {/* Social Login for OAuth flow */}
+              <SocialLoginDivider variant="compact" />
+              <SocialLoginButtons returnUrl={returnUrl} variant="compact" />
 
-          <p className="mt-4 text-center text-xs text-gray-600 dark:text-gray-400">
-            {t('login.noAccount')}{' '}
-            <Link
-              href={`/register${returnUrl ? `?return_url=${encodeURIComponent(returnUrl)}` : ''}`}
-              className="font-medium text-emerald-600 dark:text-emerald-400 hover:underline"
-            >
-              {t('login.signUp')}
-            </Link>
-          </p>
+              <p className="mt-4 text-center text-xs text-gray-600 dark:text-gray-400">
+                {t('login.noAccount')}{' '}
+                <Link
+                  href={`/register${returnUrl ? `?return_url=${encodeURIComponent(returnUrl)}` : ''}`}
+                  className="font-medium text-emerald-600 dark:text-emerald-400 hover:underline"
+                >
+                  {t('login.signUp')}
+                </Link>
+              </p>
+            </>
+          )}
         </div>
       </div>
     );
@@ -408,18 +544,93 @@ export default function LoginPage() {
       </div>
 
       <div className="w-full max-w-md px-6 py-12">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-            {t('login.welcomeBack')}
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            {t('login.signInToManage')}
-          </p>
-        </div>
+        {/* 2FA Form (Standard) */}
+        {requires2FA ? (
+          <>
+            <div className="text-center mb-8">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
+                <ShieldCheck className="w-8 h-8 text-emerald-600 dark:text-emerald-400" />
+              </div>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                {t('auth.twoFactorTitle')}
+              </h1>
+              <p className="text-gray-600 dark:text-gray-400">
+                {t('auth.twoFactorSubtitle')}
+              </p>
+            </div>
 
-        <div className="card-glass rounded-3xl p-8">
-          {/* Login method tabs */}
-          <div className="flex gap-2 mb-6 p-1 rounded-xl bg-gray-100 dark:bg-gray-800">
+            <div className="card-glass rounded-3xl p-8">
+              <form onSubmit={handle2FASubmit} className="space-y-6">
+                {error && (
+                  <div className="p-4 rounded-2xl bg-red-500/10 border border-red-500/20 dark:bg-red-900/30">
+                    <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+                  </div>
+                )}
+
+                <div>
+                  <label htmlFor="2fa-code" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    {t('auth.verificationCode')}
+                  </label>
+                  <input
+                    id="2fa-code"
+                    type="text"
+                    inputMode="numeric"
+                    autoComplete="one-time-code"
+                    value={twoFactorCode}
+                    onChange={(e) => setTwoFactorCode(e.target.value.replace(/\D/g, '').slice(0, 8))}
+                    required
+                    className="w-full px-4 py-3 rounded-2xl bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all text-center tracking-widest font-mono text-xl"
+                    placeholder="000000"
+                  />
+                  <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                    {t('auth.twoFactorHint')}
+                  </p>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isLoading || twoFactorCode.length < 6}
+                  className="w-full py-3 px-4 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-medium hover:from-emerald-600 hover:to-teal-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 disabled:opacity-50 transition-all group flex items-center justify-center gap-2"
+                >
+                  {isLoading ? (
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                  ) : (
+                    <>
+                      <span>{t('auth.verify')}</span>
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </>
+                  )}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setRequires2FA(false);
+                    setTwoFactorUserId(null);
+                    setTwoFactorCode('');
+                    setError('');
+                  }}
+                  className="w-full py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                >
+                  {t('auth.backToLogin')}
+                </button>
+              </form>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="text-center mb-8">
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                {t('login.welcomeBack')}
+              </h1>
+              <p className="text-gray-600 dark:text-gray-400">
+                {t('login.signInToManage')}
+              </p>
+            </div>
+
+            <div className="card-glass rounded-3xl p-8">
+              {/* Login method tabs */}
+              <div className="flex gap-2 mb-6 p-1 rounded-xl bg-gray-100 dark:bg-gray-800">
             <button
               type="button"
               onClick={() => switchLoginMethod('email')}
@@ -607,21 +818,23 @@ export default function LoginPage() {
             </form>
           )}
 
-          {/* Social Login - only show for email login */}
-          {loginMethod === 'email' && (
-            <>
-              <SocialLoginDivider />
-              <SocialLoginButtons returnUrl={returnUrl} />
-            </>
-          )}
-        </div>
+              {/* Social Login - only show for email login */}
+              {loginMethod === 'email' && (
+                <>
+                  <SocialLoginDivider />
+                  <SocialLoginButtons returnUrl={returnUrl} />
+                </>
+              )}
+            </div>
 
-        <p className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
-          {t('login.noAccount')}{' '}
-          <Link href="/register" className="font-medium text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors">
-            {t('login.signUp')}
-          </Link>
-        </p>
+            <p className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
+              {t('login.noAccount')}{' '}
+              <Link href="/register" className="font-medium text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors">
+                {t('login.signUp')}
+              </Link>
+            </p>
+          </>
+        )}
       </div>
     </div>
   );

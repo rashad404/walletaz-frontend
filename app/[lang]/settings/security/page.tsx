@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { Link } from '@/lib/navigation';
 import {
@@ -10,9 +10,29 @@ import {
   Loader2,
   Eye,
   EyeOff,
-  CheckCircle
+  CheckCircle,
+  ChevronRight,
+  Monitor,
+  Smartphone,
+  Key,
+  AlertTriangle,
+  Bell
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+
+interface TwoFactorStatus {
+  enabled: boolean;
+  confirmed: boolean;
+  recovery_codes_count: number;
+}
+
+interface SessionCount {
+  count: number;
+}
+
+interface AlertCount {
+  count: number;
+}
 
 export default function SecuritySettingsPage() {
   const t = useTranslations();
@@ -21,6 +41,7 @@ export default function SecuritySettingsPage() {
   const locale = (params?.lang as string) || 'az';
 
   const [loading, setLoading] = useState(false);
+  const [dataLoading, setDataLoading] = useState(true);
   const [message, setMessage] = useState({ type: '', text: '' });
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
@@ -30,13 +51,59 @@ export default function SecuritySettingsPage() {
     new_password: '',
     new_password_confirmation: ''
   });
+  const [twoFactorStatus, setTwoFactorStatus] = useState<TwoFactorStatus | null>(null);
+  const [sessionCount, setSessionCount] = useState<number>(0);
+  const [alertCount, setAlertCount] = useState<number>(0);
+
+  useEffect(() => {
+    fetchSecurityData();
+  }, []);
+
+  const fetchSecurityData = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        router.push(`/${locale}/login`);
+        return;
+      }
+
+      const [twoFactorRes, sessionsRes, alertsRes] = await Promise.all([
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/2fa/status`, {
+          headers: { 'Authorization': `Bearer ${token}` },
+        }),
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/security/sessions`, {
+          headers: { 'Authorization': `Bearer ${token}` },
+        }),
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/login-alerts`, {
+          headers: { 'Authorization': `Bearer ${token}` },
+        }).catch(() => ({ json: () => ({ status: 'error' }) })),
+      ]);
+
+      const twoFactorData = await twoFactorRes.json();
+      const sessionsData = await sessionsRes.json();
+      const alertsData = await alertsRes.json();
+
+      if (twoFactorData.status === 'success') {
+        setTwoFactorStatus(twoFactorData.data);
+      }
+      if (sessionsData.status === 'success') {
+        setSessionCount(sessionsData.data.sessions.length);
+      }
+      if (alertsData.status === 'success') {
+        setAlertCount(alertsData.data.alerts?.length || 0);
+      }
+    } catch (error) {
+      console.error('Error fetching security data:', error);
+    } finally {
+      setDataLoading(false);
+    }
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
-    // Clear message when user starts typing
     if (message.text) {
       setMessage({ type: '', text: '' });
     }
@@ -46,19 +113,18 @@ export default function SecuritySettingsPage() {
     e.preventDefault();
     setMessage({ type: '', text: '' });
 
-    // Basic validation
     if (!formData.current_password || !formData.new_password || !formData.new_password_confirmation) {
-      setMessage({ type: 'error', text: t('settings.security.allFieldsRequired') });
+      setMessage({ type: 'error', text: t('settings.security.allFieldsRequired') || 'All fields are required' });
       return;
     }
 
     if (formData.new_password.length < 6) {
-      setMessage({ type: 'error', text: t('settings.security.passwordMinLength') });
+      setMessage({ type: 'error', text: t('settings.security.passwordMinLength') || 'Password must be at least 6 characters' });
       return;
     }
 
     if (formData.new_password !== formData.new_password_confirmation) {
-      setMessage({ type: 'error', text: t('settings.security.passwordsMismatch') });
+      setMessage({ type: 'error', text: t('settings.security.passwordsMismatch') || 'Passwords do not match' });
       return;
     }
 
@@ -68,7 +134,7 @@ export default function SecuritySettingsPage() {
       const token = localStorage.getItem('token');
 
       if (!token) {
-        router.push(`/login`);
+        router.push(`/${locale}/login`);
         return;
       }
 
@@ -84,8 +150,7 @@ export default function SecuritySettingsPage() {
       const data = await response.json();
 
       if (response.ok) {
-        setMessage({ type: 'success', text: t('settings.security.passwordChanged') });
-        // Clear form
+        setMessage({ type: 'success', text: t('settings.security.passwordChanged') || 'Password changed successfully' });
         setFormData({
           current_password: '',
           new_password: '',
@@ -93,9 +158,9 @@ export default function SecuritySettingsPage() {
         });
       } else {
         if (data.message === 'Current password is incorrect') {
-          setMessage({ type: 'error', text: t('settings.security.currentPasswordIncorrect') });
+          setMessage({ type: 'error', text: t('settings.security.currentPasswordIncorrect') || 'Current password is incorrect' });
         } else if (data.message === 'Cannot change password for OAuth users') {
-          setMessage({ type: 'error', text: t('settings.security.oauthNoPassword') });
+          setMessage({ type: 'error', text: t('settings.security.oauthNoPassword') || 'Cannot change password for social login users' });
         } else if (data.errors) {
           const errorMessages = Object.values(data.errors).flat().join(', ');
           setMessage({ type: 'error', text: errorMessages as string });
@@ -104,7 +169,7 @@ export default function SecuritySettingsPage() {
         }
       }
     } catch (err) {
-      setMessage({ type: 'error', text: t('settings.profile.connectionError') });
+      setMessage({ type: 'error', text: t('settings.profile.connectionError') || 'Connection error' });
     } finally {
       setLoading(false);
     }
@@ -119,7 +184,7 @@ export default function SecuritySettingsPage() {
           className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white mb-6 transition-colors"
         >
           <ChevronLeft className="w-5 h-5" />
-          {t('settings.backToSettings')}
+          {t('settings.backToSettings') || 'Back to Settings'}
         </Link>
 
         {/* Header */}
@@ -129,11 +194,11 @@ export default function SecuritySettingsPage() {
               <Shield className="w-6 h-6 text-teal-600 dark:text-teal-400" />
             </div>
             <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
-              {t('settings.security.title')}
+              {t('settings.security.title') || 'Security'}
             </h1>
           </div>
           <p className="text-gray-600 dark:text-gray-400 ml-[60px]">
-            {t('settings.security.subtitle')}
+            {t('settings.security.subtitle') || 'Manage your account security settings'}
           </p>
         </div>
 
@@ -157,12 +222,102 @@ export default function SecuritySettingsPage() {
           </div>
         )}
 
+        {/* Security Quick Actions */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+          {/* Two-Factor Authentication */}
+          <Link
+            href={`/settings/security/two-factor`}
+            className="rounded-3xl p-6 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border border-white/30 dark:border-gray-700/30 hover:border-emerald-300 dark:hover:border-emerald-700 transition-colors group"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${
+                  twoFactorStatus?.enabled
+                    ? 'bg-green-100 dark:bg-green-900/30'
+                    : 'bg-amber-100 dark:bg-amber-900/30'
+                }`}>
+                  <Key className={`w-6 h-6 ${
+                    twoFactorStatus?.enabled
+                      ? 'text-green-600 dark:text-green-400'
+                      : 'text-amber-600 dark:text-amber-400'
+                  }`} />
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900 dark:text-white">
+                    {t('settings.security.twoFactor') || 'Two-Factor Authentication'}
+                  </h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    {dataLoading ? (
+                      <Loader2 className="w-4 h-4 animate-spin inline" />
+                    ) : twoFactorStatus?.enabled ? (
+                      <span className="text-green-600 dark:text-green-400">
+                        {t('settings.security.enabled') || 'Enabled'}
+                      </span>
+                    ) : (
+                      <span className="text-amber-600 dark:text-amber-400">
+                        {t('settings.security.notEnabled') || 'Not enabled'}
+                      </span>
+                    )}
+                  </p>
+                </div>
+              </div>
+              <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors" />
+            </div>
+          </Link>
+
+          {/* Active Sessions */}
+          <Link
+            href={`/settings/security/sessions`}
+            className="rounded-3xl p-6 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border border-white/30 dark:border-gray-700/30 hover:border-blue-300 dark:hover:border-blue-700 transition-colors group"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-2xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                  <Monitor className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900 dark:text-white">
+                    {t('settings.security.activeSessions') || 'Active Sessions'}
+                  </h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    {dataLoading ? (
+                      <Loader2 className="w-4 h-4 animate-spin inline" />
+                    ) : (
+                      `${sessionCount} ${t('settings.security.activeDevices') || 'active devices'}`
+                    )}
+                  </p>
+                </div>
+              </div>
+              <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" />
+            </div>
+          </Link>
+
+          {/* Login Alerts */}
+          {alertCount > 0 && (
+            <div className="rounded-3xl p-6 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-2xl bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center">
+                  <Bell className="w-6 h-6 text-amber-600 dark:text-amber-400" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-amber-900 dark:text-amber-300">
+                    {t('settings.security.loginAlerts') || 'Login Alerts'}
+                  </h3>
+                  <p className="text-sm text-amber-700 dark:text-amber-400">
+                    {alertCount} {t('settings.security.unacknowledgedAlerts') || 'unacknowledged alerts'}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
         {/* Change Password Form */}
         <div className="rounded-3xl p-8 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border border-white/30 dark:border-gray-700/30">
           <div className="flex items-center gap-3 mb-6">
             <Lock className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-              {t('settings.security.changePassword')}
+              {t('settings.security.changePassword') || 'Change Password'}
             </h2>
           </div>
 
@@ -170,7 +325,7 @@ export default function SecuritySettingsPage() {
             {/* Current Password */}
             <div>
               <label htmlFor="current_password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                {t('settings.security.currentPassword')}
+                {t('settings.security.currentPassword') || 'Current Password'}
               </label>
               <div className="relative">
                 <input
@@ -180,7 +335,7 @@ export default function SecuritySettingsPage() {
                   value={formData.current_password}
                   onChange={handleChange}
                   className="w-full px-4 py-3 pr-12 rounded-2xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-400"
-                  placeholder={t('settings.security.currentPasswordPlaceholder')}
+                  placeholder={t('settings.security.currentPasswordPlaceholder') || 'Enter current password'}
                 />
                 <button
                   type="button"
@@ -199,7 +354,7 @@ export default function SecuritySettingsPage() {
             {/* New Password */}
             <div>
               <label htmlFor="new_password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                {t('settings.security.newPassword')}
+                {t('settings.security.newPassword') || 'New Password'}
               </label>
               <div className="relative">
                 <input
@@ -209,7 +364,7 @@ export default function SecuritySettingsPage() {
                   value={formData.new_password}
                   onChange={handleChange}
                   className="w-full px-4 py-3 pr-12 rounded-2xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-400"
-                  placeholder={t('settings.security.newPasswordPlaceholder')}
+                  placeholder={t('settings.security.newPasswordPlaceholder') || 'Enter new password'}
                 />
                 <button
                   type="button"
@@ -224,14 +379,14 @@ export default function SecuritySettingsPage() {
                 </button>
               </div>
               <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
-                {t('settings.security.passwordHint')}
+                {t('settings.security.passwordHint') || 'Must be at least 8 characters'}
               </p>
             </div>
 
             {/* Confirm New Password */}
             <div>
               <label htmlFor="new_password_confirmation" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                {t('settings.security.confirmPassword')}
+                {t('settings.security.confirmPassword') || 'Confirm New Password'}
               </label>
               <div className="relative">
                 <input
@@ -241,7 +396,7 @@ export default function SecuritySettingsPage() {
                   value={formData.new_password_confirmation}
                   onChange={handleChange}
                   className="w-full px-4 py-3 pr-12 rounded-2xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-400"
-                  placeholder={t('settings.security.confirmPasswordPlaceholder')}
+                  placeholder={t('settings.security.confirmPasswordPlaceholder') || 'Re-enter new password'}
                 />
                 <button
                   type="button"
@@ -263,7 +418,7 @@ export default function SecuritySettingsPage() {
                 href={`/settings`}
                 className="flex-1 px-6 py-3 rounded-2xl border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-center"
               >
-                {t('common.cancel')}
+                {t('common.cancel') || 'Cancel'}
               </Link>
               <button
                 type="submit"
@@ -273,12 +428,12 @@ export default function SecuritySettingsPage() {
                 {loading ? (
                   <>
                     <Loader2 className="w-5 h-5 animate-spin" />
-                    {t('settings.security.changing')}
+                    {t('settings.security.changing') || 'Changing...'}
                   </>
                 ) : (
                   <>
                     <Shield className="w-5 h-5" />
-                    {t('settings.security.changePassword')}
+                    {t('settings.security.changePassword') || 'Change Password'}
                   </>
                 )}
               </button>
@@ -289,24 +444,24 @@ export default function SecuritySettingsPage() {
         {/* Security Tips */}
         <div className="mt-8 rounded-3xl p-6 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
           <h3 className="text-lg font-bold text-blue-900 dark:text-blue-300 mb-3">
-            {t('settings.security.tipsTitle')}
+            {t('settings.security.tipsTitle') || 'Security Tips'}
           </h3>
           <ul className="space-y-2 text-sm text-blue-800 dark:text-blue-300">
             <li className="flex items-start gap-2">
-              <span className="text-blue-600 dark:text-blue-400 mt-0.5">•</span>
-              <span>{t('settings.security.tip1')}</span>
+              <span className="text-blue-600 dark:text-blue-400 mt-0.5">1.</span>
+              <span>{t('settings.security.tip1') || 'Use a strong, unique password that you don\'t use elsewhere'}</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-blue-600 dark:text-blue-400 mt-0.5">•</span>
-              <span>{t('settings.security.tip2')}</span>
+              <span className="text-blue-600 dark:text-blue-400 mt-0.5">2.</span>
+              <span>{t('settings.security.tip2') || 'Enable two-factor authentication for extra security'}</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-blue-600 dark:text-blue-400 mt-0.5">•</span>
-              <span>{t('settings.security.tip3')}</span>
+              <span className="text-blue-600 dark:text-blue-400 mt-0.5">3.</span>
+              <span>{t('settings.security.tip3') || 'Regularly review your active sessions and connected apps'}</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-blue-600 dark:text-blue-400 mt-0.5">•</span>
-              <span>{t('settings.security.tip4')}</span>
+              <span className="text-blue-600 dark:text-blue-400 mt-0.5">4.</span>
+              <span>{t('settings.security.tip4') || 'Never share your password or recovery codes with anyone'}</span>
             </li>
           </ul>
         </div>
