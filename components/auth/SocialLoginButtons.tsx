@@ -37,23 +37,38 @@ export function SocialLoginButtons({ returnUrl, variant = 'default' }: SocialLog
 
   // Handle Telegram auth callback
   const handleTelegramAuth = useCallback(async (user: TelegramUser) => {
+    console.log('Telegram auth callback received:', user);
     setTelegramLoading(true);
     setError('');
 
     try {
+      // Build payload with only defined values (Telegram hash is computed from present fields only)
+      const payload: Record<string, any> = {
+        id: String(user.id),
+        first_name: user.first_name,
+        auth_date: user.auth_date,
+        hash: user.hash,
+        return_url: returnUrl || '/dashboard'
+      };
+
+      // Only add optional fields if they exist
+      if (user.last_name) payload.last_name = user.last_name;
+      if (user.username) payload.username = user.username;
+      if (user.photo_url) payload.photo_url = user.photo_url;
+
+      console.log('Sending to backend:', payload);
+
       const response = await fetch(`${API_BASE_URL}/auth/telegram/callback`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
-        body: JSON.stringify({
-          ...user,
-          return_url: returnUrl || '/dashboard'
-        })
+        body: JSON.stringify(payload)
       });
 
       const data = await response.json();
+      console.log('Backend response:', data);
 
       if (!response.ok || data.status === 'error') {
         throw new Error(data.message || 'Telegram authentication failed');
@@ -121,12 +136,10 @@ export function SocialLoginButtons({ returnUrl, variant = 'default' }: SocialLog
 
   const isCompact = variant === 'compact';
 
-  // If Telegram bot is configured, show 3-column grid, otherwise 2-column
-  const gridCols = TELEGRAM_BOT_USERNAME ? 'grid-cols-2 sm:grid-cols-3' : 'grid-cols-2';
-
   return (
     <div className="space-y-3">
-      <div className={`grid ${gridCols} ${isCompact ? 'gap-2' : 'gap-3'}`}>
+      {/* Google and Facebook row */}
+      <div className={`grid grid-cols-2 ${isCompact ? 'gap-2' : 'gap-3'}`}>
         {/* Google Button */}
         <button
           type="button"
@@ -165,19 +178,19 @@ export function SocialLoginButtons({ returnUrl, variant = 'default' }: SocialLog
             {t('login.facebook')}
           </span>
         </button>
-
-        {/* Telegram Widget Container */}
-        {TELEGRAM_BOT_USERNAME && (
-          <div
-            ref={telegramRef}
-            className={`flex items-center justify-center ${
-              isCompact
-                ? 'px-3 py-1.5 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700'
-                : 'px-4 py-2 rounded-2xl bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700'
-            }`}
-          />
-        )}
       </div>
+
+      {/* Telegram Widget - Full width row */}
+      {TELEGRAM_BOT_USERNAME && (
+        <div
+          ref={telegramRef}
+          className={`flex items-center justify-center w-full ${
+            isCompact
+              ? 'py-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700'
+              : 'py-3 rounded-2xl bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700'
+          }`}
+        />
+      )}
 
       {error && (
         <div className="p-2 rounded-lg bg-red-100 dark:bg-red-900/30 text-xs text-red-600 dark:text-red-400">
