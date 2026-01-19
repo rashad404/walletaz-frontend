@@ -16,7 +16,7 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
-        hostname: '**.kredit.az',
+        hostname: '**.kimlik.az',
         pathname: '/**',
       },
     ],
