@@ -77,14 +77,18 @@ export function SocialLoginButtons({ returnUrl, variant = 'default' }: SocialLog
       // Check if 2FA is required
       if (data.status === 'requires_2fa' && data.user_id) {
         const locale = document.documentElement.lang || 'az';
-        router.push(`/${locale}/auth/2fa?user_id=${data.user_id}&return_url=${encodeURIComponent(returnUrl || '/dashboard')}&provider=telegram`);
+        const authMethod = data.auth_method || 'telegram';
+        const returnUrlParam = data.return_url || returnUrl || '/dashboard';
+        router.push(`/${locale}/auth/2fa?user_id=${data.user_id}&return_url=${encodeURIComponent(returnUrlParam)}&auth_method=${authMethod}`);
         return;
       }
 
       if (data.data?.token) {
         localStorage.setItem('token', data.data.token);
-        if (returnUrl) {
-          window.location.href = returnUrl;
+        // Use return_url from response which may have auth_method appended for OAuth flow
+        const redirectUrl = data.data.return_url || returnUrl;
+        if (redirectUrl) {
+          window.location.href = redirectUrl;
         } else {
           router.push('/dashboard');
         }
