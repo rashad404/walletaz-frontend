@@ -10,20 +10,42 @@
     "logout": "Logout"
   },
   "home": {
-    "headline": "One identity, everywhere",
-    "subtitle": "Register once, use on all partner sites",
-    "createAccount": "Create account",
-    "signIn": "Sign in",
+    "position": "Azerbaijan's Identity Platform",
+    "headline": "One identity. Every website.",
+    "subtitle": "Register once, verify once, use everywhere. The trusted identity platform for Azerbaijan.",
+    "createAccount": "Create Account",
+    "signIn": "Sign In",
     "benefit1Title": "One registration",
     "benefit1Desc": "Create one account, use on dozens of sites",
     "benefit2Title": "One verification",
     "benefit2Desc": "Verify phone and ID once",
     "benefit3Title": "One balance",
     "benefit3Desc": "Pay everywhere with your balance",
-    "partnersTitle": "Use on these sites",
-    "developersTitle": "Integrate into your site",
-    "developersDesc": "OAuth 2.0 login and Payment API",
-    "apiDocs": "API Documentation"
+    "partnersTitle": "Works with your favorite sites",
+    "developersTitle": "Add Kimlik.az to your site",
+    "developersDesc": "OAuth 2.0 • Verification API • Payment API",
+    "apiDocs": "View Docs",
+    "more": "more",
+    "stats": {
+      "users": "users",
+      "partners": "partner sites",
+      "verified": "verified"
+    },
+    "features": {
+      "oneRegistration": "One Registration",
+      "oneVerification": "One Verification",
+      "oneWallet": "One Wallet"
+    },
+    "security": {
+      "title": "Multiple Ways to Sign In",
+      "subtitle": "Choose how you want to access your account. All methods are secure and protected.",
+      "quickLogin": "Quick login",
+      "twoFactor": "2FA Protection",
+      "extraSecurity": "Extra security",
+      "emailLogin": "Email & Password",
+      "phoneLogin": "Phone OTP",
+      "loginAlerts": "Login Alerts"
+    }
   },
   "auth": {
     "signIn": "Sign In",

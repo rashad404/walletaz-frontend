@@ -8,18 +8,24 @@ import { useTranslations } from 'next-intl';
 import walletApi, { WalletBalance, Transaction } from '@/lib/api/wallet';
 import authService from '@/lib/api/auth';
 import { BalanceCard, TransactionList } from '@/components/wallet';
-import { useWalletEnabled } from '@/providers/config-provider';
+import { useConfig } from '@/providers/config-provider';
 
 export default function DashboardPage() {
   const t = useTranslations();
   const router = useRouter();
-  const walletEnabled = useWalletEnabled();
+  const config = useConfig();
+  const walletEnabled = config.features.walletEnabled;
   const [user, setUser] = useState<any>(null);
   const [balance, setBalance] = useState<WalletBalance | null>(null);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    // Wait for config to load before making decisions
+    if (config.isLoading) {
+      return;
+    }
+
     const fetchData = async () => {
       // Check authentication
       if (!authService.isAuthenticated()) {
@@ -27,19 +33,23 @@ export default function DashboardPage() {
         return;
       }
 
+      // If wallet is disabled, redirect to settings page
+      if (!walletEnabled) {
+        router.replace('/settings');
+        return;
+      }
+
       try {
-        // Fetch user data always, wallet data only if enabled
+        // Fetch user data and wallet data
         const userData = await authService.getCurrentUser();
         setUser(userData);
 
-        if (walletEnabled) {
-          const [balanceData, transactionsData] = await Promise.all([
-            walletApi.getBalance().catch(() => null),
-            walletApi.getTransactions({ per_page: 5 }).catch(() => ({ data: [] })),
-          ]);
-          setBalance(balanceData);
-          setTransactions(transactionsData.data || []);
-        }
+        const [balanceData, transactionsData] = await Promise.all([
+          walletApi.getBalance().catch(() => null),
+          walletApi.getTransactions({ per_page: 5 }).catch(() => ({ data: [] })),
+        ]);
+        setBalance(balanceData);
+        setTransactions(transactionsData.data || []);
       } catch (error) {
         console.error('Failed to load data:', error);
       } finally {
@@ -48,7 +58,7 @@ export default function DashboardPage() {
     };
 
     fetchData();
-  }, [router, walletEnabled]);
+  }, [router, walletEnabled, config.isLoading]);
 
   if (!user) {
     return (

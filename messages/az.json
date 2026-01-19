@@ -10,20 +10,42 @@
     "logout": "Çıxış"
   },
   "home": {
-    "headline": "Bir kimlik, hər yerdə",
-    "subtitle": "Bir dəfə qeydiyyat olun, bütün tərəfdaş saytlarda istifadə edin",
-    "createAccount": "Hesab yarat",
-    "signIn": "Daxil ol",
+    "position": "Azərbaycanın Kimlik Platforması",
+    "headline": "Bir kimlik. Hər saytda.",
+    "subtitle": "Bir dəfə qeydiyyat olun, bir dəfə təsdiqləyin, hər yerdə istifadə edin. Azərbaycan üçün etibarlı kimlik platforması.",
+    "createAccount": "Hesab Yarat",
+    "signIn": "Daxil Ol",
     "benefit1Title": "Bir qeydiyyat",
     "benefit1Desc": "Bir hesab yaradın, onlarla saytda istifadə edin",
     "benefit2Title": "Bir təsdiq",
     "benefit2Desc": "Telefon və şəxsiyyəti bir dəfə təsdiqləyin",
     "benefit3Title": "Bir balans",
     "benefit3Desc": "Balansınızla hər yerdə ödəyin",
-    "partnersTitle": "Bu saytlarda istifadə edin",
-    "developersTitle": "Saytınıza inteqrasiya edin",
-    "developersDesc": "OAuth 2.0 login və Payment API",
-    "apiDocs": "API Sənədləri"
+    "partnersTitle": "Sevdiyiniz saytlarda işləyir",
+    "developersTitle": "Saytınıza Kimlik.az əlavə edin",
+    "developersDesc": "OAuth 2.0 • Təsdiqləmə API • Ödəniş API",
+    "apiDocs": "Sənədlərə Bax",
+    "more": "daha çox",
+    "stats": {
+      "users": "istifadəçi",
+      "partners": "tərəfdaş sayt",
+      "verified": "təsdiqlənmiş"
+    },
+    "features": {
+      "oneRegistration": "Bir Qeydiyyat",
+      "oneVerification": "Bir Təsdiq",
+      "oneWallet": "Bir Balans"
+    },
+    "security": {
+      "title": "Daxil Olmağın Bir Neçə Yolu",
+      "subtitle": "Hesabınıza necə daxil olmaq istədiyinizi seçin. Bütün üsullar etibarlı və qorunandır.",
+      "quickLogin": "Sürətli giriş",
+      "twoFactor": "2FA Qorunması",
+      "extraSecurity": "Əlavə təhlükəsizlik",
+      "emailLogin": "E-poçt və Şifrə",
+      "phoneLogin": "Telefon OTP",
+      "loginAlerts": "Giriş Bildirişləri"
+    }
   },
   "auth": {
     "signIn": "Daxil ol",
