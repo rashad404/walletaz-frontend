@@ -57,7 +57,10 @@
       "invalidCredentials": "Invalid email or password",
       "registrationFailed": "Registration failed",
       "loginFailed": "Login failed",
-      "invalid2FACode": "Invalid verification code"
+      "invalid2FACode": "Invalid verification code",
+      "userNotFound": "User not found",
+      "2faNotEnabled": "Two-factor authentication is not enabled for this user",
+      "noToken": "No token received from server"
     },
     "twoFactorTitle": "Two-Factor Authentication",
     "twoFactorSubtitle": "Enter the code from your authenticator app",

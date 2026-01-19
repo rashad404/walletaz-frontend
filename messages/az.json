@@ -57,7 +57,10 @@
       "invalidCredentials": "E-poçt və ya şifrə yanlışdır",
       "registrationFailed": "Qeydiyyat uğursuz oldu",
       "loginFailed": "Giriş uğursuz oldu",
-      "invalid2FACode": "Yanlış təsdiq kodu"
+      "invalid2FACode": "Yanlış təsdiq kodu",
+      "userNotFound": "İstifadəçi tapılmadı",
+      "2faNotEnabled": "Bu istifadəçi üçün 2FA aktivləşdirilməyib",
+      "noToken": "Serverdən token alınmadı"
     },
     "twoFactorTitle": "İki faktorlu təsdiqləmə",
     "twoFactorSubtitle": "Autentifikator tətbiqinizdən kodu daxil edin",

@@ -137,6 +137,17 @@ export default function LoginPage() {
     }
   };
 
+  // Translate error code from backend
+  const translateErrorCode = (code: string): string => {
+    const errorMessages: Record<string, string> = {
+      'invalid_2fa_code': t('auth.errors.invalid2FACode'),
+      'user_not_found': t('auth.errors.userNotFound'),
+      '2fa_not_enabled': t('auth.errors.2faNotEnabled'),
+      'invalid_credentials': t('auth.errors.invalidCredentials'),
+    };
+    return errorMessages[code] || t('auth.errors.loginFailed');
+  };
+
   // 2FA verification handler
   const handle2FASubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -159,7 +170,8 @@ export default function LoginPage() {
       const data = await response.json();
 
       if (!response.ok || data.status === 'error') {
-        throw new Error(data.message || t('auth.errors.invalid2FACode'));
+        const errorMessage = data.code ? translateErrorCode(data.code) : t('auth.errors.invalid2FACode');
+        throw new Error(errorMessage);
       }
 
       if (data.data?.token) {
@@ -170,7 +182,7 @@ export default function LoginPage() {
           router.push('/dashboard');
         }
       } else {
-        throw new Error('No token received from server');
+        throw new Error(t('auth.errors.noToken'));
       }
     } catch (err: any) {
       setError(err.message || t('auth.errors.invalid2FACode'));
