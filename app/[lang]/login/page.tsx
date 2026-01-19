@@ -124,7 +124,12 @@ export default function LoginPage() {
 
       if (data.data?.token) {
         localStorage.setItem('token', data.data.token);
-        const redirectUrl = data.data.return_url || returnUrl;
+        let redirectUrl = data.data.return_url || returnUrl;
+        // Append auth_method for OAuth flow so login history shows correct method
+        if (redirectUrl && isOAuthFlow && data.data.auth_method) {
+          const separator = redirectUrl.includes('?') ? '&' : '?';
+          redirectUrl = `${redirectUrl}${separator}auth_method=${data.data.auth_method}`;
+        }
         if (redirectUrl) {
           window.location.href = redirectUrl;
         } else {
@@ -241,7 +246,12 @@ export default function LoginPage() {
 
       if (data.data?.token) {
         localStorage.setItem('token', data.data.token);
-        const redirectUrl = data.data.return_url || returnUrl;
+        let redirectUrl = data.data.return_url || returnUrl;
+        // Append auth_method for OAuth flow so login history shows correct method
+        if (redirectUrl && isOAuthFlow && data.data.auth_method) {
+          const separator = redirectUrl.includes('?') ? '&' : '?';
+          redirectUrl = `${redirectUrl}${separator}auth_method=${data.data.auth_method}`;
+        }
         if (redirectUrl) {
           window.location.href = redirectUrl;
         } else {
