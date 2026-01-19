@@ -1,7 +1,7 @@
 'use client';
 
 import { Link } from '@/lib/navigation';
-import { Mail, Phone, Shield, HelpCircle } from 'lucide-react';
+import { Mail, Phone, Shield } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useAppName } from '@/providers/config-provider';
 
@@ -24,13 +24,6 @@ export default function Footer() {
 
           {/* Center: Essential Links */}
           <div className="flex flex-wrap items-center justify-center gap-6 text-sm">
-            <Link
-              href="/help"
-              className="text-gray-600 dark:text-gray-400 hover:text-emerald-600 transition-colors flex items-center gap-1"
-            >
-              <HelpCircle className="w-3.5 h-3.5" />
-              <span>{t('footer.help')}</span>
-            </Link>
             <Link
               href="/privacy"
               className="text-gray-600 dark:text-gray-400 hover:text-emerald-600 transition-colors flex items-center gap-1"
