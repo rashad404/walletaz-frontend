@@ -779,5 +779,36 @@
       "webhookUrlPlaceholder": "https://example.com/webhooks/wallet",
       "webhookUrlHint": "Endpoint URL where payment notifications will be sent"
     }
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "description": "Privacy Policy for Kimlik.az",
+    "lastUpdated": "Last updated",
+    "sections": {
+      "collection": {
+        "title": "Information We Collect",
+        "content": "We collect information you provide directly to us, such as your name, email address, phone number, and any other information you choose to provide when creating an account or using our services."
+      },
+      "usage": {
+        "title": "How We Use Your Information",
+        "content": "We use the information we collect to provide, maintain, and improve our services, to process transactions, to send you technical notices and support messages, and to respond to your comments and questions."
+      },
+      "sharing": {
+        "title": "Information Sharing",
+        "content": "We share your information only with your consent, with third-party applications you authorize through our OAuth system, and as required by law. We do not sell your personal information."
+      },
+      "security": {
+        "title": "Data Security",
+        "content": "We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction."
+      },
+      "deletion": {
+        "title": "Data Deletion",
+        "content": "You can request deletion of your account and personal data at any time by contacting us. We will delete your data within 30 days of receiving your request, except where retention is required by law."
+      },
+      "contact": {
+        "title": "Contact Us",
+        "content": "If you have questions about this Privacy Policy, please contact us at"
+      }
+    }
   }
 }

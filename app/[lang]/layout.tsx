@@ -40,8 +40,9 @@ export default async function LangLayout({
   const headersList = await headers();
   const pathname = headersList.get("x-pathname") || "";
   const fullUrl = headersList.get("x-url") || "";
-  // Hide header/footer for OAuth authorize and login pages with OAuth return_url
+  // Hide header/footer for OAuth authorize, callback, login, and register pages with OAuth return_url
   const isOAuthPopup = pathname.includes("/oauth/") ||
+    (pathname.includes("/auth/callback") && fullUrl.includes("oauth")) ||
     (pathname.includes("/login") && fullUrl.includes("oauth")) ||
     (pathname.includes("/register") && fullUrl.includes("oauth"));
 

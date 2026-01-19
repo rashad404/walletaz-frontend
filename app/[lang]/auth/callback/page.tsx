@@ -1,11 +1,10 @@
 "use client";
 
 import { useEffect, Suspense } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import authService from '@/lib/api/auth';
 
 function AuthCallbackContent() {
-  const router = useRouter();
   const searchParams = useSearchParams();
 
   useEffect(() => {
@@ -18,16 +17,18 @@ function AuthCallbackContent() {
         authService.setToken(token);
 
         // Redirect to return URL or dashboard
+        // Use window.location.href for full page reload to ensure layout re-renders
+        // (important for OAuth flows where header should be hidden)
         const destination = returnUrl ? decodeURIComponent(returnUrl) : '/alerts';
-        router.push(destination);
+        window.location.href = destination;
       } else {
         // No token, redirect to login
-        router.push('/auth/login');
+        window.location.href = '/auth/login';
       }
     };
 
     handleCallback();
-  }, [searchParams, router]);
+  }, [searchParams]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">

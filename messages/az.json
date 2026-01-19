@@ -779,5 +779,36 @@
       "webhookUrlPlaceholder": "https://example.com/webhooks/wallet",
       "webhookUrlHint": "Ödəniş bildirişləri göndəriləcək endpoint URL-i"
     }
+  },
+  "privacy": {
+    "title": "Məxfilik Siyasəti",
+    "description": "Kimlik.az üçün Məxfilik Siyasəti",
+    "lastUpdated": "Son yenilənmə",
+    "sections": {
+      "collection": {
+        "title": "Topladığımız Məlumatlar",
+        "content": "Hesab yaratarkən və ya xidmətlərimizdən istifadə edərkən bizə birbaşa təqdim etdiyiniz məlumatları toplayırıq: adınız, e-poçt ünvanınız, telefon nömrəniz və digər məlumatlar."
+      },
+      "usage": {
+        "title": "Məlumatlarınızı Necə İstifadə Edirik",
+        "content": "Topladığımız məlumatları xidmətlərimizi təqdim etmək, saxlamaq və təkmilləşdirmək, əməliyyatları emal etmək, texniki bildirişlər və dəstək mesajları göndərmək üçün istifadə edirik."
+      },
+      "sharing": {
+        "title": "Məlumat Paylaşımı",
+        "content": "Məlumatlarınızı yalnız sizin razılığınızla, OAuth sistemi vasitəsilə icazə verdiyiniz tətbiqlərlə və qanunla tələb olunduqda paylaşırıq. Şəxsi məlumatlarınızı satmırıq."
+      },
+      "security": {
+        "title": "Məlumat Təhlükəsizliyi",
+        "content": "Şəxsi məlumatlarınızı icazəsiz giriş, dəyişiklik, açıqlama və ya məhv etmədən qorumaq üçün müvafiq texniki və təşkilati tədbirlər həyata keçiririk."
+      },
+      "deletion": {
+        "title": "Məlumatların Silinməsi",
+        "content": "İstənilən vaxt bizimlə əlaqə saxlayaraq hesabınızın və şəxsi məlumatlarınızın silinməsini tələb edə bilərsiniz. Sorğunuzu aldıqdan sonra 30 gün ərzində məlumatlarınızı siləcəyik."
+      },
+      "contact": {
+        "title": "Bizimlə Əlaqə",
+        "content": "Bu Məxfilik Siyasəti ilə bağlı suallarınız varsa, bizimlə əlaqə saxlayın"
+      }
+    }
   }
 }
