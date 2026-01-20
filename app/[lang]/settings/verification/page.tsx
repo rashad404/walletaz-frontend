@@ -274,7 +274,7 @@ export default function VerificationPage() {
           <div className="flex items-start gap-3">
             <ShieldCheck className="w-6 h-6 text-emerald-600 dark:text-emerald-400 flex-shrink-0 mt-0.5" />
             <div>
-              <h3 className="font-semibold text-emerald-800 dark:text-emerald-300 mb-1">
+              <h3 className="text-base font-semibold text-emerald-800 dark:text-emerald-300 mb-1">
                 {t('verification.verifyOnce')}
               </h3>
               <p className="text-sm text-emerald-700 dark:text-emerald-400">

@@ -243,7 +243,7 @@ export default function SecuritySettingsPage() {
                   }`} />
                 </div>
                 <div>
-                  <h3 className="font-bold text-gray-900 dark:text-white">
+                  <h3 className="text-base font-semibold text-gray-900 dark:text-white">
                     {t('settings.security.twoFactor') || 'Two-Factor Authentication'}
                   </h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -276,7 +276,7 @@ export default function SecuritySettingsPage() {
                   <Monitor className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-gray-900 dark:text-white">
+                  <h3 className="text-base font-semibold text-gray-900 dark:text-white">
                     {t('settings.security.activeSessions') || 'Active Sessions'}
                   </h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -300,7 +300,7 @@ export default function SecuritySettingsPage() {
                   <Bell className="w-6 h-6 text-amber-600 dark:text-amber-400" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-amber-900 dark:text-amber-300">
+                  <h3 className="text-base font-semibold text-amber-900 dark:text-amber-300">
                     {t('settings.security.loginAlerts') || 'Login Alerts'}
                   </h3>
                   <p className="text-sm text-amber-700 dark:text-amber-400">
@@ -378,7 +378,7 @@ export default function SecuritySettingsPage() {
                   )}
                 </button>
               </div>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
                 {t('settings.security.passwordHint') || 'Must be at least 8 characters'}
               </p>
             </div>

@@ -46,9 +46,9 @@ type LoginTypeStyle = {
 };
 
 const deviceIcons: Record<string, React.ReactNode> = {
-  desktop: <Monitor className="w-4 h-4" />,
-  mobile: <Smartphone className="w-4 h-4" />,
-  tablet: <Tablet className="w-4 h-4" />,
+  desktop: <Monitor className="w-5 h-5" />,
+  mobile: <Smartphone className="w-5 h-5" />,
+  tablet: <Tablet className="w-5 h-5" />,
 };
 
 export default function LoginHistoryPage() {
@@ -248,14 +248,14 @@ export default function LoginHistoryPage() {
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
               <Clock className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
             </div>
             <div>
-              <h1 className="text-lg font-semibold text-gray-900 dark:text-white">
+              <h1 className="text-xl font-semibold text-gray-900 dark:text-white">
                 {t('loginHistory.title')}
               </h1>
-              <p className="text-xs text-gray-500 dark:text-gray-400">
+              <p className="text-sm text-gray-500 dark:text-gray-400">
                 {t('loginHistory.description')}
               </p>
             </div>
@@ -266,15 +266,15 @@ export default function LoginHistoryPage() {
             disabled={isRefreshing}
             className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors disabled:opacity-50"
           >
-            <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`w-5 h-5 ${isRefreshing ? 'animate-spin' : ''}`} />
           </button>
         </div>
 
         {/* Security Notice */}
-        <div className="mb-5 p-3 rounded-xl bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800">
-          <div className="flex items-start gap-2">
-            <Shield className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />
-            <p className="text-xs text-blue-600 dark:text-blue-400">
+        <div className="mb-5 p-4 rounded-xl bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800">
+          <div className="flex items-start gap-3">
+            <Shield className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" />
+            <p className="text-sm text-blue-600 dark:text-blue-400">
               {t('loginHistory.securityNotice')}
             </p>
           </div>
@@ -282,10 +282,10 @@ export default function LoginHistoryPage() {
 
         {/* Error */}
         {error && (
-          <div className="mb-5 p-3 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-800">
-            <div className="flex items-center gap-2">
-              <AlertTriangle className="w-4 h-4 text-red-500 flex-shrink-0" />
-              <p className="text-xs text-red-600 dark:text-red-400">{error}</p>
+          <div className="mb-5 p-4 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-800">
+            <div className="flex items-center gap-3">
+              <AlertTriangle className="w-5 h-5 text-red-500 flex-shrink-0" />
+              <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
             </div>
           </div>
         )}
@@ -293,13 +293,13 @@ export default function LoginHistoryPage() {
         {/* Empty State */}
         {history.length === 0 ? (
           <div className="text-center py-12">
-            <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
-              <Clock className="w-7 h-7 text-gray-400" />
+            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+              <Clock className="w-8 h-8 text-gray-400" />
             </div>
-            <h2 className="text-base font-medium text-gray-900 dark:text-white mb-1">
+            <h2 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
               {t('loginHistory.noHistory')}
             </h2>
-            <p className="text-sm text-gray-500 dark:text-gray-400 max-w-xs mx-auto">
+            <p className="text-base text-gray-500 dark:text-gray-400 max-w-sm mx-auto">
               {t('loginHistory.noHistoryDesc')}
             </p>
           </div>
@@ -312,10 +312,10 @@ export default function LoginHistoryPage() {
 
               return (
                 <div key={group}>
-                  <h2 className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2 px-1">
+                  <h2 className="text-sm font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-3 px-1">
                     {getGroupLabel(group)}
                   </h2>
-                  <div className="space-y-2">
+                  <div className="space-y-3">
                     {entries.map((entry, index) => {
                       const isFirst = group === 'today' && index === 0;
                       const style = getLoginTypeStyle(entry.login_type);
@@ -323,48 +323,48 @@ export default function LoginHistoryPage() {
                       return (
                         <div
                           key={entry.id}
-                          className={`rounded-xl p-3 border ${
+                          className={`rounded-xl p-4 border ${
                             isFirst
                               ? 'bg-emerald-50 dark:bg-emerald-900/10 border-emerald-200 dark:border-emerald-800/50'
                               : 'bg-gray-50 dark:bg-gray-800/50 border-gray-100 dark:border-gray-800'
                           }`}
                         >
-                          <div className="flex items-center gap-3">
+                          <div className="flex items-center gap-4">
                             {/* App/Device Icon */}
                             {entry.app?.logo_url ? (
                               <img
                                 src={entry.app.logo_url}
                                 alt={entry.app.name}
-                                className="w-9 h-9 rounded-lg object-cover flex-shrink-0"
+                                className="w-10 h-10 rounded-lg object-cover flex-shrink-0"
                               />
                             ) : (
-                              <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${
+                              <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${
                                 isFirst
                                   ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400'
                                   : 'bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400'
                               }`}>
-                                {deviceIcons[entry.device.type] || <Globe className="w-4 h-4" />}
+                                {deviceIcons[entry.device.type] || <Globe className="w-5 h-5" />}
                               </div>
                             )}
 
                             {/* Entry Details */}
                             <div className="flex-1 min-w-0">
-                              <div className="flex items-center gap-2 mb-0.5">
-                                <span className="text-sm font-medium text-gray-900 dark:text-white truncate">
+                              <div className="flex items-center gap-2 mb-1">
+                                <span className="text-base font-medium text-gray-900 dark:text-white truncate">
                                   {entry.app?.name || t('loginHistory.directLogin')}
                                 </span>
                                 {isFirst && (
-                                  <span className="px-1.5 py-0.5 text-[10px] font-medium bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 rounded">
+                                  <span className="px-2 py-0.5 text-xs font-medium bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 rounded">
                                     {t('loginHistory.currentSession')}
                                   </span>
                                 )}
                               </div>
 
-                              <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
+                              <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
                                 {/* Login Method Badge */}
-                                <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded ${style.bg} ${style.text}`}>
+                                <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded ${style.bg} ${style.text}`}>
                                   {style.icon}
-                                  <span className="text-[10px] font-medium">{getLoginTypeLabel(entry.login_type)}</span>
+                                  <span className="text-xs font-medium">{getLoginTypeLabel(entry.login_type)}</span>
                                 </span>
                                 <span className="text-gray-300 dark:text-gray-600">•</span>
                                 <span className="truncate">{entry.device.browser}</span>
@@ -375,10 +375,10 @@ export default function LoginHistoryPage() {
 
                             {/* Time */}
                             <div className="text-right flex-shrink-0">
-                              <p className="text-xs font-medium text-gray-700 dark:text-gray-300">
+                              <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
                                 {formatTime(entry.logged_in_at)}
                               </p>
-                              <p className="text-[10px] text-gray-400 dark:text-gray-500">
+                              <p className="text-xs text-gray-400 dark:text-gray-500">
                                 {formatRelativeDate(entry.logged_in_at)}
                               </p>
                             </div>
