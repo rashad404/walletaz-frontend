@@ -1,71 +1,41 @@
 #!/bin/bash
 
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PARENT_DIR="$(dirname "$SCRIPT_DIR")"
+APP_NAME="frontend"
+NEW_DIR="${PARENT_DIR}/${APP_NAME}-new"
+OLD_DIR="${PARENT_DIR}/${APP_NAME}-old"
+
 echo "========================================="
-echo "Production Build Script for wallet.az"
+echo "Zero-Downtime Deploy for wallet.az"
 echo "========================================="
-echo ""
 
-# Pull latest changes from git
-echo "📥 Pulling latest changes from git..."
-git pull
+# 1. Pull latest in current folder
+cd "$SCRIPT_DIR"
+git pull || exit 1
 
-if [ $? -ne 0 ]; then
-    echo "⚠️  WARNING: Git pull failed! Please resolve conflicts manually."
-    exit 1
-fi
+# 2. Copy to new folder
+rm -rf "$NEW_DIR"
+cp -r "$SCRIPT_DIR" "$NEW_DIR"
 
-echo "✓ Git pull completed"
-echo ""
+# 3. Build in new folder (old keeps running)
+cd "$NEW_DIR"
+rm -rf .next node_modules
+npm install || exit 1
+NODE_ENV=production npm run build || exit 1
 
-# Clean old build
-echo "🧹 Cleaning old build..."
-rm -rf .next
+# 4. Quick swap
+cd "$PARENT_DIR"
+rm -rf "$OLD_DIR"
+mv "$SCRIPT_DIR" "$OLD_DIR"
+mv "$NEW_DIR" "$SCRIPT_DIR"
 
-# Clean and reinstall dependencies
-echo "🧹 Cleaning node_modules..."
-rm -rf node_modules
-
-echo "📦 Installing dependencies..."
-npm install
-
-if [ $? -ne 0 ]; then
-    echo "❌ npm install failed!"
-    exit 1
-fi
-
-# Run the production build
-echo "🔨 Building production bundle..."
-NODE_ENV=production npm run build
-
-if [ $? -ne 0 ]; then
-    echo "❌ Build failed!"
-    exit 1
-fi
-
-echo "✓ Build completed successfully!"
-echo ""
-
-# Check if PM2 process exists and handle accordingly
-echo "🔍 Checking PM2 processes..."
-if pm2 list | grep -q "next.wallet.az"; then
-    echo "🔄 Restarting existing PM2 process..."
-    pm2 restart next.wallet.az
-else
-    echo "🚀 Starting new PM2 process on port 3033..."
-    pm2 start npm --name next.wallet.az -- start -- -p 3033
-fi
-
-# Save PM2 configuration
+# 5. Restart PM2
+cd "$SCRIPT_DIR"
+pm2 restart next.wallet.az || pm2 start npm --name next.wallet.az -- start -- -p 3033
 pm2 save
 
-echo ""
-echo "========================================="
-echo "✅ Production deployment complete!"
-echo "✅ Debug mode is OFF"
-echo "✅ Using API: https://api.wallet.az"
-echo "========================================="
-echo ""
-echo "📊 Check status with: pm2 status next.wallet.az"
-echo "📜 View logs with: pm2 logs next.wallet.az"
-echo ""
-echo "⚠️  Note: Clear nginx cache in WHM if users see old version"
+# 6. Cleanup
+rm -rf "$OLD_DIR"
+
+echo "Done!"
