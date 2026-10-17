@@ -1,5 +1,6 @@
 'use client';
 
+import { AppleSignInButton } from './AppleSignInButton';
 import { useTranslations } from 'next-intl';
 import { useEffect, useCallback, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
@@ -142,6 +143,7 @@ export function SocialLoginButtons({ returnUrl, variant = 'default' }: SocialLog
 
   return (
     <div className="space-y-3">
+      <AppleSignInButton returnUrl={returnUrl} />
       {/* Google and Facebook row */}
       <div className={`grid grid-cols-2 ${isCompact ? 'gap-2' : 'gap-3'}`}>
         {/* Google Button */}

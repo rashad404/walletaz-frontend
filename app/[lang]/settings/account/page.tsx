@@ -1,5 +1,6 @@
 'use client';
 
+import { AppleSignInButton } from '@/components/auth/AppleSignInButton';
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { Link } from '@/lib/navigation';
@@ -25,6 +26,7 @@ interface DeletionStatus {
 }
 
 interface LinkedProviders {
+  apple?: { linked: boolean };
   google: { linked: boolean };
   facebook: { linked: boolean };
   telegram: { linked: boolean; username?: string };
@@ -295,6 +297,9 @@ export default function AccountSettingsPage() {
           </div>
         )}
 
+        <div className="mb-6">
+          {linkedProviders?.apple?.linked ? <button type="button" disabled={actionLoading} onClick={() => handleUnlinkProvider('apple')} className="rounded-xl border border-gray-400 px-4 py-3 text-sm">{t('appleAuth.unlink')}</button> : <AppleSignInButton link returnUrl={`/${locale}/settings/account`} />}
+        </div>
         {/* Linked Accounts */}
         {linkedProviders && (
           <div className="rounded-3xl p-6 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border border-white/30 dark:border-gray-700/30 mb-6">

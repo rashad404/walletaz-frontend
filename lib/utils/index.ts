@@ -22,9 +22,9 @@ export function getTranslation(
         return parsed[locale as keyof Translation] || parsed.az || '';
       }
     } catch {
-      // If it's not valid JSON, return as is
-      return translation;
+      // If it is not valid JSON, return the original text.
     }
+    return translation;
   }
   
   return translation[locale as keyof Translation] || translation.az || '';

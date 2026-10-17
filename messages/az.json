@@ -1362,5 +1362,19 @@
         "dataProtection": "Məlumat qorunması sorğuları üçün Məlumat Qorunması Məsulumuzla dpo@kimlik.az ünvanında əlaqə saxlaya bilərsiniz"
       }
     }
+  },
+  "appleAuth": {
+    "continue": "Apple ilə davam et",
+    "link": "Apple hesabını bağla",
+    "unlink": "Apple bağlantısını kəs",
+    "loading": "Daxil olunur...",
+    "failed": "Daxil olmaq mümkün olmadı. Yenidən cəhd edin.",
+    "cancelled": "Giriş ləğv edildi.",
+    "account_exists": "Bu e-poçtla kimlik.az hesabı var. Əvvəlki üsulla daxil olun, sonra Ayarlar > Hesab bölməsində Apple hesabını bağlayın.",
+    "email_required": "Apple təsdiqlənmiş e-poçt göndərmədi. E-poçt paylaşımına icazə verib yenidən cəhd edin. E-poçtunuzu gizlədə bilərsiniz.",
+    "twoFactor": "Təsdiqləmə tətbiqindəki kodu və ya bərpa kodunu daxil edin.",
+    "invalidCode": "Kod yanlışdır və ya giriş üçün ayrılan vaxt bitib.",
+    "verify": "Davam et",
+    "back": "Giriş səhifəsinə qayıt"
   }
 }

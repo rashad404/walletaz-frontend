@@ -1352,5 +1352,19 @@
         "dataProtection": "For data protection inquiries, you may also contact our Data Protection Officer at dpo@kimlik.az"
       }
     }
+  },
+  "appleAuth": {
+    "continue": "Continue with Apple",
+    "link": "Connect Apple",
+    "unlink": "Disconnect Apple",
+    "loading": "Signing in...",
+    "failed": "Sign-in could not be completed. Please try again.",
+    "cancelled": "Sign-in was cancelled.",
+    "account_exists": "This email already has a kimlik.az account. Sign in using your existing method, then connect Apple in Settings > Account.",
+    "email_required": "Apple did not provide a verified email. Please allow email access and try again. Hide My Email is supported.",
+    "twoFactor": "Enter your authenticator code or a recovery code.",
+    "invalidCode": "The code is incorrect or the sign-in session has expired.",
+    "verify": "Continue",
+    "back": "Back to sign-in"
   }
 }

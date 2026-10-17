@@ -140,7 +140,7 @@ function TwoFactorContent() {
 
       <div className="w-full max-w-md px-6 py-12">
         <div className="text-center mb-8">
-          <AppLogo size="md" className="mx-auto mb-6" />
+          <div className="flex justify-center mb-6"><AppLogo size="md" /></div>
           <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
             <ShieldCheck className="w-8 h-8 text-emerald-600 dark:text-emerald-400" />
           </div>
