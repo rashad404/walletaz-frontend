@@ -155,7 +155,7 @@ export default function Header() {
           </div>
 
           {/* Mobile menu button */}
-          <div className="flex items-center gap-3 md:hidden">
+          <div className="flex items-center gap-1 min-[400px]:gap-3 md:hidden">
             <LanguageSwitcher locale={locale} />
             <TimezoneSelector />
             <ThemeToggle />
