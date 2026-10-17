@@ -33,15 +33,25 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  // Get saved locale preference from cookie
+  // Language for a URL that does not name one, in order of precedence:
+  // 1. the language the user chose here, saved in NEXT_LOCALE;
+  // 2. ?hl=, which partner sites pass with the language of the page the user
+  //    came from, so a visitor from an English site who never chose a
+  //    language gets English rather than the default;
+  // 3. az, the default.
+  // A URL with a language prefix is left alone, so an explicit link wins.
+  const isLocale = (value?: string | null): value is string =>
+    !!value && i18n.locales.includes(value as any);
   const savedLocale = request.cookies.get(LOCALE_COOKIE)?.value;
+  const hintLocale = request.nextUrl.searchParams.get('hl');
+  const preferred = isLocale(savedLocale) ? savedLocale : isLocale(hintLocale) ? hintLocale : null;
 
-  // If user visits without locale prefix, check their preference
-  if (!hasNonDefaultLocale && savedLocale && savedLocale !== 'az' && i18n.locales.includes(savedLocale as any)) {
-    // Redirect to their preferred locale
-    const newPathname = `/${savedLocale}${pathname === '/' ? '' : pathname}`;
+  if (!hasNonDefaultLocale && preferred && preferred !== 'az') {
+    const newPathname = `/${preferred}${pathname === '/' ? '' : pathname}`;
     const url = new URL(newPathname, request.url);
     url.search = request.nextUrl.search;
+    // The prefix now carries the language; the hint has done its job.
+    url.searchParams.delete('hl');
     return NextResponse.redirect(url);
   }
 
