@@ -1,7 +1,7 @@
 'use client';
 
 import { Link } from '@/lib/navigation';
-import { Mail, Phone, Shield } from 'lucide-react';
+import { Mail, Shield } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useAppName } from '@/providers/config-provider';
 
@@ -46,13 +46,6 @@ export default function Footer() {
             >
               <Mail className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">info@kimlik.az</span>
-            </a>
-            <a
-              href="tel:+994123456789"
-              className="text-gray-600 dark:text-gray-400 hover:text-emerald-600 transition-colors flex items-center gap-1"
-            >
-              <Phone className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">+994 12 345 6789</span>
             </a>
           </div>
         </div>
