@@ -157,7 +157,7 @@ export default function OAuthAuthorizePage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900">
+      <div className="min-h-dvh flex items-center justify-center bg-white dark:bg-gray-900">
         <div className="text-center">
           <Loader2 className="w-6 h-6 animate-spin text-emerald-500 mx-auto mb-2" />
           <p className="text-sm text-gray-600 dark:text-gray-400">{t('common.loading')}</p>
@@ -168,7 +168,7 @@ export default function OAuthAuthorizePage() {
 
   if (error && !oauthData) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900 p-4">
+      <div className="min-h-dvh flex items-center justify-center bg-white dark:bg-gray-900 p-4">
         <div className="text-center">
           <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
             <X className="w-6 h-6 text-red-500" />
@@ -189,123 +189,127 @@ export default function OAuthAuthorizePage() {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 flex flex-col">
-      {/* Header with Kimlik.az branding + App */}
-      <div className="p-4 border-b border-gray-200 dark:border-gray-700">
-        <div className="flex justify-center mb-3">
-          <AppLogo size="sm" />
-        </div>
-        <div className="flex items-center gap-3">
-          {oauthData?.client.logo_url ? (
-            <img
-              src={oauthData.client.logo_url}
-              alt={oauthData.client.name}
-              className="w-10 h-10 rounded-xl object-cover"
-            />
-          ) : (
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-gray-400 to-gray-500 flex items-center justify-center">
-              <ExternalLink className="w-5 h-5 text-white" />
-            </div>
-          )}
-          <div className="flex-1 min-w-0">
-            <h1 className="text-base font-bold text-gray-900 dark:text-white truncate">
-              {oauthData?.client.name}
-            </h1>
-            {oauthData?.client.website_url && (
-              <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
-                {new URL(oauthData.client.website_url).hostname}
-              </p>
-            )}
+    <div data-testid="oauth-consent" className="h-dvh min-h-0 overflow-hidden bg-white dark:bg-gray-900 flex flex-col">
+      {/* Browser controls reduce the viewport. Only the details should scroll. */}
+      <main data-testid="oauth-consent-details" tabIndex={0} className="min-h-0 flex-1 overflow-y-auto overscroll-contain" style={{ paddingLeft: 'env(safe-area-inset-left)', paddingRight: 'env(safe-area-inset-right)' }}>
+        {/* Header with Kimlik.az branding + App */}
+        <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+          <div className="flex justify-center mb-3">
+            <AppLogo size="sm" />
           </div>
-        </div>
-      </div>
-
-      {/* Content */}
-      <div className="flex-1 p-4">
-        {oauthData?.already_authorized ? (
-          /* Returning user - simplified UI */
-          <p className="text-sm text-gray-700 dark:text-gray-300 mb-4">
-            {t('oauth.consent.signingInAs', { app: oauthData?.client.name })}
-          </p>
-        ) : (
-          /* First time authorization - show permissions */
-          <>
-            <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">
-              {t('oauth.consent.willAllow', { app: oauthData?.client.name })}
-            </p>
-
-            {/* Compact Scopes Grid */}
-            <div className="grid grid-cols-2 gap-2 mb-4">
-              {oauthData?.scopes.map((scope) => (
-                <div
-                  key={scope.name}
-                  className="flex items-center gap-2 px-2.5 py-2 rounded-xl bg-gray-50 dark:bg-gray-800/50"
-                >
-                  <div className="w-6 h-6 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400 flex-shrink-0">
-                    {scopeIcons[scope.name] || <Shield className="w-3.5 h-3.5" />}
-                  </div>
-                  <span className="text-xs font-medium text-gray-700 dark:text-gray-300 truncate">
-                    {scope.display_name[lang] || scope.display_name['en'] || scope.name}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </>
-        )}
-
-        {/* User Info */}
-        <div className="flex items-center justify-between p-3 rounded-xl bg-gray-100 dark:bg-gray-800">
-          <div className="flex items-center gap-2 min-w-0">
-            {oauthData?.user.avatar ? (
+          <div className="flex items-center gap-3">
+            {oauthData?.client.logo_url ? (
               <img
-                src={oauthData.user.avatar}
-                alt={oauthData.user.name}
-                className="w-8 h-8 rounded-full object-cover flex-shrink-0"
+                src={oauthData.client.logo_url}
+                alt={oauthData.client.name}
+                className="w-10 h-10 rounded-xl object-cover"
               />
             ) : (
-              <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center flex-shrink-0">
-                <User className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-gray-400 to-gray-500 flex items-center justify-center">
+                <ExternalLink className="w-5 h-5 text-white" />
               </div>
             )}
-            <div className="min-w-0">
-              <p className="font-medium text-gray-900 dark:text-white text-xs truncate">
-                {oauthData?.user.name}
-              </p>
-              <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
-                {oauthData?.user.email}
-              </p>
+            <div className="flex-1 min-w-0">
+              <h1 className="text-base font-bold text-gray-900 dark:text-white truncate">
+                {oauthData?.client.name}
+              </h1>
+              {oauthData?.client.website_url && (
+                <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                  {new URL(oauthData.client.website_url).hostname}
+                </p>
+              )}
             </div>
           </div>
-          <button
-            onClick={handleSwitchAccount}
-            className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline flex-shrink-0 ml-2"
-          >
-            {t('oauth.consent.switchAccount')}
-          </button>
         </div>
 
-        {/* Error Message */}
-        {error && (
-          <div className="p-3 rounded-xl bg-red-100 dark:bg-red-900/30 mt-3">
-            <p className="text-xs text-red-600 dark:text-red-400">{error}</p>
-          </div>
-        )}
-      </div>
+        {/* Content */}
+        <div className="p-4">
+          {oauthData?.already_authorized ? (
+            /* Returning user - simplified UI */
+            <p className="text-sm text-gray-700 dark:text-gray-300 mb-4">
+              {t('oauth.consent.signingInAs', { app: oauthData?.client.name })}
+            </p>
+          ) : (
+            /* First time authorization - show permissions */
+            <>
+              <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">
+                {t('oauth.consent.willAllow', { app: oauthData?.client.name })}
+              </p>
 
-      {/* Action Buttons - pb-safe for iPhone bottom bar */}
-      <div className="p-4 border-t border-gray-200 dark:border-gray-700" style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}>
+              {/* Compact Scopes Grid */}
+              <div className="grid grid-cols-2 gap-2 mb-4">
+                {oauthData?.scopes.map((scope) => (
+                  <div
+                    key={scope.name}
+                    className="flex items-center gap-2 px-2.5 py-2 rounded-xl bg-gray-50 dark:bg-gray-800/50"
+                  >
+                    <div className="w-6 h-6 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400 flex-shrink-0">
+                      {scopeIcons[scope.name] || <Shield className="w-3.5 h-3.5" />}
+                    </div>
+                    <span className="min-w-0 break-words text-xs font-medium text-gray-700 dark:text-gray-300">
+                      {scope.display_name[lang] || scope.display_name['en'] || scope.name}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+
+          {/* User Info */}
+          <div className="flex items-center justify-between p-3 rounded-xl bg-gray-100 dark:bg-gray-800">
+            <div className="flex items-center gap-2 min-w-0">
+              {oauthData?.user.avatar ? (
+                <img
+                  src={oauthData.user.avatar}
+                  alt={oauthData.user.name}
+                  className="w-8 h-8 rounded-full object-cover flex-shrink-0"
+                />
+              ) : (
+                <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center flex-shrink-0">
+                  <User className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                </div>
+              )}
+              <div className="min-w-0">
+                <p className="font-medium text-gray-900 dark:text-white text-xs truncate">
+                  {oauthData?.user.name}
+                </p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                  {oauthData?.user.email}
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={handleSwitchAccount}
+              className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline flex-shrink-0 ml-2"
+            >
+              {t('oauth.consent.switchAccount')}
+            </button>
+          </div>
+
+          {/* Error Message */}
+          {error && (
+            <div className="p-3 rounded-xl bg-red-100 dark:bg-red-900/30 mt-3">
+              <p className="text-xs text-red-600 dark:text-red-400">{error}</p>
+            </div>
+          )}
+        </div>
+
+      </main>
+
+      {/* Keep both decisions visible, including above the iPhone home indicator. */}
+      <div data-testid="oauth-consent-actions" className="shrink-0 p-4 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900" style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))', paddingLeft: 'max(1rem, env(safe-area-inset-left))', paddingRight: 'max(1rem, env(safe-area-inset-right))' }}>
         <div className="flex gap-2">
           <button
             onClick={() => handleDecision('deny')}
             disabled={isSubmitting}
-            className="flex-1 px-4 py-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors disabled:opacity-50"
+            className="min-h-12 min-w-0 flex-1 px-4 py-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors disabled:opacity-50"
           >
             {t('oauth.consent.deny')}
           </button>
           <button
             onClick={() => handleDecision('allow')}
             disabled={isSubmitting}
-            className="flex-1 px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium transition-colors disabled:opacity-50 flex items-center justify-center gap-1.5"
+            className="min-h-12 min-w-0 flex-1 px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium transition-colors disabled:opacity-50 flex items-center justify-center gap-1.5"
           >
             {isSubmitting ? (
               <Loader2 className="w-4 h-4 animate-spin" />

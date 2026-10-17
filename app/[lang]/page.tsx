@@ -171,7 +171,16 @@ export default function HomePage() {
             {t('home.security.subtitle')}
           </p>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6">
+            {/* Apple */}
+            <div className="group p-5 rounded-2xl bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 hover:border-emerald-500 dark:hover:border-emerald-500 transition-all duration-300 hover:shadow-lg">
+              <div className="w-12 h-12 rounded-xl bg-black text-white shadow-sm flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <svg aria-hidden="true" className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 12.54c.03 3.2 2.81 4.27 2.84 4.29-.02.08-.45 1.52-1.47 3.01-.88 1.29-1.79 2.57-3.23 2.6-1.41.03-1.87-.84-3.48-.84-1.6 0-2.11.81-3.44.87-1.39.05-2.45-1.4-3.34-2.68-1.81-2.63-3.2-7.43-1.34-10.67.93-1.61 2.59-2.63 4.39-2.66 1.37-.03 2.67.93 3.51.93.84 0 2.42-1.15 4.08-.98.7.03 2.64.28 3.88 2.1-.1.06-2.32 1.35-2.4 4.03zM14.4 4.66c.73-.89 1.23-2.13 1.09-3.36-1.05.04-2.32.7-3.07 1.59-.67.77-1.25 2.01-1.1 3.2 1.17.09 2.35-.59 3.08-1.43z"/></svg>
+              </div>
+              <h3 className="font-semibold text-gray-900 dark:text-white text-sm">Apple</h3>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{t('home.security.quickLogin')}</p>
+            </div>
+
             {/* Google */}
             <div className="group p-5 rounded-2xl bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 hover:border-emerald-500 dark:hover:border-emerald-500 transition-all duration-300 hover:shadow-lg">
               <div className="w-12 h-12 rounded-xl bg-white dark:bg-gray-800 shadow-sm flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
@@ -209,7 +218,7 @@ export default function HomePage() {
             </div>
 
             {/* 2FA */}
-            <div className="group p-5 rounded-2xl bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 hover:border-emerald-500 dark:hover:border-emerald-500 transition-all duration-300 hover:shadow-lg">
+            <div className="col-span-2 md:col-span-1 group p-5 rounded-2xl bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 hover:border-emerald-500 dark:hover:border-emerald-500 transition-all duration-300 hover:shadow-lg">
               <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 shadow-sm flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                 <Lock className="w-6 h-6 text-white" />
               </div>

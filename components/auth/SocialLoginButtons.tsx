@@ -1,7 +1,7 @@
 'use client';
 
 import { AppleSignInButton } from './AppleSignInButton';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { useEffect, useCallback, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -25,6 +25,7 @@ const TELEGRAM_BOT_USERNAME = process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME || '
 
 export function SocialLoginButtons({ returnUrl, variant = 'default' }: SocialLoginButtonsProps) {
   const t = useTranslations();
+  const locale = useLocale();
   const router = useRouter();
   const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://100.89.150.50:8011/api';
   const [telegramLoading, setTelegramLoading] = useState(false);
@@ -38,7 +39,6 @@ export function SocialLoginButtons({ returnUrl, variant = 'default' }: SocialLog
 
   // Handle Telegram auth callback
   const handleTelegramAuth = useCallback(async (user: TelegramUser) => {
-    console.log('Telegram auth callback received:', user);
     setTelegramLoading(true);
     setError('');
 
@@ -57,8 +57,6 @@ export function SocialLoginButtons({ returnUrl, variant = 'default' }: SocialLog
       if (user.username) payload.username = user.username;
       if (user.photo_url) payload.photo_url = user.photo_url;
 
-      console.log('Sending to backend:', payload);
-
       const response = await fetch(`${API_BASE_URL}/auth/telegram/callback`, {
         method: 'POST',
         headers: {
@@ -69,7 +67,6 @@ export function SocialLoginButtons({ returnUrl, variant = 'default' }: SocialLog
       });
 
       const data = await response.json();
-      console.log('Backend response:', data);
 
       if (!response.ok || data.status === 'error') {
         throw new Error(data.message || 'Telegram authentication failed');
@@ -77,7 +74,6 @@ export function SocialLoginButtons({ returnUrl, variant = 'default' }: SocialLog
 
       // Check if 2FA is required
       if (data.status === 'requires_2fa' && data.user_id) {
-        const locale = document.documentElement.lang || 'az';
         const authMethod = data.auth_method || 'telegram';
         const returnUrlParam = data.return_url || returnUrl || '/dashboard';
         router.push(`/${locale}/auth/2fa?user_id=${data.user_id}&return_url=${encodeURIComponent(returnUrlParam)}&auth_method=${authMethod}`);
@@ -100,7 +96,7 @@ export function SocialLoginButtons({ returnUrl, variant = 'default' }: SocialLog
     } finally {
       setTelegramLoading(false);
     }
-  }, [API_BASE_URL, returnUrl, router]);
+  }, [API_BASE_URL, returnUrl, router, locale]);
 
   // Set up Telegram callback globally
   useEffect(() => {
@@ -125,7 +121,10 @@ export function SocialLoginButtons({ returnUrl, variant = 'default' }: SocialLog
     const script = document.createElement('script');
     script.src = 'https://telegram.org/js/telegram-widget.js?22';
     script.setAttribute('data-telegram-login', TELEGRAM_BOT_USERNAME);
-    script.setAttribute('data-size', variant === 'compact' ? 'medium' : 'large');
+    script.setAttribute('data-size', 'large');
+    script.setAttribute('data-radius', variant === 'compact' ? '12' : '16');
+    script.setAttribute('data-userpic', 'false');
+    script.setAttribute('data-lang', locale);
     script.setAttribute('data-onauth', 'onTelegramAuth(user)');
     script.setAttribute('data-request-access', 'write');
     script.async = true;
@@ -137,7 +136,7 @@ export function SocialLoginButtons({ returnUrl, variant = 'default' }: SocialLog
         telegramRef.current.innerHTML = '';
       }
     };
-  }, [variant]);
+  }, [variant, locale]);
 
   const isCompact = variant === 'compact';
 
@@ -186,15 +185,12 @@ export function SocialLoginButtons({ returnUrl, variant = 'default' }: SocialLog
         </button>
       </div>
 
-      {/* Telegram Widget - Full width row */}
+      {/* Keep Telegram's official widget without a second button-shaped border. */}
       {TELEGRAM_BOT_USERNAME && (
         <div
           ref={telegramRef}
-          className={`flex items-center justify-center w-full ${
-            isCompact
-              ? 'py-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700'
-              : 'py-3 rounded-2xl bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700'
-          }`}
+          data-testid="telegram-login-widget"
+          className={`flex min-h-12 w-full items-center justify-center [color-scheme:light] [&_iframe]:block [&_iframe]:max-w-full [&_iframe]:[color-scheme:light] ${isCompact ? '[&_iframe]:rounded-xl' : '[&_iframe]:rounded-2xl'}`}
         />
       )}
 
