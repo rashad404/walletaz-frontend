@@ -3,10 +3,10 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Link } from '@/lib/navigation';
-import { Mail, Lock, ArrowRight, Loader2, Phone, ShieldCheck } from 'lucide-react';
+import { Mail, Lock, ArrowRight, Loader2, Phone, ShieldCheck, ExternalLink } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { AppLogo } from '@/components/ui/app-logo';
-import { SocialLoginButtons, SocialLoginDivider } from '@/components/auth/SocialLoginButtons';
+import { GoogleLoginButton, SocialLoginButtons, SocialLoginDivider } from '@/components/auth/SocialLoginButtons';
 
 type LoginMethod = 'email' | 'phone';
 
@@ -72,6 +72,33 @@ export default function LoginPage() {
   }, [router, returnUrl]);
 
   const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://100.89.150.50:8011/api';
+
+  // Partner app (e.g. sayt.az) shown in the popup header, same as on the consent screen
+  const [partnerApp, setPartnerApp] = useState<{ name: string; logo_url: string | null; website_url: string | null } | null>(null);
+
+  useEffect(() => {
+    if (!returnUrl?.includes('oauth/authorize')) return;
+
+    let params: URLSearchParams;
+    try {
+      params = new URL(returnUrl, window.location.origin).searchParams;
+    } catch {
+      return;
+    }
+    const clientId = params.get('client_id');
+    const redirectUri = params.get('redirect_uri');
+    if (!clientId || !redirectUri) return;
+
+    const controller = new AbortController();
+    fetch(`${API_BASE_URL}/oauth/client?${new URLSearchParams({ client_id: clientId, redirect_uri: redirectUri })}`, {
+      headers: { Accept: 'application/json' },
+      signal: controller.signal,
+    })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((r) => setPartnerApp(r?.data ?? null))
+      .catch(() => {});
+    return () => controller.abort();
+  }, [returnUrl, API_BASE_URL]);
 
   // Email login handler
   const handleEmailSubmit = async (e: React.FormEvent) => {
@@ -277,8 +304,39 @@ export default function LoginPage() {
   if (isOAuthFlow) {
     return (
       <div className="min-h-screen bg-white dark:bg-gray-900 flex flex-col">
-        <div className="p-4 border-b border-gray-200 dark:border-gray-700">
-          <AppLogo size="sm" />
+        <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+          {partnerApp ? (
+            <>
+              <div className="flex justify-center mb-3">
+                <AppLogo size="sm" />
+              </div>
+              <div className="flex items-center gap-3">
+                {partnerApp.logo_url ? (
+                  <img
+                    src={partnerApp.logo_url}
+                    alt={partnerApp.name}
+                    className="w-10 h-10 rounded-xl object-cover"
+                  />
+                ) : (
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-gray-400 to-gray-500 flex items-center justify-center">
+                    <ExternalLink className="w-5 h-5 text-white" />
+                  </div>
+                )}
+                <div className="flex-1 min-w-0">
+                  <p className="text-base font-bold text-gray-900 dark:text-white truncate">
+                    {partnerApp.name}
+                  </p>
+                  {partnerApp.website_url && (
+                    <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                      {new URL(partnerApp.website_url).hostname}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </>
+          ) : (
+            <AppLogo size="sm" />
+          )}
         </div>
 
         <div className="flex-1 p-4">
@@ -356,14 +414,9 @@ export default function LoginPage() {
             </>
           ) : (
             <>
-              <div className="text-center mb-4">
-                <h1 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
-                  {t('login.signIn')}
-                </h1>
-                <p className="text-xs text-gray-600 dark:text-gray-400">
-                  {t('auth.signInToContinue')}
-                </p>
-              </div>
+              {/* Google first: most users sign in with it */}
+              <GoogleLoginButton returnUrl={returnUrl} />
+              <SocialLoginDivider variant="compact" labelKey="login.or" />
 
               {/* Login method tabs */}
               <div className="flex gap-1 mb-3 p-1 rounded-xl bg-gray-100 dark:bg-gray-800">
@@ -421,9 +474,17 @@ export default function LoginPage() {
               </div>
 
               <div>
-                <label htmlFor="password-compact" className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                  {t('login.password')}
-                </label>
+                <div className="flex items-center justify-between mb-1.5">
+                  <label htmlFor="password-compact" className="text-xs font-medium text-gray-700 dark:text-gray-300">
+                    {t('login.password')}
+                  </label>
+                  <Link
+                    href={`/forgot-password${returnUrl ? `?return_url=${encodeURIComponent(returnUrl)}` : ''}`}
+                    className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline"
+                  >
+                    {t('login.forgotPassword')}
+                  </Link>
+                </div>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                   <input
@@ -436,15 +497,6 @@ export default function LoginPage() {
                     placeholder={t('login.passwordPlaceholder')}
                   />
                 </div>
-              </div>
-
-              <div className="flex justify-end">
-                <Link
-                  href={`/forgot-password${returnUrl ? `?return_url=${encodeURIComponent(returnUrl)}` : ''}`}
-                  className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline"
-                >
-                  {t('login.forgotPassword')}
-                </Link>
               </div>
 
               <button
@@ -511,9 +563,17 @@ export default function LoginPage() {
               </div>
 
               <div>
-                <label htmlFor="phonePassword-compact" className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                  {t('login.password')}
-                </label>
+                <div className="flex items-center justify-between mb-1.5">
+                  <label htmlFor="phonePassword-compact" className="text-xs font-medium text-gray-700 dark:text-gray-300">
+                    {t('login.password')}
+                  </label>
+                  <Link
+                    href={`/forgot-password${returnUrl ? `?return_url=${encodeURIComponent(returnUrl)}` : ''}`}
+                    className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline"
+                  >
+                    {t('login.forgotPassword')}
+                  </Link>
+                </div>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                   <input
@@ -526,15 +586,6 @@ export default function LoginPage() {
                     placeholder={t('login.passwordPlaceholder')}
                   />
                 </div>
-              </div>
-
-              <div className="flex justify-end">
-                <Link
-                  href={`/forgot-password${returnUrl ? `?return_url=${encodeURIComponent(returnUrl)}` : ''}`}
-                  className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline"
-                >
-                  {t('login.forgotPassword')}
-                </Link>
               </div>
 
               <button
@@ -555,8 +606,8 @@ export default function LoginPage() {
           )}
 
               {/* Social Login for OAuth flow */}
-              <SocialLoginDivider variant="compact" />
-              <SocialLoginButtons returnUrl={returnUrl} variant="compact" />
+              <SocialLoginDivider variant="compact" labelKey="login.otherMethods" />
+              <SocialLoginButtons returnUrl={returnUrl} variant="compact" showGoogle={false} />
 
               <p className="mt-4 text-center text-xs text-gray-600 dark:text-gray-400">
                 {t('login.noAccount')}{' '}
