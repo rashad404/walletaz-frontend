@@ -1,0 +1,104 @@
+[
+  {
+    "site": "toy.az",
+    "run": 1,
+    "signedIn": false,
+    "input": 812,
+    "idle": 1647,
+    "documents": [
+      {
+        "path": "https://kimlik.az/oauth/authorize",
+        "status": 307
+      },
+      {
+        "path": "https://kimlik.az/login",
+        "status": 200
+      }
+    ]
+  },
+  {
+    "site": "toy.az",
+    "run": 2,
+    "signedIn": false,
+    "input": 629,
+    "idle": 1463,
+    "documents": [
+      {
+        "path": "https://kimlik.az/oauth/authorize",
+        "status": 307
+      },
+      {
+        "path": "https://kimlik.az/login",
+        "status": 200
+      }
+    ]
+  },
+  {
+    "site": "toy.az",
+    "run": 3,
+    "signedIn": false,
+    "input": 874,
+    "idle": 1965,
+    "documents": [
+      {
+        "path": "https://kimlik.az/oauth/authorize",
+        "status": 307
+      },
+      {
+        "path": "https://kimlik.az/login",
+        "status": 200
+      }
+    ]
+  },
+  {
+    "site": "wisher.az",
+    "run": 1,
+    "signedIn": false,
+    "input": 782,
+    "idle": 1662,
+    "documents": [
+      {
+        "path": "https://kimlik.az/az/oauth/authorize",
+        "status": 307
+      },
+      {
+        "path": "https://kimlik.az/login",
+        "status": 200
+      }
+    ]
+  },
+  {
+    "site": "wisher.az",
+    "run": 2,
+    "signedIn": false,
+    "input": 653,
+    "idle": 1571,
+    "documents": [
+      {
+        "path": "https://kimlik.az/az/oauth/authorize",
+        "status": 307
+      },
+      {
+        "path": "https://kimlik.az/login",
+        "status": 200
+      }
+    ]
+  },
+  {
+    "site": "wisher.az",
+    "run": 3,
+    "signedIn": false,
+    "input": 898,
+    "idle": 1884,
+    "documents": [
+      {
+        "path": "https://kimlik.az/az/oauth/authorize",
+        "status": 307
+      },
+      {
+        "path": "https://kimlik.az/login",
+        "status": 200
+      }
+    ]
+  }
+]

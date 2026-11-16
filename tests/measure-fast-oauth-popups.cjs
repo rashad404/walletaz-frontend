@@ -2,6 +2,7 @@
 // Optional session file must contain {token}; its contents are never printed.
 const {chromium,request}=require('@playwright/test');
 const fs=require('node:fs');
+let latestRun=null;
 const privateSession=process.argv[2]?JSON.parse(fs.readFileSync(process.argv[2],'utf8')):null;
 const blocked=/googletagmanager|google-analytics|analytics.google|doubleclick|connect.facebook|facebook.com\/tr|clarity.ms|hotjar|analytics.tiktok/;
 (async()=>{
@@ -25,7 +26,7 @@ const blocked=/googletagmanager|google-analytics|analytics.google|doubleclick|co
   const messages=[];await context.exposeBinding('__recordOAuthType',(_source,type)=>{messages.push(type)});
   await context.addInitScript(()=>{window.addEventListener('message',event=>{if(event.origin===location.origin&&typeof event.data?.type==='string')window.__recordOAuthType(event.data.type)})});
   const page=await context.newPage();await page.goto(`https://${site}`);await page.waitForLoadState('networkidle');
-  const docs=[],scripts=[];let start=0;context.on('response',r=>{if(r.request().isNavigationRequest()||/kimlik/.test(new URL(r.url()).pathname))docs.push({path:new URL(r.url()).origin+new URL(r.url()).pathname,status:r.status(),elapsed:Date.now()-start,requestTime:r.request().timing().responseStart});if(r.request().resourceType()==='script'&&new URL(r.url()).hostname==='kimlik.az')scripts.push(new URL(r.url()).pathname)});
+  const docs=[],scripts=[];latestRun={site,run,documents:docs};let start=0;context.on('response',r=>{if(r.request().isNavigationRequest()||/kimlik/.test(new URL(r.url()).pathname))docs.push({path:new URL(r.url()).origin+new URL(r.url()).pathname,status:r.status(),elapsed:Date.now()-start,requestTime:r.request().timing().responseStart});if(r.request().resourceType()==='script'&&new URL(r.url()).hostname==='kimlik.az')scripts.push(new URL(r.url()).pathname)});
   start=Date.now();const opened=page.waitForEvent('popup');
   await page.getByRole(site==='toy.az'?'button':'link',{name:'Daxil ol',exact:true}).click();
   const popup=await opened;
@@ -47,4 +48,4 @@ const blocked=/googletagmanager|google-analytics|analytics.google|doubleclick|co
   await context.close();
  }
  await browser.close();console.log(JSON.stringify(results,null,2));
-})().catch(error=>{console.error(error.message);process.exit(1)});
+})().catch(error=>{console.error(JSON.stringify({error:error.message,latestRun}));process.exit(1)});

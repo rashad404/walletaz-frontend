@@ -1,0 +1,188 @@
+[
+  {
+    "site": "toy.az",
+    "run": 1,
+    "signedIn": true,
+    "close": 1396,
+    "success": true,
+    "documents": [
+      {
+        "path": "https://toy.az/auth/kimlik",
+        "status": 200,
+        "elapsed": 233,
+        "requestTime": 105.738
+      },
+      {
+        "path": "https://kimlik.az/oauth/authorize",
+        "status": 302,
+        "elapsed": 731,
+        "requestTime": 487.031
+      },
+      {
+        "path": "https://toy.az/auth/kimlik/callback",
+        "status": 200,
+        "elapsed": 1378,
+        "requestTime": 643.529
+      }
+    ],
+    "kimlikScripts": []
+  },
+  {
+    "site": "toy.az",
+    "run": 2,
+    "signedIn": true,
+    "close": 1405,
+    "success": true,
+    "documents": [
+      {
+        "path": "https://toy.az/auth/kimlik",
+        "status": 200,
+        "elapsed": 335,
+        "requestTime": 141.945
+      },
+      {
+        "path": "https://kimlik.az/oauth/authorize",
+        "status": 302,
+        "elapsed": 868,
+        "requestTime": 518.885
+      },
+      {
+        "path": "https://toy.az/auth/kimlik/callback",
+        "status": 200,
+        "elapsed": 1389,
+        "requestTime": 517.456
+      }
+    ],
+    "kimlikScripts": []
+  },
+  {
+    "site": "toy.az",
+    "run": 3,
+    "signedIn": true,
+    "close": 1517,
+    "success": true,
+    "documents": [
+      {
+        "path": "https://toy.az/auth/kimlik",
+        "status": 200,
+        "elapsed": 298,
+        "requestTime": 94.769
+      },
+      {
+        "path": "https://kimlik.az/oauth/authorize",
+        "status": 302,
+        "elapsed": 852,
+        "requestTime": 505.794
+      },
+      {
+        "path": "https://toy.az/auth/kimlik/callback",
+        "status": 200,
+        "elapsed": 1498,
+        "requestTime": 642.337
+      }
+    ],
+    "kimlikScripts": []
+  },
+  {
+    "site": "wisher.az",
+    "run": 1,
+    "signedIn": true,
+    "close": 1909,
+    "success": true,
+    "documents": [
+      {
+        "path": "https://wisher.az/api/workspace/auth/kimlik/start",
+        "status": 200,
+        "elapsed": 220,
+        "requestTime": 90.969
+      },
+      {
+        "path": "https://kimlik.az/az/oauth/authorize",
+        "status": 302,
+        "elapsed": 764,
+        "requestTime": 533.637
+      },
+      {
+        "path": "https://wisher.az/az/auth/kimlik/callback",
+        "status": 200,
+        "elapsed": 870,
+        "requestTime": 103.687
+      },
+      {
+        "path": "https://wisher.az/api/workspace/auth/kimlik/callback",
+        "status": 200,
+        "elapsed": 1898,
+        "requestTime": 637.065
+      }
+    ],
+    "kimlikScripts": []
+  },
+  {
+    "site": "wisher.az",
+    "run": 2,
+    "signedIn": true,
+    "close": 2004,
+    "success": true,
+    "documents": [
+      {
+        "path": "https://wisher.az/api/workspace/auth/kimlik/start",
+        "status": 200,
+        "elapsed": 237,
+        "requestTime": 99.633
+      },
+      {
+        "path": "https://kimlik.az/az/oauth/authorize",
+        "status": 302,
+        "elapsed": 798,
+        "requestTime": 551.622
+      },
+      {
+        "path": "https://wisher.az/az/auth/kimlik/callback",
+        "status": 200,
+        "elapsed": 946,
+        "requestTime": 145.781
+      },
+      {
+        "path": "https://wisher.az/api/workspace/auth/kimlik/callback",
+        "status": 200,
+        "elapsed": 1993,
+        "requestTime": 683.483
+      }
+    ],
+    "kimlikScripts": []
+  },
+  {
+    "site": "wisher.az",
+    "run": 3,
+    "signedIn": true,
+    "close": 1948,
+    "success": true,
+    "documents": [
+      {
+        "path": "https://wisher.az/api/workspace/auth/kimlik/start",
+        "status": 200,
+        "elapsed": 204,
+        "requestTime": 94.056
+      },
+      {
+        "path": "https://kimlik.az/az/oauth/authorize",
+        "status": 302,
+        "elapsed": 769,
+        "requestTime": 555.108
+      },
+      {
+        "path": "https://wisher.az/az/auth/kimlik/callback",
+        "status": 200,
+        "elapsed": 866,
+        "requestTime": 93.389
+      },
+      {
+        "path": "https://wisher.az/api/workspace/auth/kimlik/callback",
+        "status": 200,
+        "elapsed": 1935,
+        "requestTime": 750.624
+      }
+    ],
+    "kimlikScripts": []
+  }
+]
