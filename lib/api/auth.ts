@@ -1,3 +1,4 @@
+import { setSessionToken, clearSessionToken } from '@/lib/session';
 import apiClient from './client';
 
 export interface User {
@@ -140,7 +141,7 @@ class AuthService {
   // Token Management
   setToken(token: string) {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('token', token);
+      setSessionToken(token);
       localStorage.setItem('auth_time', Date.now().toString());
     }
   }
@@ -154,7 +155,7 @@ class AuthService {
 
   clearToken() {
     if (typeof window !== 'undefined') {
-      localStorage.removeItem('token');
+      clearSessionToken();
       localStorage.removeItem('auth_time');
       localStorage.removeItem('user');
     }

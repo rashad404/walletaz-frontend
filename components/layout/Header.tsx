@@ -1,5 +1,7 @@
 'use client';
 
+import { clearSessionToken } from '@/lib/session';
+
 import { useState, useEffect } from 'react';
 import { Link } from '@/lib/navigation';
 import { useRouter, usePathname } from 'next/navigation';
@@ -59,7 +61,7 @@ export default function Header() {
   }, [pathname]);
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    clearSessionToken();
     setIsAuthenticated(false);
     setUser(null);
     window.dispatchEvent(new Event('authStateChanged'));

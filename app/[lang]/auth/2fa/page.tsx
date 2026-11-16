@@ -1,5 +1,7 @@
 "use client";
 
+import { setSessionToken } from '@/lib/session';
+
 import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ShieldCheck, Loader2, ArrowRight, AlertCircle } from 'lucide-react';
@@ -72,7 +74,7 @@ function TwoFactorContent() {
       }
 
       if (data.data?.token) {
-        localStorage.setItem('token', data.data.token);
+        setSessionToken(data.data.token);
         if (returnUrl) {
           // For OAuth flow, append auth_method to return URL so it can be stored with authorization code
           let redirectUrl = decodeURIComponent(returnUrl);

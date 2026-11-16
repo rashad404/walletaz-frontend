@@ -2,83 +2,46 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { i18n } from './i18n-config';
 
-const LOCALE_COOKIE = 'NEXT_LOCALE';
-
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
+  if (pathname.includes('_next') || pathname.includes('/api/') || pathname.includes('.')) return NextResponse.next();
 
-  // Skip middleware for static files and Next.js internals
-  if (
-    pathname.includes('_next') ||
-    pathname.includes('/api/') ||
-    pathname.includes('.') // has file extension
-  ) {
-    return NextResponse.next();
+  const explicit = i18n.locales.find(locale => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`));
+  const isLocale = (value?: string | null) => !!value && i18n.locales.includes(value as any);
+  const saved = request.cookies.get('NEXT_LOCALE')?.value;
+  const hint = request.nextUrl.searchParams.get('hl');
+  const locale = explicit || (isLocale(saved) ? saved : isLocale(hint) ? hint : 'az');
+  const path = explicit ? pathname.slice(explicit.length + 1) || '/' : pathname;
+
+  // This cookie is only a routing hint, never proof of authentication.
+  // The authorize API still checks the bearer token before showing consent.
+  if (path === '/oauth/authorize' && !request.cookies.get('kimlik_session')?.value) {
+    const url = request.nextUrl.clone();
+    url.pathname = `${locale === 'az' ? '' : `/${locale}`}/login`;
+    url.search = '';
+    url.searchParams.set('return_url', request.nextUrl.href);
+    const response = NextResponse.redirect(url);
+    response.headers.set('Cache-Control', 'private, no-store');
+    return response;
   }
 
-  // Check if pathname starts with a non-default locale (en or ru)
-  const nonDefaultLocales = i18n.locales.filter(locale => locale !== 'az');
-  const hasNonDefaultLocale = nonDefaultLocales.some(
-    locale => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
-  );
-
-  // Check if pathname starts with /az (which we want to redirect)
-  const hasAzPrefix = pathname.startsWith('/az/') || pathname === '/az';
-
-  // If URL has /az prefix, redirect to URL without it
-  if (hasAzPrefix) {
-    const newPathname = pathname.replace(/^\/az(\/|$)/, '/');
-    const url = new URL(newPathname || '/', request.url);
-    url.search = request.nextUrl.search;
-    return NextResponse.redirect(url);
-  }
-
-  // Language for a URL that does not name one, in order of precedence:
-  // 1. the language the user chose here, saved in NEXT_LOCALE;
-  // 2. ?hl=, which partner sites pass with the language of the page the user
-  //    came from, so a visitor from an English site who never chose a
-  //    language gets English rather than the default;
-  // 3. az, the default.
-  // A URL with a language prefix is left alone, so an explicit link wins.
-  const isLocale = (value?: string | null): value is string =>
-    !!value && i18n.locales.includes(value as any);
-  const savedLocale = request.cookies.get(LOCALE_COOKIE)?.value;
-  const hintLocale = request.nextUrl.searchParams.get('hl');
-  const preferred = isLocale(savedLocale) ? savedLocale : isLocale(hintLocale) ? hintLocale : null;
-
-  if (!hasNonDefaultLocale && preferred && preferred !== 'az') {
-    const newPathname = `/${preferred}${pathname === '/' ? '' : pathname}`;
-    const url = new URL(newPathname, request.url);
-    url.search = request.nextUrl.search;
-    // The prefix now carries the language; the hint has done its job.
+  if (!explicit && locale !== 'az') {
+    const url = request.nextUrl.clone();
+    url.pathname = `/${locale}${path === '/' ? '' : path}`;
     url.searchParams.delete('hl');
     return NextResponse.redirect(url);
   }
 
-  // If no locale prefix, treat as 'az' locale (rewrite internally)
-  if (!hasNonDefaultLocale) {
-    const newUrl = `/az${pathname === '/' ? '' : pathname}`;
-    const url = new URL(newUrl, request.url);
-    url.search = request.nextUrl.search;
-    const response = NextResponse.rewrite(url);
-    response.headers.set('x-pathname', pathname);
-    response.headers.set('x-url', request.url);
-    return response;
-  }
-
-  const response = NextResponse.next();
-  response.headers.set('x-pathname', pathname);
-  response.headers.set('x-url', request.url);
-
-  if (process.env.NODE_ENV === 'production') {
-    response.headers.set('Cache-Control', 's-maxage=1, stale-while-revalidate');
-    response.headers.set('X-Build-Version', Date.now().toString());
-  }
-
-  return response;
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set('x-pathname', pathname);
+  requestHeaders.set('x-url', request.url);
+  // Forward to server layouts, rather than setting response-only headers.
+  if (explicit) return NextResponse.next({ request: { headers: requestHeaders } });
+  const url = request.nextUrl.clone();
+  url.pathname = `/az${path === '/' ? '' : path}`;
+  return NextResponse.rewrite(url, { request: { headers: requestHeaders } });
 }
 
 export const config = {
-  // Matcher ignoring `/_next/`, `/api/`, and static files
   matcher: ['/((?!api|_next/static|_next/image|favicon.ico|.*\\..*).*)'],
 };

@@ -1,3 +1,4 @@
+import { getPublicConfig } from '@/lib/server/login-data';
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/providers/theme-provider";
@@ -40,16 +41,17 @@ export const metadata: Metadata = {
   manifest: '/favicon/site.webmanifest'
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const config = await getPublicConfig();
   return (
     <html lang="az" suppressHydrationWarning>
       <body className={dmSans.variable} suppressHydrationWarning>
         <ThemeProvider>
-          <ConfigProvider>
+          <ConfigProvider initialConfig={config}>
             <TimezoneProvider>
               <ServiceWorkerRegistration />
               {children}

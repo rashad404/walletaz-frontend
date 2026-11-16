@@ -1,5 +1,7 @@
 'use client';
 
+import { clearSessionToken } from '@/lib/session';
+
 import { useState, useEffect } from 'react';
 import { useSearchParams, useRouter, useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
@@ -67,6 +69,7 @@ export default function OAuthAuthorizePage() {
     try {
       const token = localStorage.getItem('token');
       if (!token) {
+        clearSessionToken();
         // Redirect to login with return URL
         const returnUrl = window.location.href;
         router.push(`/${lang}/login?return_url=${encodeURIComponent(returnUrl)}`);
@@ -84,6 +87,11 @@ export default function OAuthAuthorizePage() {
         }
       );
 
+      if (response.status === 401) {
+        clearSessionToken();
+        window.location.replace(`/${lang}/login?return_url=${encodeURIComponent(window.location.href)}`);
+        return;
+      }
       const data = await response.json();
 
       if (!response.ok) {
@@ -125,6 +133,11 @@ export default function OAuthAuthorizePage() {
         }),
       });
 
+      if (response.status === 401) {
+        clearSessionToken();
+        window.location.replace(`/${lang}/login?return_url=${encodeURIComponent(window.location.href)}`);
+        return;
+      }
       const data = await response.json();
 
       if (!response.ok) {
@@ -150,7 +163,7 @@ export default function OAuthAuthorizePage() {
   };
 
   const handleSwitchAccount = () => {
-    localStorage.removeItem('token');
+    clearSessionToken();
     const returnUrl = window.location.href;
     router.push(`/${lang}/login?return_url=${encodeURIComponent(returnUrl)}`);
   };

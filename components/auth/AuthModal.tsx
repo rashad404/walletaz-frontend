@@ -1,5 +1,7 @@
 'use client';
 
+import { setSessionToken } from '@/lib/session';
+
 import { useState } from 'react';
 import { X, Mail, Lock, User, Loader2, CheckSquare, ArrowRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -70,7 +72,7 @@ export default function AuthModal({
       if (response.ok && data.status === 'success') {
         // Store auth token
         if (data.data?.token) {
-          localStorage.setItem('token', data.data.token);
+          setSessionToken(data.data.token);
         }
 
         // Dispatch custom event to notify Header and other components
@@ -141,7 +143,7 @@ export default function AuthModal({
       if (response.ok && data.status === 'success') {
         // Store auth token
         if (data.data?.token) {
-          localStorage.setItem('token', data.data.token);
+          setSessionToken(data.data.token);
         }
 
         // Dispatch custom event to notify Header and other components
