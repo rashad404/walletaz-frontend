@@ -1,7 +1,7 @@
 import 'server-only';
 import { cache } from 'react';
 
-const API = process.env.NEXT_PUBLIC_API_URL || 'https://api.kimlik.az/api';
+const API = process.env.KIMLIK_INTERNAL_API_URL || process.env.NEXT_PUBLIC_API_URL || 'https://api.kimlik.az/api';
 async function publicData(path: string, seconds: number) {
   try {
     const response = await fetch(`${API}${path}`, {

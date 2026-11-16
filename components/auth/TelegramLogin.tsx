@@ -71,7 +71,7 @@ export default function TelegramLogin({returnUrl, variant = 'default'}: {returnU
       }
 
       if (data.data?.token) {
-        setSessionToken(data.data.token);
+        await setSessionToken(data.data.token);
         // Use return_url from response which may have auth_method appended for OAuth flow
         const redirectUrl = data.data.return_url || returnUrl;
         if (redirectUrl) {

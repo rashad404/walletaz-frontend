@@ -14,7 +14,7 @@ function AuthCallbackContent() {
 
       if (token) {
         // Store the token
-        authService.setToken(token);
+        await authService.setToken(token);
 
         // Redirect to return URL or dashboard
         // Use window.location.href for full page reload to ensure layout re-renders

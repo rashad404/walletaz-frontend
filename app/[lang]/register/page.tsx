@@ -112,7 +112,7 @@ export default function RegisterPage() {
       }
 
       if (data.data?.token) {
-        setSessionToken(data.data.token);
+        await setSessionToken(data.data.token);
         if (returnUrl) {
           window.location.href = returnUrl;
         } else {

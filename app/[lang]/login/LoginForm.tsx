@@ -24,7 +24,15 @@ const countryCodes = [
   { code: '49', country: 'DE', label: 'Germany (+49)', minLength: 10, maxLength: 11 },
 ];
 
-export default function LoginForm({ returnUrl, partnerApp, appleEnabled }: { returnUrl: string | null; partnerApp: { name: string; logo_url: string | null; website_url: string | null } | null; appleEnabled: boolean }) {
+export default function LoginForm({ returnUrl: initialReturnUrl, partnerApp, appleEnabled, publicShell = false }: { publicShell?: boolean; returnUrl: string | null; partnerApp: { name: string; logo_url: string | null; website_url: string | null } | null; appleEnabled: boolean }) {
+  const [returnUrl, setReturnUrl] = useState(initialReturnUrl);
+  const [returnReady, setReturnReady] = useState(!publicShell);
+  useEffect(() => {
+    if (publicShell) {
+      setReturnUrl(new URLSearchParams(window.location.search).get('return_url'));
+      setReturnReady(true);
+    }
+  }, [publicShell]);
   const t = useTranslations();
   const router = useRouter();
 
@@ -57,20 +65,22 @@ export default function LoginForm({ returnUrl, partnerApp, appleEnabled }: { ret
   const isPhoneValid = phoneNumber.length >= currentCountry.minLength && phoneNumber.length <= currentCountry.maxLength;
 
   // Check if this is OAuth popup flow
-  const isOAuthFlow = returnUrl?.includes('oauth/authorize') || returnUrl?.includes('oauth/approve');
+  const isOAuthFlow = publicShell || returnUrl?.includes('oauth/authorize') || returnUrl?.includes('oauth/approve');
 
   // Redirect if already logged in
   useEffect(() => {
+    if (!returnReady) return;
     const token = localStorage.getItem('token');
     if (token) {
-      setSessionToken(token);
+      void setSessionToken(token).then(() => {
       if (returnUrl) {
         window.location.href = returnUrl;
       } else {
         router.push('/dashboard');
       }
+      });
     }
-  }, [router, returnUrl]);
+  }, [router, returnUrl, returnReady]);
 
   const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://100.89.150.50:8011/api';
 
@@ -124,7 +134,7 @@ export default function LoginForm({ returnUrl, partnerApp, appleEnabled }: { ret
       }
 
       if (data.data?.token) {
-        setSessionToken(data.data.token);
+        await setSessionToken(data.data.token);
         let redirectUrl = data.data.return_url || returnUrl;
         // Append auth_method for OAuth flow so login history shows correct method
         if (redirectUrl && isOAuthFlow && data.data.auth_method) {
@@ -187,7 +197,7 @@ export default function LoginForm({ returnUrl, partnerApp, appleEnabled }: { ret
       }
 
       if (data.data?.token) {
-        setSessionToken(data.data.token);
+        await setSessionToken(data.data.token);
         if (returnUrl) {
           // For OAuth flow, append auth_method to return URL
           let redirectUrl = returnUrl;
@@ -246,7 +256,7 @@ export default function LoginForm({ returnUrl, partnerApp, appleEnabled }: { ret
       }
 
       if (data.data?.token) {
-        setSessionToken(data.data.token);
+        await setSessionToken(data.data.token);
         let redirectUrl = data.data.return_url || returnUrl;
         // Append auth_method for OAuth flow so login history shows correct method
         if (redirectUrl && isOAuthFlow && data.data.auth_method) {

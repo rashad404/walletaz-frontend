@@ -1,4 +1,5 @@
 import { getPublicConfig } from '@/lib/server/login-data';
+import { SessionBridge } from '@/components/SessionBridge';
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/providers/theme-provider";
@@ -57,6 +58,7 @@ export default async function RootLayout({
           <ConfigProvider initialConfig={config}>
             <TimezoneProvider>
               <ServiceWorkerRegistration />
+              <SessionBridge />
               {children}
             </TimezoneProvider>
           </ConfigProvider>

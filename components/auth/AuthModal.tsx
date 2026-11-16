@@ -72,7 +72,7 @@ export default function AuthModal({
       if (response.ok && data.status === 'success') {
         // Store auth token
         if (data.data?.token) {
-          setSessionToken(data.data.token);
+          await setSessionToken(data.data.token);
         }
 
         // Dispatch custom event to notify Header and other components
@@ -143,7 +143,7 @@ export default function AuthModal({
       if (response.ok && data.status === 'success') {
         // Store auth token
         if (data.data?.token) {
-          setSessionToken(data.data.token);
+          await setSessionToken(data.data.token);
         }
 
         // Dispatch custom event to notify Header and other components

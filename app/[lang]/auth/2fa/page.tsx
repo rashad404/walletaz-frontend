@@ -74,7 +74,7 @@ function TwoFactorContent() {
       }
 
       if (data.data?.token) {
-        setSessionToken(data.data.token);
+        await setSessionToken(data.data.token);
         if (returnUrl) {
           // For OAuth flow, append auth_method to return URL so it can be stored with authorization code
           let redirectUrl = decodeURIComponent(returnUrl);
