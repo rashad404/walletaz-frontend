@@ -70,3 +70,8 @@ test('saved language and partner hint are respected on the direct redirect',asyn
     expect(new URL(response.headers().location,'http://localhost:3312').pathname).toBe(`/${expected}/login`);
   }
 });
+test('standalone login does not prefetch registration or password reset',async({page})=>{
+  const requests:string[]=[];page.on('request',r=>requests.push(r.url()));
+  await page.goto('/login');await page.waitForLoadState('networkidle');
+  expect(requests.filter(u=>/\/register|\/forgot-password/.test(u))).toEqual([]);
+});

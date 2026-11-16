@@ -148,6 +148,7 @@ export default function Header() {
                 </Link>
                 <Link
                   href="/register"
+                  prefetch={false}
                   className="px-4 py-1.5 bg-emerald-500 text-white text-sm font-medium rounded-lg hover:bg-emerald-600 transition-colors"
                 >
                   {t('nav.getStarted')}
@@ -235,6 +236,7 @@ export default function Header() {
                 </Link>
                 <Link
                   href="/register"
+                  prefetch={false}
                   className="block px-3 py-2 text-sm font-medium text-white bg-emerald-500 hover:bg-emerald-600 rounded-lg"
                   onClick={() => setIsMenuOpen(false)}
                 >
