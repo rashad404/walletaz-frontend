@@ -107,3 +107,9 @@ test('direct shell URLs cannot poison the static router payload with query data'
   const response=await request.get(`/login-shell/az/00000000-0000-0000-0000-000000000000/${redirect}?state=private`,{maxRedirects:0});
   expect(response.status()).toBe(307);expect(response.headers().location).not.toContain('private');
 });
+
+test('OAuth return URL uses the public proxy host rather than the listen address',async({request})=>{
+  const response=await request.get(authorize,{maxRedirects:0,headers:{Host:'kimlik.az','X-Forwarded-Proto':'https'}});
+  const location=new URL(response.headers().location,'https://kimlik.az');
+  expect(new URL(location.searchParams.get('return_url')!).origin).toBe('https://kimlik.az');
+});

@@ -3,7 +3,12 @@ import type { NextRequest } from 'next/server';
 import { i18n } from './i18n-config';
 
 export async function middleware(request: NextRequest) {
-  const pathname = request.nextUrl.pathname;
+  // Next's middleware URL may use its listen address behind a reverse proxy.
+  // nginx overwrites Host and X-Forwarded-Proto with the public request values.
+  const host = request.headers.get('host') || request.nextUrl.host;
+  const protocol = request.headers.get('x-forwarded-proto')?.split(',')[0] || request.nextUrl.protocol.replace(':', '');
+  const publicUrl = new URL(request.nextUrl.pathname + request.nextUrl.search, `${protocol}://${host}`);
+  const pathname = publicUrl.pathname;
   if (pathname.includes('_next') || pathname.includes('/api/') || pathname.includes('.')) return NextResponse.next();
 
   if (pathname.startsWith('/login-shell/')) {
@@ -25,8 +30,8 @@ export async function middleware(request: NextRequest) {
   // from its own address after paint; only validated client branding is rendered.
   if (path === '/login') {
     try {
-      const returned = new URL(request.nextUrl.searchParams.get('return_url') || '', request.url);
-      if (returned.origin === request.nextUrl.origin && /^\/(?:az\/|en\/|ru\/)?oauth\/authorize$/.test(returned.pathname)) {
+      const returned = new URL(request.nextUrl.searchParams.get('return_url') || '', publicUrl);
+      if (returned.origin === publicUrl.origin && /^\/(?:az\/|en\/|ru\/)?oauth\/authorize$/.test(returned.pathname)) {
         const client = returned.searchParams.get('client_id') || '';
         const target = returned.searchParams.get('redirect_uri') || '';
         if (/^[a-f0-9-]{36}$/i.test(client) && /^https?:\/\//.test(target) && target.length <= 2048) {
@@ -80,7 +85,7 @@ export async function middleware(request: NextRequest) {
     const url = request.nextUrl.clone();
     url.pathname = `${locale === 'az' ? '' : `/${locale}`}/login`;
     url.search = '';
-    url.searchParams.set('return_url', request.nextUrl.href);
+    url.searchParams.set('return_url', publicUrl.href);
     const response = NextResponse.redirect(url);
     response.headers.set('Cache-Control', 'private, no-store');
     return response;

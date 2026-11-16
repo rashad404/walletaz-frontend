@@ -3,7 +3,9 @@ const API = process.env.KIMLIK_INTERNAL_API_URL || process.env.NEXT_PUBLIC_API_U
 export const dynamic = 'force-dynamic';
 const cookieName = process.env.NODE_ENV === 'production' ? '__Host-kimlik_auth' : 'kimlik_auth';
 function sameOrigin(request: NextRequest) {
-  return request.headers.get('origin') === new URL(request.url).origin;
+  const protocol = request.headers.get('x-forwarded-proto')?.split(',')[0] || new URL(request.url).protocol.replace(':', '');
+  const host = request.headers.get('host') || new URL(request.url).host;
+  return request.headers.get('origin') === `${protocol}://${host}`;
 }
 function reply(status = 204) { return new NextResponse(null, {status, headers: {'Cache-Control': 'private, no-store'}}); }
 export async function POST(request: NextRequest) {
