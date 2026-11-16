@@ -44,3 +44,6 @@ next-env.d.ts
 .env.local.backup
 .env.local.bak
 .env.production.local
+
+/test-results/
+/playwright-report/

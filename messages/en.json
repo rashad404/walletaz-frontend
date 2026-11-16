@@ -182,6 +182,25 @@
     "transactionId": "Transaction ID"
   },
   "verification": {
+    "partner": {
+      "requestLabel": "Verification request",
+      "request": {
+        "phone": "{client} asks you to verify your phone number",
+        "email": "{client} asks you to verify your email address",
+        "id": "{client} asks you to verify your identity"
+      },
+      "complete": "Verification is complete. You can return now.",
+      "return": "Return to {client}",
+      "countdown": "Returning automatically in {seconds} seconds.",
+      "stay": "Stay on this page",
+      "errorTitle": "Unable to open verification",
+      "invalid": "This link is invalid or the site is not allowed to use it. Try again from the site that sent you here.",
+      "loadError": "Unable to load your account. Please try again.",
+      "retry": "Try again",
+      "idTitle": "Identity verification",
+      "idUnavailable": "Your identity has not been verified. Online identity verification is not currently available. Once verification is completed, you can recheck your status here.",
+      "recheck": "Check status again"
+    },
     "title": "Account Verification",
     "description": "Phone and email verification",
     "subtitle": "Verify your account",

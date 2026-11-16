@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { useRouter, useParams } from 'next/navigation';
+import { useRouter, useParams, useSearchParams } from 'next/navigation';
 import { Link } from '@/lib/navigation';
 import {
   Phone,
@@ -15,6 +15,9 @@ import {
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import authService from '@/lib/api/auth';
+import apiClient from '@/lib/api/client';
+import { useVerificationReturn } from '@/lib/use-verification-return';
+import { PartnerVerificationNotice } from '@/components/verification/PartnerVerificationNotice';
 
 type VerificationStep = 'idle' | 'sending' | 'code_sent' | 'verifying';
 
@@ -23,6 +26,14 @@ export default function VerificationPage() {
   const router = useRouter();
   const params = useParams();
   const locale = (params?.lang as string) || 'az';
+
+  const searchParams = useSearchParams();
+  const query = searchParams.toString();
+  const partner = useVerificationReturn(query);
+  const continuation = `/${locale}/settings/verification${query ? `?${query}` : ''}`;
+  const loginUrl = `/${locale}/login?${new URLSearchParams({ return_url: continuation })}`;
+  const [loadError, setLoadError] = useState(false);
+  const [emailAddress, setEmailAddress] = useState('');
 
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -70,12 +81,14 @@ export default function VerificationPage() {
   const fetchUser = useCallback(async () => {
     const token = localStorage.getItem('token');
     if (!token) {
-      router.push(`/login`);
+      router.replace(loginUrl);
       return;
     }
 
+    setLoadError(false);
     try {
-      const userData = await authService.getCurrentUser();
+      const { data } = await apiClient.get('/user', { headers: { 'Cache-Control': 'no-cache' } });
+      const userData = data.data;
       if (userData) {
         setUser(userData);
         // Parse existing phone number by matching country codes
@@ -92,19 +105,30 @@ export default function VerificationPage() {
           }
         }
       } else {
-        router.push(`/login`);
+        router.replace(loginUrl);
       }
-    } catch (error) {
-      console.error('Failed to fetch user:', error);
-      router.push(`/login`);
+    } catch (error: any) {
+      if (error?.response?.status === 401) {
+        authService.clearToken();
+        router.replace(loginUrl);
+      } else {
+        setLoadError(true);
+      }
     } finally {
       setLoading(false);
     }
-  }, [router, locale]);
+  }, [router, loginUrl]);
 
   useEffect(() => {
-    fetchUser();
-  }, [fetchUser]);
+    if (!partner.pending && !partner.error) void fetchUser();
+  }, [fetchUser, partner.pending, partner.error]);
+
+  useEffect(() => {
+    if (!partner.context) return;
+    const refresh = () => { if (document.visibilityState === "visible") void fetchUser(); };
+    window.addEventListener("focus", refresh);
+    return () => window.removeEventListener("focus", refresh);
+  }, [fetchUser, partner.context]);
 
   // Phone countdown timer
   useEffect(() => {
@@ -181,7 +205,7 @@ export default function VerificationPage() {
 
   // Send email verification code
   const sendEmailCode = async () => {
-    if (!user?.email) {
+    if (!(user?.email || emailAddress.trim())) {
       setEmailError(t('verification.notSet'));
       return;
     }
@@ -190,7 +214,7 @@ export default function VerificationPage() {
     setEmailError('');
 
     try {
-      const response = await authService.sendEmailVerificationForUser(user.email);
+      const response = await authService.sendEmailVerificationForUser(user.email || emailAddress.trim());
       if (response.status === 'success') {
         setEmailStep('code_sent');
         setEmailCountdown(60);
@@ -216,7 +240,7 @@ export default function VerificationPage() {
 
     try {
       const response = await authService.verifyEmailForUser({
-        email: user.email,
+        email: user.email || emailAddress.trim(),
         code: emailCode,
       });
 
@@ -234,7 +258,20 @@ export default function VerificationPage() {
     }
   };
 
-  if (loading) {
+  if (partner.error || loadError) {
+    return (
+      <div className="min-h-screen px-4 py-10 bg-white dark:bg-gray-900">
+        <div className="max-w-2xl mx-auto" role="alert">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{t('verification.partner.errorTitle')}</h1>
+          <p className="mt-3 text-gray-700 dark:text-gray-300">{t(partner.error ? 'verification.partner.invalid' : 'verification.partner.loadError')}</p>
+          <button type="button" onClick={() => partner.error ? partner.retry() : fetchUser()} className="mt-5 min-h-11 rounded-xl bg-emerald-700 px-5 py-3 text-white">{t('verification.partner.retry')}</button>
+          <Link href="/settings/verification" className="ml-4 inline-flex min-h-11 items-center text-emerald-700 dark:text-emerald-400 underline">{t('verification.title')}</Link>
+        </div>
+      </div>
+    );
+  }
+
+  if (loading || partner.pending) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900">
         <Loader2 className="w-8 h-8 animate-spin text-emerald-600" />
@@ -269,8 +306,10 @@ export default function VerificationPage() {
           </p>
         </div>
 
+        {partner.context && <PartnerVerificationNotice key={query} context={partner.context} user={user} />}
+
         {/* Why Verify Banner */}
-        <div className="rounded-2xl p-4 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 mb-8">
+        {!partner.requested && <div className="rounded-2xl p-4 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 mb-8">
           <div className="flex items-start gap-3">
             <ShieldCheck className="w-6 h-6 text-emerald-600 dark:text-emerald-400 flex-shrink-0 mt-0.5" />
             <div>
@@ -282,10 +321,10 @@ export default function VerificationPage() {
               </p>
             </div>
           </div>
-        </div>
+        </div>}
 
         <div className="space-y-6">
-          {/* Phone Verification Section */}
+          {(!partner.context || partner.context.need === 'phone') && <>
           <div className="rounded-3xl p-6 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border border-white/30 dark:border-gray-700/30">
             <div className="flex items-start gap-4 mb-6">
               <div className="w-12 h-12 rounded-2xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center flex-shrink-0">
@@ -374,7 +413,7 @@ export default function VerificationPage() {
                           </option>
                         ))}
                       </select>
-                      <div className="relative flex-1">
+                      <div className="relative min-w-0 flex-1">
                         <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                         <input
                           type="tel"
@@ -514,7 +553,8 @@ export default function VerificationPage() {
             )}
           </div>
 
-          {/* Email Verification Section */}
+          </>}
+          {(!partner.context || partner.context.need === 'email') && <>
           <div className="rounded-3xl p-6 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border border-white/30 dark:border-gray-700/30">
             <div className="flex items-start gap-4 mb-6">
               <div className="w-12 h-12 rounded-2xl bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center flex-shrink-0">
@@ -575,8 +615,12 @@ export default function VerificationPage() {
             </div>
 
             {/* Email Verification Form */}
-            {!isEmailVerified && user.email && (
+            {!isEmailVerified && (
               <div className="space-y-4">
+                {!user.email && emailStep === 'idle' && <label className="block text-sm text-gray-700 dark:text-gray-300">
+                  {t('auth.email')}
+                  <input type="email" value={emailAddress} onChange={event => setEmailAddress(event.target.value)} className="mt-2 w-full rounded-xl border border-gray-300 bg-white p-3 text-base dark:border-gray-700 dark:bg-gray-800" autoComplete="email" />
+                </label>}
                 {emailStep === 'idle' && (
                   <button
                     onClick={() => sendEmailCode()}
@@ -596,7 +640,7 @@ export default function VerificationPage() {
                 {emailStep === 'code_sent' && (
                   <div className="space-y-4">
                     <p className="text-sm text-gray-600 dark:text-gray-400 text-center">
-                      {t('verification.codeSentTo', { destination: user.email })}
+                      {t('verification.codeSentTo', { destination: user.email || emailAddress.trim() })}
                     </p>
                     <input
                       type="text"
@@ -665,6 +709,14 @@ export default function VerificationPage() {
               </div>
             )}
           </div>
+          </>}
+          {partner.context?.need === 'id' && !user.id_verified_at && (
+            <section className="border border-gray-200 dark:border-gray-700 rounded-2xl p-6 text-gray-900 dark:text-white">
+              <h2 className="text-lg font-semibold">{t('verification.partner.idTitle')}</h2>
+              <p className="mt-3 text-gray-700 dark:text-gray-300">{t('verification.partner.idUnavailable')}</p>
+              <button type="button" onClick={() => fetchUser()} className="mt-4 min-h-11 rounded-xl border border-gray-400 px-5 py-3 font-medium">{t('verification.partner.recheck')}</button>
+            </section>
+          )}
         </div>
       </div>
     </div>

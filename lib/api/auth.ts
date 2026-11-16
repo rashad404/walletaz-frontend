@@ -13,6 +13,7 @@ export interface User {
   available_notification_channels?: string[];
   email_verified_at?: string;
   phone_verified_at?: string;
+  id_verified_at?: string;
 }
 
 export interface LoginCredentials {

@@ -182,6 +182,25 @@
     "transactionId": "Əməliyyat ID"
   },
   "verification": {
+    "partner": {
+      "requestLabel": "Təsdiqləmə sorğusu",
+      "request": {
+        "phone": "{client} sizdən telefon nömrənizi təsdiqləməyi xahiş edir",
+        "email": "{client} sizdən e-poçt ünvanınızı təsdiqləməyi xahiş edir",
+        "id": "{client} sizdən şəxsiyyətinizi təsdiqləməyi xahiş edir"
+      },
+      "complete": "Təsdiqləmə tamamlandı. Geri qayıda bilərsiniz.",
+      "return": "{client} saytına qayıt",
+      "countdown": "{seconds} saniyə sonra avtomatik qayıdacaqsınız.",
+      "stay": "Bu səhifədə qal",
+      "errorTitle": "Təsdiqləmə səhifəsini açmaq olmadı",
+      "invalid": "Keçid yanlışdır və ya saytın icazəsi yoxdur. Gəldiyiniz saytdan yenidən cəhd edin.",
+      "loadError": "Hesab məlumatlarını yükləmək olmadı. Yenidən cəhd edin.",
+      "retry": "Yenidən yoxla",
+      "idTitle": "Şəxsiyyətin təsdiqi",
+      "idUnavailable": "Hesabınızda şəxsiyyət təsdiqi yoxdur. Onlayn şəxsiyyət təsdiqi hazırda mövcud deyil. Təsdiq tamamlandıqdan sonra burada statusu yenidən yoxlaya bilərsiniz.",
+      "recheck": "Statusu yenidən yoxla"
+    },
     "title": "Hesab təsdiqləməsi",
     "description": "Telefon və email təsdiqləməsi",
     "subtitle": "Hesabınızı təsdiqləyin",
