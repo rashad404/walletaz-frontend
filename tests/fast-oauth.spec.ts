@@ -113,3 +113,10 @@ test('OAuth return URL uses the public proxy host rather than the listen address
   const location=new URL(response.headers().location,'https://kimlik.az');
   expect(new URL(location.searchParams.get('return_url')!).origin).toBe('https://kimlik.az');
 });
+test('legacy hint and localStorage session acquire the protected cookie on consent',async({context,page})=>{
+  await context.addCookies([{name:'kimlik_session',value:'1',url:'http://localhost:3312'}]);
+  await page.addInitScript(()=>localStorage.setItem('token','test-only-token'));
+  await context.route('**/api/oauth/authorize?*',r=>r.fulfill({status:400,json:{message:'Test consent'}}));
+  await page.goto(authorize);
+  await expect.poll(async()=> (await context.cookies()).some(c=>c.name==='__Host-kimlik_auth'&&c.httpOnly)).toBe(true);
+});

@@ -1,6 +1,6 @@
 'use client';
 
-import { clearSessionToken } from '@/lib/session';
+import { clearSessionToken, setSessionToken } from '@/lib/session';
 
 import { useState, useEffect } from 'react';
 import { useSearchParams, useRouter, useParams } from 'next/navigation';
@@ -76,6 +76,7 @@ export default function OAuthAuthorizePage() {
         return;
       }
 
+      await setSessionToken(token);
       const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://100.89.150.50:8011/api';
       const response = await fetch(
         `${API_URL}/oauth/authorize?${searchParams.toString()}`,
