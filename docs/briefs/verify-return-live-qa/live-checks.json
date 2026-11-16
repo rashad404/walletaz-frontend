@@ -1,0 +1,20 @@
+{
+  "delivery": "seeded OTP; no SMS sent",
+  "checks": {
+    "livePhoneVerificationAndAutomaticReturn": true,
+    "sameOAuthTokenUpdatedImmediately": true,
+    "invalidOriginRejected": true,
+    "signedOutContinuationPreserved": true
+  },
+  "before": {
+    "phone_verified": false,
+    "email_verified": false,
+    "verification_level": "unverified"
+  },
+  "after": {
+    "phone_verified": true,
+    "email_verified": false,
+    "verification_level": "basic"
+  },
+  "returnElapsedMs": 3614
+}

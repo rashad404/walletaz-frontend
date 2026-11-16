@@ -1,0 +1,168 @@
+
+> frontend@0.1.0 build
+> next build && node scripts/precompress-static.cjs
+
+   ▲ Next.js 15.5.9
+   - Environments: .env.production
+   - Experiments (use with caution):
+     ✓ inlineCss
+
+   Creating an optimized production build ...
+(node:23363) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Browserslist: browsers data (caniuse-lite) is 17 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+ ✓ Compiled successfully in 4.3s
+   Skipping validation of types
+   Skipping linting
+   Collecting page data ...
+   Generating static pages (0/95) ...
+   Generating static pages (23/95) 
+   Generating static pages (47/95) 
+   Generating static pages (71/95) 
+ ✓ Generating static pages (95/95)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                             Size  First Load JS  Revalidate  Expire
+┌ ○ /                                                  138 B         102 kB          5m      1y
+├ ○ /_not-found                                        138 B         102 kB          5m      1y
+├ ● /[lang]                                          8.28 kB         128 kB
+├   ├ /az
+├   ├ /en
+├   └ /ru
+├ ● /[lang]/auth/2fa                                 6.75 kB         127 kB
+├   ├ /az/auth/2fa
+├   ├ /en/auth/2fa
+├   └ /ru/auth/2fa
+├ ● /[lang]/auth/apple                               2.79 kB         140 kB
+├   ├ /az/auth/apple
+├   ├ /en/auth/apple
+├   └ /ru/auth/apple
+├ ● /[lang]/auth/callback                            1.73 kB         125 kB
+├   ├ /az/auth/callback
+├   ├ /en/auth/callback
+├   └ /ru/auth/callback
+├ ● /[lang]/dashboard                                2.96 kB         154 kB
+├   ├ /az/dashboard
+├   ├ /en/dashboard
+├   └ /ru/dashboard
+├ ● /[lang]/data-deletion                            1.98 kB         122 kB
+├   ├ /az/data-deletion
+├   ├ /en/data-deletion
+├   └ /ru/data-deletion
+├ ● /[lang]/docs                                     5.51 kB         125 kB
+├   ├ /az/docs
+├   ├ /en/docs
+├   └ /ru/docs
+├ ● /[lang]/docs/oauth                               12.1 kB         132 kB
+├   ├ /az/docs/oauth
+├   ├ /en/docs/oauth
+├   └ /ru/docs/oauth
+├ ● /[lang]/docs/payments                            8.67 kB         129 kB
+├   ├ /az/docs/payments
+├   ├ /en/docs/payments
+├   └ /ru/docs/payments
+├ ● /[lang]/forgot-password                          7.15 kB         127 kB
+├   ├ /az/forgot-password
+├   ├ /en/forgot-password
+├   └ /ru/forgot-password
+├ ● /[lang]/login                                      222 B         132 kB
+├   ├ /az/login
+├   ├ /en/login
+├   └ /ru/login
+├ ƒ /[lang]/oauth/approve/[chargeId]                 7.34 kB         127 kB
+├ ● /[lang]/oauth/authorize                          7.47 kB         127 kB
+├   ├ /az/oauth/authorize
+├   ├ /en/oauth/authorize
+├   └ /ru/oauth/authorize
+├ ● /[lang]/oauth/loading                            4.61 kB         125 kB
+├   ├ /az/oauth/loading
+├   ├ /en/oauth/loading
+├   └ /ru/oauth/loading
+├ ● /[lang]/oauth/topup                               7.5 kB         127 kB
+├   ├ /az/oauth/topup
+├   ├ /en/oauth/topup
+├   └ /ru/oauth/topup
+├ ● /[lang]/privacy                                  1.98 kB         122 kB
+├   ├ /az/privacy
+├   ├ /en/privacy
+├   └ /ru/privacy
+├ ● /[lang]/register                                 5.78 kB         130 kB
+├   ├ /az/register
+├   ├ /en/register
+├   └ /ru/register
+├ ● /[lang]/settings                                 6.23 kB         126 kB
+├   ├ /az/settings
+├   ├ /en/settings
+├   └ /ru/settings
+├ ● /[lang]/settings/account                         9.72 kB         130 kB
+├   ├ /az/settings/account
+├   ├ /en/settings/account
+├   └ /ru/settings/account
+├ ● /[lang]/settings/connected-apps                  5.92 kB         126 kB
+├   ├ /az/settings/connected-apps
+├   ├ /en/settings/connected-apps
+├   └ /ru/settings/connected-apps
+├ ● /[lang]/settings/developer                       9.81 kB         130 kB
+├   ├ /az/settings/developer
+├   ├ /en/settings/developer
+├   └ /ru/settings/developer
+├ ƒ /[lang]/settings/developer/[appId]/transactions  6.51 kB         126 kB
+├ ● /[lang]/settings/login-history                   8.23 kB         128 kB
+├   ├ /az/settings/login-history
+├   ├ /en/settings/login-history
+├   └ /ru/settings/login-history
+├ ● /[lang]/settings/profile                         8.02 kB         128 kB
+├   ├ /az/settings/profile
+├   ├ /en/settings/profile
+├   └ /ru/settings/profile
+├ ● /[lang]/settings/security                        7.55 kB         128 kB
+├   ├ /az/settings/security
+├   ├ /en/settings/security
+├   └ /ru/settings/security
+├ ● /[lang]/settings/security/sessions               6.83 kB         127 kB
+├   ├ /az/settings/security/sessions
+├   ├ /en/settings/security/sessions
+├   └ /ru/settings/security/sessions
+├ ● /[lang]/settings/security/two-factor             7.36 kB         127 kB
+├   ├ /az/settings/security/two-factor
+├   ├ /en/settings/security/two-factor
+├   └ /ru/settings/security/two-factor
+├ ● /[lang]/settings/verification                     9.6 kB         150 kB
+├   ├ /az/settings/verification
+├   ├ /en/settings/verification
+├   └ /ru/settings/verification
+├ ● /[lang]/terms                                    1.98 kB         122 kB
+├   ├ /az/terms
+├   ├ /en/terms
+├   └ /ru/terms
+├ ● /[lang]/wallet                                   1.17 kB         152 kB
+├   ├ /az/wallet
+├   ├ /en/wallet
+├   └ /ru/wallet
+├ ● /[lang]/wallet/deposit                           2.11 kB         153 kB
+├   ├ /az/wallet/deposit
+├   ├ /en/wallet/deposit
+├   └ /ru/wallet/deposit
+├ ● /[lang]/wallet/transactions                      1.32 kB         153 kB
+├   ├ /az/wallet/transactions
+├   ├ /en/wallet/transactions
+├   └ /ru/wallet/transactions
+├ ƒ /api/session                                       138 B         102 kB
+├ ○ /auth/callback                                   1.73 kB         125 kB          5m      1y
+└ ○ /login-shell/[lang]/[client]/[redirect]            337 B         132 kB
++ First Load JS shared by all                         102 kB
+  ├ chunks/1255-9b96dccb2dd359c0.js                    46 kB
+  ├ chunks/4bd1b696-2344c7e56caf6588.js              54.3 kB
+  └ other shared chunks (total)                      2.09 kB
+
+
+ƒ Middleware                                           35 kB
+
+○  (Static)   prerendered as static content
+●  (SSG)      prerendered as static HTML (uses generateStaticParams)
+ƒ  (Dynamic)  server-rendered on demand
+
+{"precompressedFiles":58,"sourceBytes":1719938,"brotliBytes":488932}

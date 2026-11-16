@@ -1,0 +1,20 @@
+{
+  "publicOrigin": true,
+  "flows": [
+    {
+      "cache": "MISS",
+      "publicShell": true,
+      "stateAbsent": true
+    },
+    {
+      "cache": "HIT",
+      "publicShell": true,
+      "stateAbsent": true
+    }
+  ],
+  "identicalShells": true,
+  "cookieBypass": true,
+  "foreignOriginBypass": true,
+  "staticCache": "public, max-age=31536000, immutable",
+  "sessionOrigin": true
+}

@@ -1,0 +1,34 @@
+
+> frontend@0.1.0 test:fast-oauth
+> playwright test -c playwright.fast-oauth.config.ts
+
+[WebServer] (node:24057) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:24057) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+
+Running 20 tests using 1 worker
+
+(node:24094) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/fast-oauth.spec.ts:9:3 › signed-out / redirects directly with intact OAuth parameters (84ms)
+  ✓   2 tests/fast-oauth.spec.ts:9:3 › signed-out /az redirects directly with intact OAuth parameters (49ms)
+  ✓   3 tests/fast-oauth.spec.ts:9:3 › signed-out /en redirects directly with intact OAuth parameters (43ms)
+  ✓   4 tests/fast-oauth.spec.ts:9:3 › signed-out /ru redirects directly with intact OAuth parameters (25ms)
+  ✓   5 tests/fast-oauth.spec.ts:21:3 › / login works without JavaScript or locale redirects (431ms)
+  ✓   6 tests/fast-oauth.spec.ts:21:3 › /az login works without JavaScript or locale redirects (167ms)
+  ✓   7 tests/fast-oauth.spec.ts:31:1 › no authorize bundle, browser metadata requests, prefetches or Telegram until tapped (1.1s)
+  ✓   8 tests/fast-oauth.spec.ts:39:1 › stale hint without token recovers to login (430ms)
+  ✓   9 tests/fast-oauth.spec.ts:44:1 › old localStorage-only session is bridged then expired token is cleared without a loop (262ms)
+  ✓  10 tests/fast-oauth.spec.ts:54:1 › successful email login writes hint before returning to consent (759ms)
+  ✓  11 tests/fast-oauth.spec.ts:61:1 › signed-in hint preserves both authorize paths without a locale hop (43ms)
+  ✓  12 tests/fast-oauth.spec.ts:67:1 › saved language and partner hint are respected on the direct redirect (10ms)
+  ✓  13 tests/fast-oauth.spec.ts:73:1 › standalone login does not prefetch registration or password reset (741ms)
+  ✓  14 tests/fast-oauth.spec.ts:78:1 › shared public shell contains no flow state or PKCE and is identical across flows (42ms)
+  ✓  15 tests/fast-oauth.spec.ts:87:1 › session bridge rejects cross-origin requests and invalid bearer credentials (11ms)
+  ✓  16 tests/fast-oauth.spec.ts:91:1 › validated HttpOnly session completes authorization with one 302 and no page (12ms)
+  ✓  17 tests/fast-oauth.spec.ts:99:1 › a hint alone, invalid bearer or explicit consent cannot take the shortcut (52ms)
+  ✓  18 tests/fast-oauth.spec.ts:105:1 › direct shell URLs cannot poison the static router payload with query data (8ms)
+  ✓  19 tests/fast-oauth.spec.ts:111:1 › OAuth return URL uses the public proxy host rather than the listen address (11ms)
+  ✓  20 tests/fast-oauth.spec.ts:116:1 › legacy hint and localStorage session acquire the protected cookie on consent (245ms)
+
+  20 passed (6.2s)
