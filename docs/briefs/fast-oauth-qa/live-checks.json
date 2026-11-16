@@ -1,0 +1,30 @@
+[
+  {
+    "site": "toy.az",
+    "width": 1440,
+    "partner": true,
+    "overflow": false,
+    "unwanted": []
+  },
+  {
+    "site": "toy.az",
+    "width": 375,
+    "partner": true,
+    "overflow": false,
+    "unwanted": []
+  },
+  {
+    "site": "wisher.az",
+    "width": 1440,
+    "partner": true,
+    "overflow": false,
+    "unwanted": []
+  },
+  {
+    "site": "wisher.az",
+    "width": 375,
+    "partner": true,
+    "overflow": false,
+    "unwanted": []
+  }
+]

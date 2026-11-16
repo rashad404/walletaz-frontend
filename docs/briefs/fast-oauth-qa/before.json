@@ -1,0 +1,110 @@
+[
+  {
+    "site": "toy.az",
+    "run": 1,
+    "input": 1701,
+    "idle": 3537,
+    "documents": [
+      "https://toy.az/auth/kimlik",
+      "https://kimlik.az/az/oauth/authorize",
+      "https://kimlik.az/oauth/authorize",
+      "https://oauth.telegram.org/embed/kimlikazbot"
+    ],
+    "scripts": [
+      "/_next/static/chunks/webpack-7417096705091e3e.js",
+      "/_next/static/chunks/4bd1b696-2344c7e56caf6588.js",
+      "/_next/static/chunks/1255-9b96dccb2dd359c0.js",
+      "/_next/static/chunks/main-app-3bb5b45984b201a3.js",
+      "/_next/static/chunks/app/layout-6d6f3137aeb4a9f7.js",
+      "/_next/static/chunks/2619-236bb1989eaaa5b4.js",
+      "/_next/static/chunks/app/not-found-7cf030020512da2a.js",
+      "/_next/static/chunks/3791-7a7ddd8d336908fd.js",
+      "/_next/static/chunks/app/%5Blang%5D/oauth/authorize/page-af7833e6f6043742.js",
+      "/_next/static/chunks/app/global-error-2de7b6d1832dacd8.js",
+      "/_next/static/chunks/app/%5Blang%5D/oauth/layout-847069403730eeb1.js",
+      "/_next/static/chunks/app/%5Blang%5D/error-8f91e37226c3cef8.js",
+      "/_next/static/chunks/5861-c829240f0c6d3377.js",
+      "/_next/static/chunks/app/%5Blang%5D/login/page-40b0049dc9a185b4.js",
+      "/js/telegram-widget.js",
+      "/js/widget-frame.js"
+    ]
+  },
+  {
+    "site": "toy.az",
+    "run": 2,
+    "input": 2122,
+    "idle": 4065,
+    "documents": [
+      "https://toy.az/auth/kimlik",
+      "https://kimlik.az/az/oauth/authorize",
+      "https://kimlik.az/oauth/authorize",
+      "https://oauth.telegram.org/embed/kimlikazbot"
+    ],
+    "scripts": [
+      "/_next/static/chunks/webpack-7417096705091e3e.js",
+      "/_next/static/chunks/4bd1b696-2344c7e56caf6588.js",
+      "/_next/static/chunks/1255-9b96dccb2dd359c0.js",
+      "/_next/static/chunks/main-app-3bb5b45984b201a3.js",
+      "/_next/static/chunks/app/layout-6d6f3137aeb4a9f7.js",
+      "/_next/static/chunks/2619-236bb1989eaaa5b4.js",
+      "/_next/static/chunks/app/not-found-7cf030020512da2a.js",
+      "/_next/static/chunks/3791-7a7ddd8d336908fd.js",
+      "/_next/static/chunks/app/%5Blang%5D/oauth/authorize/page-af7833e6f6043742.js",
+      "/_next/static/chunks/app/global-error-2de7b6d1832dacd8.js",
+      "/_next/static/chunks/app/%5Blang%5D/oauth/layout-847069403730eeb1.js",
+      "/_next/static/chunks/app/%5Blang%5D/error-8f91e37226c3cef8.js",
+      "/_next/static/chunks/5861-c829240f0c6d3377.js",
+      "/_next/static/chunks/app/%5Blang%5D/login/page-40b0049dc9a185b4.js",
+      "/js/telegram-widget.js",
+      "/js/widget-frame.js"
+    ]
+  },
+  {
+    "site": "toy.az",
+    "run": 3,
+    "input": 2545,
+    "idle": 4391,
+    "documents": [
+      "https://toy.az/auth/kimlik",
+      "https://kimlik.az/az/oauth/authorize",
+      "https://kimlik.az/oauth/authorize",
+      "https://oauth.telegram.org/embed/kimlikazbot"
+    ],
+    "scripts": [
+      "/_next/static/chunks/webpack-7417096705091e3e.js",
+      "/_next/static/chunks/4bd1b696-2344c7e56caf6588.js",
+      "/_next/static/chunks/1255-9b96dccb2dd359c0.js",
+      "/_next/static/chunks/main-app-3bb5b45984b201a3.js",
+      "/_next/static/chunks/app/layout-6d6f3137aeb4a9f7.js",
+      "/_next/static/chunks/2619-236bb1989eaaa5b4.js",
+      "/_next/static/chunks/app/not-found-7cf030020512da2a.js",
+      "/_next/static/chunks/3791-7a7ddd8d336908fd.js",
+      "/_next/static/chunks/app/%5Blang%5D/oauth/authorize/page-af7833e6f6043742.js",
+      "/_next/static/chunks/app/global-error-2de7b6d1832dacd8.js",
+      "/_next/static/chunks/app/%5Blang%5D/oauth/layout-847069403730eeb1.js",
+      "/_next/static/chunks/app/%5Blang%5D/error-8f91e37226c3cef8.js",
+      "/_next/static/chunks/5861-c829240f0c6d3377.js",
+      "/_next/static/chunks/app/%5Blang%5D/login/page-40b0049dc9a185b4.js",
+      "/js/telegram-widget.js",
+      "/js/widget-frame.js"
+    ]
+  },
+  {
+    "site": "wisher.az",
+    "run": 1,
+    "input": 2041,
+    "idle": 3783
+  },
+  {
+    "site": "wisher.az",
+    "run": 2,
+    "input": 1915,
+    "idle": 3320
+  },
+  {
+    "site": "wisher.az",
+    "run": 3,
+    "input": 1953,
+    "idle": 3605
+  }
+]
