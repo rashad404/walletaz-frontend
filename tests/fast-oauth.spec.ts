@@ -32,7 +32,7 @@ test('no authorize bundle, browser metadata requests, prefetches or Telegram unt
   const requests:string[]=[];page.on('request',r=>requests.push(r.url()));
   await page.goto(authorize);await expect(page.locator('input[type=email]')).toBeVisible();
   await page.waitForLoadState('networkidle');
-  expect(requests.filter(u=>/telegram|\/api\/config|\/apple\/availability|\/oauth\/client|\/register|\/forgot-password|chunks\/app\/.*oauth.*authorize/.test(u))).toEqual([]);
+  expect(requests.filter(u=>/fonts.googleapis.com|fonts.gstatic.com|telegram|\/api\/config|\/apple\/availability|\/oauth\/client|\/register|\/forgot-password|chunks\/app\/.*oauth.*authorize/.test(u))).toEqual([]);
   await page.getByRole('button',{name:'Telegram',exact:true}).click();
   await expect.poll(()=>requests.some(u=>u.includes('telegram-widget.js'))).toBe(true);
 });

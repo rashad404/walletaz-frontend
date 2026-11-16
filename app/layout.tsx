@@ -5,12 +5,15 @@ import { ThemeProvider } from "@/providers/theme-provider";
 import { TimezoneProvider } from "@/providers/timezone-provider";
 import { ConfigProvider } from "@/providers/config-provider";
 import { ServiceWorkerRegistration } from "@/components/ServiceWorkerRegistration";
-import { DM_Sans } from "next/font/google";
+import { DM_Sans, Inter } from "next/font/google";
+
+const inter = Inter({ subsets: ["latin", "latin-ext"], variable: "--font-inter", display: "swap" });
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
   variable: "--font-dm-sans",
   display: "swap",
+  preload: false,
 });
 
 const appName = process.env.NEXT_PUBLIC_APP_NAME || "Kimlik.az";
@@ -49,7 +52,7 @@ export default async function RootLayout({
   const config = await getPublicConfig();
   return (
     <html lang="az" suppressHydrationWarning>
-      <body className={dmSans.variable} suppressHydrationWarning>
+      <body className={`${dmSans.variable} ${inter.variable}`} suppressHydrationWarning>
         <ThemeProvider>
           <ConfigProvider initialConfig={config}>
             <TimezoneProvider>
