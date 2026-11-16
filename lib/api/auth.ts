@@ -1,3 +1,4 @@
+import { setSessionToken, clearSessionToken } from '@/lib/session';
 import apiClient from './client';
 
 export interface User {
@@ -56,7 +57,7 @@ class AuthService {
   async register(data: RegisterData): Promise<AuthResponse> {
     const response = await apiClient.post('/auth/register', data);
     if (response.data.data?.token) {
-      this.setToken(response.data.data.token);
+      await this.setToken(response.data.data.token);
     }
     return response.data;
   }
@@ -64,7 +65,7 @@ class AuthService {
   async login(credentials: LoginCredentials): Promise<AuthResponse> {
     const response = await apiClient.post('/auth/login', credentials);
     if (response.data.data?.token) {
-      this.setToken(response.data.data.token);
+      await this.setToken(response.data.data.token);
     }
     return response.data;
   }
@@ -78,7 +79,7 @@ class AuthService {
   async verifyOTP(data: OTPVerify): Promise<AuthResponse> {
     const response = await apiClient.post('/auth/otp/verify', data);
     if (response.data.data?.token) {
-      this.setToken(response.data.data.token);
+      await this.setToken(response.data.data.token);
     }
     return response.data;
   }
@@ -139,9 +140,9 @@ class AuthService {
   }
 
   // Token Management
-  setToken(token: string) {
+  async setToken(token: string) {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('token', token);
+      await setSessionToken(token);
       localStorage.setItem('auth_time', Date.now().toString());
     }
   }
@@ -155,7 +156,7 @@ class AuthService {
 
   clearToken() {
     if (typeof window !== 'undefined') {
-      localStorage.removeItem('token');
+      clearSessionToken();
       localStorage.removeItem('auth_time');
       localStorage.removeItem('user');
     }

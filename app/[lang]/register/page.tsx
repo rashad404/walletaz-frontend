@@ -1,5 +1,7 @@
 'use client';
 
+import { setSessionToken } from '@/lib/session';
+
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Link } from '@/lib/navigation';
@@ -110,7 +112,7 @@ export default function RegisterPage() {
       }
 
       if (data.data?.token) {
-        localStorage.setItem('token', data.data.token);
+        await setSessionToken(data.data.token);
         if (returnUrl) {
           window.location.href = returnUrl;
         } else {

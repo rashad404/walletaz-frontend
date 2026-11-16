@@ -20,10 +20,15 @@ const defaultConfig: AppConfig = {
 
 const ConfigContext = createContext<AppConfig>(defaultConfig);
 
-export function ConfigProvider({ children }: { children: ReactNode }) {
-  const [config, setConfig] = useState<AppConfig>(defaultConfig);
+export function ConfigProvider({ children, initialConfig }: { children: ReactNode; initialConfig?: { app_name?: string; features?: { wallet_enabled?: boolean } } | null }) {
+  const [config, setConfig] = useState<AppConfig>({
+    appName: initialConfig?.app_name || defaultConfig.appName,
+    features: { walletEnabled: initialConfig?.features?.wallet_enabled ?? defaultConfig.features.walletEnabled },
+    isLoading: false,
+  });
 
   useEffect(() => {
+    if (initialConfig !== undefined) return;
     // Fetch config from backend API
     const fetchConfig = async () => {
       try {
@@ -50,7 +55,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
     };
 
     fetchConfig();
-  }, []);
+  }, [initialConfig]);
 
   return (
     <ConfigContext.Provider value={config}>

@@ -1,0 +1,14 @@
+{
+  "toy.az": {
+    "exit": 0,
+    "result": "{\"removed\":true}"
+  },
+  "wisher.az": {
+    "exit": 0,
+    "result": "{\"removed\":true}"
+  },
+  "kimlik.az": {
+    "exit": 0,
+    "result": "Disposable identity and tokens removed"
+  }
+}

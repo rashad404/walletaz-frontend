@@ -1,0 +1,104 @@
+[
+  {
+    "site": "toy.az",
+    "run": 1,
+    "signedIn": true,
+    "close": 1043,
+    "documents": [
+      {
+        "path": "https://kimlik.az/oauth/authorize",
+        "status": 302
+      },
+      {
+        "path": "https://toy.az/auth/kimlik/callback",
+        "status": 200
+      }
+    ],
+    "kimlikScripts": []
+  },
+  {
+    "site": "toy.az",
+    "run": 2,
+    "signedIn": true,
+    "close": 1182,
+    "documents": [
+      {
+        "path": "https://kimlik.az/oauth/authorize",
+        "status": 302
+      },
+      {
+        "path": "https://toy.az/auth/kimlik/callback",
+        "status": 200
+      }
+    ],
+    "kimlikScripts": []
+  },
+  {
+    "site": "toy.az",
+    "run": 3,
+    "signedIn": true,
+    "close": 1075,
+    "documents": [
+      {
+        "path": "https://kimlik.az/oauth/authorize",
+        "status": 302
+      },
+      {
+        "path": "https://toy.az/auth/kimlik/callback",
+        "status": 200
+      }
+    ],
+    "kimlikScripts": []
+  },
+  {
+    "site": "wisher.az",
+    "run": 1,
+    "signedIn": true,
+    "close": 1706,
+    "documents": [
+      {
+        "path": "https://kimlik.az/az/oauth/authorize",
+        "status": 302
+      },
+      {
+        "path": "https://wisher.az/az/auth/kimlik/callback",
+        "status": 200
+      }
+    ],
+    "kimlikScripts": []
+  },
+  {
+    "site": "wisher.az",
+    "run": 2,
+    "signedIn": true,
+    "close": 1605,
+    "documents": [
+      {
+        "path": "https://kimlik.az/az/oauth/authorize",
+        "status": 302
+      },
+      {
+        "path": "https://wisher.az/az/auth/kimlik/callback",
+        "status": 200
+      }
+    ],
+    "kimlikScripts": []
+  },
+  {
+    "site": "wisher.az",
+    "run": 3,
+    "signedIn": true,
+    "close": 1570,
+    "documents": [
+      {
+        "path": "https://kimlik.az/az/oauth/authorize",
+        "status": 302
+      },
+      {
+        "path": "https://wisher.az/az/auth/kimlik/callback",
+        "status": 200
+      }
+    ],
+    "kimlikScripts": []
+  }
+]

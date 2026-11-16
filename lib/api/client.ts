@@ -1,3 +1,4 @@
+import { clearSessionToken } from '@/lib/session';
 import axios from 'axios';
 
 const apiClient = axios.create({
@@ -29,7 +30,7 @@ apiClient.interceptors.response.use(
     if (error.response?.status === 401) {
       // Handle unauthorized access
       if (typeof window !== 'undefined') {
-        localStorage.removeItem('token');
+        clearSessionToken();
         // Redirect to login or show auth modal
       }
     }

@@ -1,5 +1,7 @@
 'use client';
 
+import { clearSessionToken, setSessionToken } from '@/lib/session';
+
 import { useState, useEffect } from 'react';
 import { useSearchParams, useRouter, useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
@@ -67,12 +69,14 @@ export default function OAuthAuthorizePage() {
     try {
       const token = localStorage.getItem('token');
       if (!token) {
+        clearSessionToken();
         // Redirect to login with return URL
         const returnUrl = window.location.href;
         router.push(`/${lang}/login?return_url=${encodeURIComponent(returnUrl)}`);
         return;
       }
 
+      await setSessionToken(token);
       const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://100.89.150.50:8011/api';
       const response = await fetch(
         `${API_URL}/oauth/authorize?${searchParams.toString()}`,
@@ -84,6 +88,11 @@ export default function OAuthAuthorizePage() {
         }
       );
 
+      if (response.status === 401) {
+        clearSessionToken();
+        window.location.replace(`/${lang}/login?return_url=${encodeURIComponent(window.location.href)}`);
+        return;
+      }
       const data = await response.json();
 
       if (!response.ok) {
@@ -125,6 +134,11 @@ export default function OAuthAuthorizePage() {
         }),
       });
 
+      if (response.status === 401) {
+        clearSessionToken();
+        window.location.replace(`/${lang}/login?return_url=${encodeURIComponent(window.location.href)}`);
+        return;
+      }
       const data = await response.json();
 
       if (!response.ok) {
@@ -150,7 +164,7 @@ export default function OAuthAuthorizePage() {
   };
 
   const handleSwitchAccount = () => {
-    localStorage.removeItem('token');
+    clearSessionToken();
     const returnUrl = window.location.href;
     router.push(`/${lang}/login?return_url=${encodeURIComponent(returnUrl)}`);
   };

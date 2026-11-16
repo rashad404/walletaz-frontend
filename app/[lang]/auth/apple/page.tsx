@@ -28,7 +28,7 @@ export default function AppleCallback() {
       if (!result.data?.token) throw new Error('failed');
       const target = new URL(result.data.return_url, window.location.origin);
       if (target.origin !== window.location.origin) throw new Error('failed');
-      authService.setToken(result.data.token);
+      await authService.setToken(result.data.token);
       sessionStorage.removeItem(APPLE_SESSION_KEY);
       window.location.replace(target.href);
     } catch {setError('failed');}

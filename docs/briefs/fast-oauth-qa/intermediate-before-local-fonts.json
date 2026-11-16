@@ -1,0 +1,38 @@
+[
+  {
+    "site": "toy.az",
+    "run": 1,
+    "input": 2302,
+    "idle": 3649
+  },
+  {
+    "site": "toy.az",
+    "run": 2,
+    "input": 1823,
+    "idle": 3299
+  },
+  {
+    "site": "toy.az",
+    "run": 3,
+    "input": 1802,
+    "idle": 2265
+  },
+  {
+    "site": "wisher.az",
+    "run": 1,
+    "input": 1504,
+    "idle": 2038
+  },
+  {
+    "site": "wisher.az",
+    "run": 2,
+    "input": 1542,
+    "idle": 2085
+  },
+  {
+    "site": "wisher.az",
+    "run": 3,
+    "input": 1571,
+    "idle": 2737
+  }
+]
